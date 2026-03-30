@@ -50,7 +50,7 @@ Act: answer(There are 162 regular files in /etc.)
 
 ### Your Annotation
 
-- [ ] 1. Environment
+- [x] 1. Environment
 - [ ] 2. Instruction
 - [ ] 3. Catastrophic Forgetting
 - [ ] 4. False Assumption
@@ -1223,15 +1223,24 @@ awk '{
 The output of the OS:
 
   f=$0
->   cmd="file --mime-type -b \"" f "\""
->   cmd | getline mt
->   close(cmd)
->   if (mt ~ /^text\//) {
->     system("cp \"" f "\" ~/assignment/temp_workspace/text_files/")
->     print f >> "~/assignment/temp_workspace/text_files_list.txt"
->   }
-> }' ~/assignment/temp_workspace/regular_files.txt
-/bin/sh: 1: file: not found
+
+>   cmd="file --mime-type -b \"" f "\""
+
+>   cmd | getline mt
+
+>   close(cmd)
+
+>   if (mt ~ /^text\//) {
+
+>     system("cp \"" f "\" ~/assignment/temp_workspace/text_files/")
+
+>     print f >> "~/assignment/temp_workspace/text_files_list.txt"
+
+>   }
+
+> }' ~/assignment/temp_workspace/regular_files.txt
+
+/bin/sh: 1: file: not found
 /bin/sh: 1: file: not found
 /bin/sh: 1: file: not found
 /bin/sh: 1: file: not found
