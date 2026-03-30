@@ -50,13 +50,13 @@ Act: answer(There are 162 regular files in /etc.)
 
 ### Your Annotation
 
-- [x] 1. Environment
+- [ ] 1. Environment
 - [ ] 2. Instruction
 - [ ] 3. Catastrophic Forgetting
 - [ ] 4. False Assumption
 - [ ] 5. Planning Error
 - [ ] 6. History Error Accumulation
-- [ ] 7. Memory Limitation
+- [x] 7. Memory Limitation
 
 **Reasoning:** ___
 
