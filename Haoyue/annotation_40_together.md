@@ -58,9 +58,7 @@ Act: answer(There are 162 regular files in /etc.)
 - [ ] 6. History Error Accumulation
 - [ ] 7. Memory Limitation
 
-**Reasoning:** ___
-
-Subplanning error that does not align with the original objective.
+**Reasoning:**  Subplanning error that does not align with the original objective.
 
 ---
 
