@@ -60,6 +60,8 @@ Act: answer(There are 162 regular files in /etc.)
 
 **Reasoning:** ___
 
+Subplanning error that does not align with the original objective.
+
 ---
 
 ## #2 | DATABASE / gpt
