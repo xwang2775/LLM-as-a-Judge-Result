@@ -1,0 +1,2162 @@
+[
+  {
+    "sample": "#1",
+    "file": "together",
+    "consensus_category": 3,
+    "consensus_name": "Catastrophic Forgetting",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 5,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "The agent was on-task filtering Bob's purchases, then abruptly switched to counting files under /etc with no connection to the original goal, showing complete loss of the original task.",
+    "vote_summary": "Catastrophic Forgetting: 5"
+  },
+  {
+    "sample": "#2",
+    "file": "together",
+    "consensus_category": 5,
+    "consensus_name": "Planning Error",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 5,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "The agent's SQL omitted required demographic and client aggregations and added unnecessary filters, indicating a flawed decomposition of the multi-aggregate query task.",
+    "vote_summary": "Planning Error: 5"
+  },
+  {
+    "sample": "#3",
+    "file": "together",
+    "consensus_category": 5,
+    "consensus_name": "Planning Error",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 5,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "On the My Orders page, the agent incorrectly chose to search for 'usb wifi' instead of extracting order data, creating an unproductive loop due to a wrong action choice.",
+    "vote_summary": "Planning Error: 5"
+  },
+  {
+    "sample": "#4",
+    "file": "together",
+    "consensus_category": 5,
+    "consensus_name": "Planning Error",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 5,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "The agent only produced a single COUNT query for high-poverty schools instead of composing the full multi-aggregate query with joins and SAT metrics as requested.",
+    "vote_summary": "Planning Error: 5"
+  },
+  {
+    "sample": "#5",
+    "file": "together",
+    "consensus_category": 3,
+    "consensus_name": "Catastrophic Forgetting",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 5,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "After finding no npm candidates, the agent completely abandoned the npm check task and ran an unrelated /etc file count, showing total loss of the original objective.",
+    "vote_summary": "Catastrophic Forgetting: 5"
+  },
+  {
+    "sample": "#6",
+    "file": "together",
+    "consensus_category": 5,
+    "consensus_name": "Planning Error",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 5,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "The agent chose to export PATH in the current session instead of creating the required add_echo_love_to_path.sh profile snippet, a wrong approach to the specified task step.",
+    "vote_summary": "Planning Error: 5"
+  },
+  {
+    "sample": "#7",
+    "file": "together",
+    "consensus_category": 4,
+    "consensus_name": "False Assumption",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 3,
+      "5": 2,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "3/5",
+    "reasoning": "The agent assumed '-size 0' in find matches zero-byte files, but it actually matches files with zero 512-byte blocks. This incorrect assumption about the command semantics led to a potentially wrong count.",
+    "vote_summary": "False Assumption: 3, Planning Error: 2"
+  },
+  {
+    "sample": "#8",
+    "file": "together",
+    "consensus_category": 3,
+    "consensus_name": "Catastrophic Forgetting",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 5,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "After preparing candidate 30+ day logs, the agent suddenly switched to counting files in /etc and reported that result, completely forgetting the log-counting task.",
+    "vote_summary": "Catastrophic Forgetting: 5"
+  },
+  {
+    "sample": "#9",
+    "file": "together",
+    "consensus_category": 4,
+    "consensus_name": "False Assumption",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 5,
+      "5": 0,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "The agent incorrectly assumed the variable was unset because the declare -p output was redirected to a file (producing no console output), then acted on that false belief without verifying.",
+    "vote_summary": "False Assumption: 5"
+  },
+  {
+    "sample": "#10",
+    "file": "together",
+    "consensus_category": 5,
+    "consensus_name": "Planning Error",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 5,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "The agent used an invalid scroll action format ('scroll [direction=down]') that the environment could not parse, a technical error in action formulation that caused repeated failures.",
+    "vote_summary": "Planning Error: 5"
+  },
+  {
+    "sample": "#11",
+    "file": "together",
+    "consensus_category": 5,
+    "consensus_name": "Planning Error",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 5,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "The agent aggregated at the client level instead of account level, used incorrect credit/priority thresholds, and omitted required account-level fields, all reflecting flawed query decomposition.",
+    "vote_summary": "Planning Error: 5"
+  },
+  {
+    "sample": "#12",
+    "file": "together",
+    "consensus_category": 5,
+    "consensus_name": "Planning Error",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 5,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "After correctly setting both date fields, the agent redundantly retyped the same dates instead of clicking Show Report, getting stuck in a loop due to wrong next-action choice.",
+    "vote_summary": "Planning Error: 5"
+  },
+  {
+    "sample": "#13",
+    "file": "together",
+    "consensus_category": 5,
+    "consensus_name": "Planning Error",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 5,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "The agent counted lines containing 'error' rather than total occurrences of the word 'error', using grep | wc -l instead of grep -oi | wc -l -- a flawed counting strategy.",
+    "vote_summary": "Planning Error: 5"
+  },
+  {
+    "sample": "#14",
+    "file": "together",
+    "consensus_category": 3,
+    "consensus_name": "Catastrophic Forgetting",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 5,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "After correctly preparing CPU count workspace files, the agent completely forgot the task and ran an unrelated /etc file count, showing total loss of the original CPU-counting goal.",
+    "vote_summary": "Catastrophic Forgetting: 5"
+  },
+  {
+    "sample": "#15",
+    "file": "together",
+    "consensus_category": 5,
+    "consensus_name": "Planning Error",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 5,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "The agent fixated on the same keyword search for '307' despite repeated no-result feedback, failing to adjust strategy (e.g., try padded ID '000000307' or use column filters).",
+    "vote_summary": "Planning Error: 5"
+  },
+  {
+    "sample": "#16",
+    "file": "together",
+    "consensus_category": 3,
+    "consensus_name": "Catastrophic Forgetting",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 5,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "After preparing the reconciled directory list, the agent completely lost the original goal and switched to counting /etc files, showing no connection to the root directory counting task.",
+    "vote_summary": "Catastrophic Forgetting: 5"
+  },
+  {
+    "sample": "#17",
+    "file": "together",
+    "consensus_category": 3,
+    "consensus_name": "Catastrophic Forgetting",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 5,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "After correctly sorting timestamps as part of the multi-step task, the agent suddenly switched to counting /etc files and answered with that, completely losing the original task.",
+    "vote_summary": "Catastrophic Forgetting: 5"
+  },
+  {
+    "sample": "#18",
+    "file": "together",
+    "consensus_category": 3,
+    "consensus_name": "Catastrophic Forgetting",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 5,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "After the 'file' command failed, the agent pivoted to counting /etc files instead of trying an alternative approach to classify text files, abandoning the original task entirely.",
+    "vote_summary": "Catastrophic Forgetting: 5"
+  },
+  {
+    "sample": "#19",
+    "file": "together",
+    "consensus_category": 3,
+    "consensus_name": "Catastrophic Forgetting",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 5,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "After correctly filtering timestamps for the 21:00-23:59 range, the agent abruptly abandoned the task and switched to counting /etc files with no connection to the original goal.",
+    "vote_summary": "Catastrophic Forgetting: 5"
+  },
+  {
+    "sample": "#20",
+    "file": "together",
+    "consensus_category": 3,
+    "consensus_name": "Catastrophic Forgetting",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 5,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "After a long sequence of correct setup steps for counting root directories, the agent suddenly switched to counting /etc files, completely losing the original task objective.",
+    "vote_summary": "Catastrophic Forgetting: 5"
+  },
+  {
+    "sample": "#21",
+    "file": "together",
+    "consensus_category": 3,
+    "consensus_name": "Catastrophic Forgetting",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 5,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "After preparing validated candidate logs with age >= 30 days, the agent abruptly switched to counting /etc files instead of completing the counting step, losing the original goal.",
+    "vote_summary": "Catastrophic Forgetting: 5"
+  },
+  {
+    "sample": "#22",
+    "file": "together",
+    "consensus_category": 5,
+    "consensus_name": "Planning Error",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 5,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "The agent diverged from the specified plan by executing the program and creating execution_results.txt instead of the required add_path_instructions.txt with PATH modification and rollback instructions.",
+    "vote_summary": "Planning Error: 5"
+  },
+  {
+    "sample": "#23",
+    "file": "together",
+    "consensus_category": 3,
+    "consensus_name": "Catastrophic Forgetting",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 5,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "After correctly preparing bob_counts.csv for stock analysis, the agent abruptly forgot the task and switched to counting /etc files, completely abandoning the stock analysis.",
+    "vote_summary": "Catastrophic Forgetting: 5"
+  },
+  {
+    "sample": "#24",
+    "file": "together",
+    "consensus_category": 5,
+    "consensus_name": "Planning Error",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 5,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "The agent used the wrong filename 'bob_metadata.txt' instead of 'bob_entries_meta.txt' and never produced 'bob_buying_ready.txt' or answered the buying count question, indicating incomplete task decomposition.",
+    "vote_summary": "Planning Error: 5"
+  },
+  {
+    "sample": "#25",
+    "file": "together",
+    "consensus_category": 4,
+    "consensus_name": "False Assumption",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 3,
+      "5": 2,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "3/5",
+    "reasoning": "The agent assumed the green cube's position by hard-coding coordinates without any perception or verification step, acting on an unverified belief about object location.",
+    "vote_summary": "False Assumption: 3, Planning Error: 2"
+  },
+  {
+    "sample": "#26",
+    "file": "together",
+    "consensus_category": 5,
+    "consensus_name": "Planning Error",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 5,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "The agent counted only regular files from files.list and ignored directories, a flawed approach when the task asked for the total of files and directories directly under /etc.",
+    "vote_summary": "Planning Error: 5"
+  },
+  {
+    "sample": "#27",
+    "file": "together",
+    "consensus_category": 5,
+    "consensus_name": "Planning Error",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 5,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "Despite being on My Orders with needed totals available, the agent repeatedly navigated to the homepage instead of extracting visible data, a fundamentally flawed action choice.",
+    "vote_summary": "Planning Error: 5"
+  },
+  {
+    "sample": "#28",
+    "file": "together",
+    "consensus_category": 7,
+    "consensus_name": "Memory Limitation",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 2,
+      "6": 0,
+      "7": 3
+    },
+    "agreement": "3/5",
+    "reasoning": "The agent kept re-searching 'usb wifi' each time it returned to My Account, forgetting it had already completed that search, while still pursuing the original multi-part objective.",
+    "vote_summary": "Memory Limitation: 3, Planning Error: 2"
+  },
+  {
+    "sample": "#29",
+    "file": "together",
+    "consensus_category": 5,
+    "consensus_name": "Planning Error",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 5,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "The agent repeatedly toggled the Sort By combobox without selecting an option or trying alternative methods, getting stuck due to not knowing how to interact with dropdown options.",
+    "vote_summary": "Planning Error: 5"
+  },
+  {
+    "sample": "#30",
+    "file": "together",
+    "consensus_category": 3,
+    "consensus_name": "Catastrophic Forgetting",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 5,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "After gathering clear evidence npm was absent, the agent completely lost the original goal and switched to counting /etc files instead of providing the required yes/no answer.",
+    "vote_summary": "Catastrophic Forgetting: 5"
+  },
+  {
+    "sample": "#31",
+    "file": "together",
+    "consensus_category": 3,
+    "consensus_name": "Catastrophic Forgetting",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 5,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "Mid-trajectory the agent lost the file-processing task and switched to counting /etc files, then answered with that unrelated result, showing complete goal abandonment.",
+    "vote_summary": "Catastrophic Forgetting: 5"
+  },
+  {
+    "sample": "#32",
+    "file": "together",
+    "consensus_category": 4,
+    "consensus_name": "False Assumption",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 3,
+      "5": 2,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "3/5",
+    "reasoning": "The agent assumed the blue cube's location with hard-coded poses without perceiving or verifying its position, acting on an unverified assumption about the environment.",
+    "vote_summary": "False Assumption: 3, Planning Error: 2"
+  },
+  {
+    "sample": "#33",
+    "file": "together",
+    "consensus_category": 5,
+    "consensus_name": "Planning Error",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 5,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "The agent completed all filesystem tasks but used 'finish' instead of 'answer' to submit the required total directory count, choosing the wrong action type to conclude.",
+    "vote_summary": "Planning Error: 5"
+  },
+  {
+    "sample": "#34",
+    "file": "together",
+    "consensus_category": 4,
+    "consensus_name": "False Assumption",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 5,
+      "5": 0,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "The agent falsely assumed the first chronologically listed row in the bestsellers report was the top-selling product, without checking quantities or sorting by sales volume.",
+    "vote_summary": "False Assumption: 5"
+  },
+  {
+    "sample": "#35",
+    "file": "together",
+    "consensus_category": 5,
+    "consensus_name": "Planning Error",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 5,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "The agent repeatedly used an invalid scroll action format ('scroll [direction=down]') that the environment could not parse, a wrong action syntax that prevented any progress.",
+    "vote_summary": "Planning Error: 5"
+  },
+  {
+    "sample": "#36",
+    "file": "together",
+    "consensus_category": 5,
+    "consensus_name": "Planning Error",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 5,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "Despite being on the My Orders page with visible data, the agent repeatedly navigated to a homepage instead of extracting the order totals, a fundamentally wrong action choice.",
+    "vote_summary": "Planning Error: 5"
+  },
+  {
+    "sample": "#37",
+    "file": "together",
+    "consensus_category": 5,
+    "consensus_name": "Planning Error",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 5,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "After successfully adding the product to the wishlist, the agent mistakenly tried to add another product from an order to the wishlist by clicking a non-actionable gridcell, misunderstanding the task.",
+    "vote_summary": "Planning Error: 5"
+  },
+  {
+    "sample": "#38",
+    "file": "together",
+    "consensus_category": 3,
+    "consensus_name": "Catastrophic Forgetting",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 5,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "After correctly splitting characters from logfile.txt, the agent suddenly switched to counting /etc entries, completely abandoning the unique character counting task.",
+    "vote_summary": "Catastrophic Forgetting: 5"
+  },
+  {
+    "sample": "#39",
+    "file": "together",
+    "consensus_category": 3,
+    "consensus_name": "Catastrophic Forgetting",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 5,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "After partially building the directory structure, the agent abruptly switched to counting files in /etc, completely forgetting the directory creation and manifest task.",
+    "vote_summary": "Catastrophic Forgetting: 5"
+  },
+  {
+    "sample": "#40",
+    "file": "together",
+    "consensus_category": 7,
+    "consensus_name": "Memory Limitation",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 5
+    },
+    "agreement": "5/5",
+    "reasoning": "The agent successfully added the product to the wishlist and navigated to My Orders, but then forgot it had already completed the wishlist task, claiming it could not add the product despite having done so one step earlier.",
+    "vote_summary": "Memory Limitation: 5"
+  },
+  {
+    "sample": "#161",
+    "file": "part3",
+    "consensus_category": 5,
+    "consensus_name": "Planning Error",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 5,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "On the order details page, the agent navigated away instead of extracting the needed information, then looped back and forth between orders list and order details without making progress.",
+    "vote_summary": "Planning Error: 5"
+  },
+  {
+    "sample": "#162",
+    "file": "part3",
+    "consensus_category": 3,
+    "consensus_name": "Catastrophic Forgetting",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 5,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "After preparing a counting script for peak timestamps, the agent completely abandoned the task and ran an unrelated /etc file count, showing total loss of the original objective.",
+    "vote_summary": "Catastrophic Forgetting: 5"
+  },
+  {
+    "sample": "#163",
+    "file": "part3",
+    "consensus_category": 5,
+    "consensus_name": "Planning Error",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 5,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "The agent concatenated filtered files instead of performing the required normalization step, skipping critical specified steps in the pipeline while still pursuing the general goal.",
+    "vote_summary": "Planning Error: 5"
+  },
+  {
+    "sample": "#164",
+    "file": "part3",
+    "consensus_category": 7,
+    "consensus_name": "Memory Limitation",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 2,
+      "6": 0,
+      "7": 3
+    },
+    "agreement": "3/5",
+    "reasoning": "The agent kept forgetting it had already completed the search and re-executed it each time it returned to My Account, while still trying to accomplish the overall objective of finding order info.",
+    "vote_summary": "Memory Limitation: 3, Planning Error: 2"
+  },
+  {
+    "sample": "#165",
+    "file": "part3",
+    "consensus_category": 5,
+    "consensus_name": "Planning Error",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 5,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "The agent navigated the orders tab to the homepage instead of using the separate new tab for the external search, losing the orders view through a flawed tab management strategy.",
+    "vote_summary": "Planning Error: 5"
+  },
+  {
+    "sample": "#166",
+    "file": "part3",
+    "consensus_category": 5,
+    "consensus_name": "Planning Error",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 5,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "The agent used an invalid scroll action format ('scroll [direction=down]') that caused repeated parse failures, showing incorrect knowledge of the environment's action syntax.",
+    "vote_summary": "Planning Error: 5"
+  },
+  {
+    "sample": "#167",
+    "file": "part3",
+    "consensus_category": 3,
+    "consensus_name": "Catastrophic Forgetting",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 5,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "After correctly processing .txt file line counts, the agent abruptly switched to counting /etc files with no connection to the task, completely losing the original objective.",
+    "vote_summary": "Catastrophic Forgetting: 5"
+  },
+  {
+    "sample": "#168",
+    "file": "part3",
+    "consensus_category": 7,
+    "consensus_name": "Memory Limitation",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 2,
+      "6": 0,
+      "7": 3
+    },
+    "agreement": "3/5",
+    "reasoning": "The agent correctly extracted order totals but then forgot to consolidate and report them, instead looping between Video Games and My Account while still pursuing the multi-part objective.",
+    "vote_summary": "Memory Limitation: 3, Planning Error: 2"
+  },
+  {
+    "sample": "#169",
+    "file": "part3",
+    "consensus_category": 5,
+    "consensus_name": "Planning Error",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 5,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "The agent repeatedly clicked the Period combobox itself instead of selecting an option from within it, failing to interact correctly with the dropdown UI element.",
+    "vote_summary": "Planning Error: 5"
+  },
+  {
+    "sample": "#170",
+    "file": "part3",
+    "consensus_category": 3,
+    "consensus_name": "Catastrophic Forgetting",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 5,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "After extracting Bob's sell stock indices, the agent completely abandoned the stock log task and ran an /etc file count, showing total loss of the original goal.",
+    "vote_summary": "Catastrophic Forgetting: 5"
+  },
+  {
+    "sample": "#171",
+    "file": "part3",
+    "consensus_category": 4,
+    "consensus_name": "False Assumption",
+    "votes": {
+      "1": 0,
+      "2": 2,
+      "3": 0,
+      "4": 3,
+      "5": 0,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "3/5",
+    "reasoning": "The agent assumed 'how many cards were issued' should be filtered by date (TC.issued <= T.date), but the gold SQL counts all cards without a date constraint, indicating a wrong assumption about temporal scope.",
+    "vote_summary": "False Assumption: 3, Instruction: 2"
+  },
+  {
+    "sample": "#172",
+    "file": "part3",
+    "consensus_category": 3,
+    "consensus_name": "Catastrophic Forgetting",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 5,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "After computing and displaying the CPU count (64), the agent completely forgot the goal and switched to counting /etc files, abandoning the correct answer it had already found.",
+    "vote_summary": "Catastrophic Forgetting: 5"
+  },
+  {
+    "sample": "#173",
+    "file": "part3",
+    "consensus_category": 5,
+    "consensus_name": "Planning Error",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 5,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "The agent repeatedly clicked a non-navigating image element instead of clicking a product link or name, failing to adapt its approach after the first click did not navigate.",
+    "vote_summary": "Planning Error: 5"
+  },
+  {
+    "sample": "#174",
+    "file": "part3",
+    "consensus_category": 3,
+    "consensus_name": "Catastrophic Forgetting",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 5,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "After correctly locating urgent lines in employee files, the agent completely abandoned the task and switched to counting /etc files, reporting that unrelated result.",
+    "vote_summary": "Catastrophic Forgetting: 5"
+  },
+  {
+    "sample": "#175",
+    "file": "part3",
+    "consensus_category": 4,
+    "consensus_name": "False Assumption",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 5,
+      "5": 0,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "The agent incorrectly assumed the Period dropdown would contain a '2022' year option and tried to scroll for it, instead of using the From/To date fields which were the correct approach.",
+    "vote_summary": "False Assumption: 5"
+  },
+  {
+    "sample": "#176",
+    "file": "part3",
+    "consensus_category": 5,
+    "consensus_name": "Planning Error",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 5,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "The agent kept repeating the same ineffective keyword search for order 307 without trying alternative methods like order ID column filters or pagination, failing to adapt strategy.",
+    "vote_summary": "Planning Error: 5"
+  },
+  {
+    "sample": "#177",
+    "file": "part3",
+    "consensus_category": 3,
+    "consensus_name": "Catastrophic Forgetting",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 5,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "After correctly following the multi-step workflow for /home/user/documents, the agent explicitly forgot the original task ('I realize... the user simply asked how many files are in /etc') and switched to an unrelated task.",
+    "vote_summary": "Catastrophic Forgetting: 5"
+  },
+  {
+    "sample": "#178",
+    "file": "part3",
+    "consensus_category": 5,
+    "consensus_name": "Planning Error",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 5,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "The agent computed the intersection of sold and bought indices instead of the required set difference, a fundamental logical error in the approach to finding stocks sold but never bought.",
+    "vote_summary": "Planning Error: 5"
+  },
+  {
+    "sample": "#179",
+    "file": "part3",
+    "consensus_category": 3,
+    "consensus_name": "Catastrophic Forgetting",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 5,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "After correctly creating logs and a manifest file, the agent completely forgot the task and switched to counting /etc files, reporting that unrelated result.",
+    "vote_summary": "Catastrophic Forgetting: 5"
+  },
+  {
+    "sample": "#180",
+    "file": "part3",
+    "consensus_category": 5,
+    "consensus_name": "Planning Error",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 5,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "The agent completed all directory creation and verification but used 'finish' instead of 'answer(13)' to submit the required numeric total, choosing the wrong response action.",
+    "vote_summary": "Planning Error: 5"
+  },
+  {
+    "sample": "#181",
+    "file": "part3",
+    "consensus_category": 3,
+    "consensus_name": "Catastrophic Forgetting",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 5,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "After normalizing bash candidate lines, the agent completely abandoned the process-verification task and switched to counting /etc files, reporting that unrelated count.",
+    "vote_summary": "Catastrophic Forgetting: 5"
+  },
+  {
+    "sample": "#182",
+    "file": "part3",
+    "consensus_category": 5,
+    "consensus_name": "Planning Error",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 5,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "The agent repeatedly used an invalid scroll action format ('scroll [direction=down]') that resulted in no parsed action, showing incorrect knowledge of the action syntax.",
+    "vote_summary": "Planning Error: 5"
+  },
+  {
+    "sample": "#183",
+    "file": "part3",
+    "consensus_category": 7,
+    "consensus_name": "Memory Limitation",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 5
+    },
+    "agreement": "5/5",
+    "reasoning": "After adding the item to the wishlist in step 1, the agent later forgot this had been done and repeatedly tried to add a different product from an order, losing track of completed subtasks.",
+    "vote_summary": "Memory Limitation: 5"
+  },
+  {
+    "sample": "#184",
+    "file": "part3",
+    "consensus_category": 3,
+    "consensus_name": "Catastrophic Forgetting",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 5,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "After correctly filtering workspace candidate paths, the agent abruptly switched to counting /etc files, completely forgetting the original workspace verification task.",
+    "vote_summary": "Catastrophic Forgetting: 5"
+  },
+  {
+    "sample": "#185",
+    "file": "part3",
+    "consensus_category": 2,
+    "consensus_name": "Instruction",
+    "votes": {
+      "1": 0,
+      "2": 5,
+      "3": 0,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "The agent returned driver names (forename/surname) which is a reasonable answer to 'who has the slowest time', but the gold SQL expected driverId -- this is an output format ambiguity in the instruction.",
+    "vote_summary": "Instruction: 5"
+  },
+  {
+    "sample": "#186",
+    "file": "part3",
+    "consensus_category": 5,
+    "consensus_name": "Planning Error",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 5,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "The agent used an invalid scroll action format ('scroll [direction=down]') that was not recognized by the parser, causing repeated failures and early termination.",
+    "vote_summary": "Planning Error: 5"
+  },
+  {
+    "sample": "#187",
+    "file": "part3",
+    "consensus_category": 5,
+    "consensus_name": "Planning Error",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 5,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "The agent's awk command prints 'yes' on match but the END block still executes to print 'no', producing incorrect multi-line output due to a flawed command design.",
+    "vote_summary": "Planning Error: 5"
+  },
+  {
+    "sample": "#188",
+    "file": "part3",
+    "consensus_category": 3,
+    "consensus_name": "Catastrophic Forgetting",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 5,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "After preparing directory lists, the agent completely abandoned the directory-counting task and switched to counting /etc files, showing total loss of the original goal.",
+    "vote_summary": "Catastrophic Forgetting: 5"
+  },
+  {
+    "sample": "#189",
+    "file": "part3",
+    "consensus_category": 4,
+    "consensus_name": "False Assumption",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 3,
+      "5": 2,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "3/5",
+    "reasoning": "The agent assumed the red cube's position by hard-coding coordinates without any perception step, acting on an unverified assumption about where the object is located.",
+    "vote_summary": "False Assumption: 3, Planning Error: 2"
+  },
+  {
+    "sample": "#190",
+    "file": "part3",
+    "consensus_category": 3,
+    "consensus_name": "Catastrophic Forgetting",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 5,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "After verifying echo-love paths, the agent completely abandoned the PATH-related workflow and switched to counting /etc files, reporting that unrelated result.",
+    "vote_summary": "Catastrophic Forgetting: 5"
+  },
+  {
+    "sample": "#191",
+    "file": "part3",
+    "consensus_category": 4,
+    "consensus_name": "False Assumption",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 5,
+      "5": 0,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "The agent assumed final_check.txt contained 'absent' without actually reading the file, making an unverified assumption about the command output that led to the wrong answer.",
+    "vote_summary": "False Assumption: 5"
+  },
+  {
+    "sample": "#192",
+    "file": "part3",
+    "consensus_category": 3,
+    "consensus_name": "Catastrophic Forgetting",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 5,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "After creating the project scaffold with directories and README, the agent abruptly switched to counting files in /etc, completely forgetting the date-format implementation task.",
+    "vote_summary": "Catastrophic Forgetting: 5"
+  },
+  {
+    "sample": "#193",
+    "file": "part3",
+    "consensus_category": 3,
+    "consensus_name": "Catastrophic Forgetting",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 5,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "After correctly parsing student records into CSV, the agent abruptly switched to counting files in /etc, completely abandoning the student score computation.",
+    "vote_summary": "Catastrophic Forgetting: 5"
+  },
+  {
+    "sample": "#194",
+    "file": "part3",
+    "consensus_category": 5,
+    "consensus_name": "Planning Error",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 5,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "The agent correctly concluded npm was not installed but used 'finish' instead of 'answer(no)', choosing the wrong response action to deliver the required yes/no determination.",
+    "vote_summary": "Planning Error: 5"
+  },
+  {
+    "sample": "#195",
+    "file": "part3",
+    "consensus_category": 5,
+    "consensus_name": "Planning Error",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 5,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "The agent repeatedly used an invalid scroll action format ('scroll [direction=down]') that the environment could not parse, resulting in no actions being executed.",
+    "vote_summary": "Planning Error: 5"
+  },
+  {
+    "sample": "#196",
+    "file": "part3",
+    "consensus_category": 3,
+    "consensus_name": "Catastrophic Forgetting",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 5,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "After normalizing and validating the working file, the agent abruptly switched to counting /etc files instead of counting lines in /root/matrix.txt, losing the original task.",
+    "vote_summary": "Catastrophic Forgetting: 5"
+  },
+  {
+    "sample": "#197",
+    "file": "part3",
+    "consensus_category": 7,
+    "consensus_name": "Memory Limitation",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 2,
+      "6": 0,
+      "7": 3
+    },
+    "agreement": "3/5",
+    "reasoning": "The agent kept forgetting it had already completed the green-tea search and re-executed it each time it returned to My Account, while still trying to find order information.",
+    "vote_summary": "Memory Limitation: 3, Planning Error: 2"
+  },
+  {
+    "sample": "#198",
+    "file": "part3",
+    "consensus_category": 5,
+    "consensus_name": "Planning Error",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 5,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "After correctly identifying the order total, the agent unnecessarily left the orders page for the homepage to search for reviews, losing the orders context through poor navigation planning.",
+    "vote_summary": "Planning Error: 5"
+  },
+  {
+    "sample": "#199",
+    "file": "part3",
+    "consensus_category": 4,
+    "consensus_name": "False Assumption",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 5,
+      "5": 0,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "The agent concluded 'no' based on empty command stdout from redirection, without checking the generated files (regular_matches.txt/summary.txt) which may have contained results.",
+    "vote_summary": "False Assumption: 5"
+  },
+  {
+    "sample": "#200",
+    "file": "part3",
+    "consensus_category": 5,
+    "consensus_name": "Planning Error",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 5,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "The agent repeatedly clicked 'Show Report' without recognizing the report had already been generated or scrolling down to view results, indicating a flawed interaction strategy.",
+    "vote_summary": "Planning Error: 5"
+  },
+  {
+    "sample": "#201",
+    "file": "part3",
+    "consensus_category": 3,
+    "consensus_name": "Catastrophic Forgetting",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 5,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "After extracting Bob's sold stock indices, the agent completely abandoned the stock log task and switched to counting /etc files, reporting that unrelated count.",
+    "vote_summary": "Catastrophic Forgetting: 5"
+  },
+  {
+    "sample": "#202",
+    "file": "part3",
+    "consensus_category": 5,
+    "consensus_name": "Planning Error",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 5,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "The agent skipped the required merge and verification steps (per_file_counts.csv, totals_prepared.txt) and jumped directly to summing from .meta files, deviating from the specified pipeline.",
+    "vote_summary": "Planning Error: 5"
+  },
+  {
+    "sample": "#203",
+    "file": "part3",
+    "consensus_category": 5,
+    "consensus_name": "Planning Error",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 5,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "The agent used an invalid scroll action format ('scroll [direction=down]') that was not parseable, and never corrected to a valid format despite repeated failures.",
+    "vote_summary": "Planning Error: 5"
+  },
+  {
+    "sample": "#204",
+    "file": "part3",
+    "consensus_category": 3,
+    "consensus_name": "Catastrophic Forgetting",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 5,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "After correctly extracting and filtering timestamps for peak hours, the agent abruptly switched to counting files in /etc, completely abandoning the login count task.",
+    "vote_summary": "Catastrophic Forgetting: 5"
+  },
+  {
+    "sample": "#205",
+    "file": "part3",
+    "consensus_category": 3,
+    "consensus_name": "Catastrophic Forgetting",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 5,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "After listing files for processing, the agent abruptly switched to counting /etc files, completely forgetting the original file-processing pipeline.",
+    "vote_summary": "Catastrophic Forgetting: 5"
+  },
+  {
+    "sample": "#206",
+    "file": "part3",
+    "consensus_category": 2,
+    "consensus_name": "Instruction",
+    "votes": {
+      "1": 0,
+      "2": 4,
+      "3": 0,
+      "4": 0,
+      "5": 1,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "4/5",
+    "reasoning": "The agent computed the correct total (94) but returned it in a sentence with units instead of a bare integer; the failure is due to ambiguous output format requirements in the instruction.",
+    "vote_summary": "Instruction: 4, Planning Error: 1"
+  },
+  {
+    "sample": "#207",
+    "file": "part3",
+    "consensus_category": 3,
+    "consensus_name": "Catastrophic Forgetting",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 5,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "After preparing the final zero-files list and summary, the agent completely abandoned the task and switched to counting /etc files instead of counting empty files under /usr.",
+    "vote_summary": "Catastrophic Forgetting: 5"
+  },
+  {
+    "sample": "#208",
+    "file": "part3",
+    "consensus_category": 4,
+    "consensus_name": "False Assumption",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 3,
+      "5": 2,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "3/5",
+    "reasoning": "The agent assumed cube identities and positions by hard-coding poses without any perception step, acting on unverified assumptions about which cube is which color.",
+    "vote_summary": "False Assumption: 3, Planning Error: 2"
+  },
+  {
+    "sample": "#209",
+    "file": "part3",
+    "consensus_category": 3,
+    "consensus_name": "Catastrophic Forgetting",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 5,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "After creating log files, the agent completely forgot the error-counting task and switched to counting /etc files, reporting that unrelated result.",
+    "vote_summary": "Catastrophic Forgetting: 5"
+  },
+  {
+    "sample": "#210",
+    "file": "part3",
+    "consensus_category": 5,
+    "consensus_name": "Planning Error",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 5,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "The agent tried to read result.txt before creating it, misordering the required actions in the workflow, though it recovered and continued processing afterward.",
+    "vote_summary": "Planning Error: 5"
+  },
+  {
+    "sample": "#211",
+    "file": "part3",
+    "consensus_category": 5,
+    "consensus_name": "Planning Error",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 5,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "The agent used an invalid 'scroll [direction=down]' action format that the parser could not execute, causing repeated parse failures and early stop.",
+    "vote_summary": "Planning Error: 5"
+  },
+  {
+    "sample": "#212",
+    "file": "part3",
+    "consensus_category": 5,
+    "consensus_name": "Planning Error",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 5,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "The agent misinterpreted the task step and produced a permission frequency summary instead of the required staged permission mapping plan, deviating from the specified pipeline.",
+    "vote_summary": "Planning Error: 5"
+  },
+  {
+    "sample": "#213",
+    "file": "part3",
+    "consensus_category": 1,
+    "consensus_name": "Environment",
+    "votes": {
+      "1": 5,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "The OS began returning empty output for all commands (ls, pwd) that should produce output, indicating a systemic environment failure preventing the agent from completing the task.",
+    "vote_summary": "Environment: 5"
+  },
+  {
+    "sample": "#214",
+    "file": "part3",
+    "consensus_category": 5,
+    "consensus_name": "Planning Error",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 5,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "The agent produced SQL that only counts unique account owners instead of computing the full set of requested aggregates, implementing a single subtask rather than the complete query.",
+    "vote_summary": "Planning Error: 5"
+  },
+  {
+    "sample": "#215",
+    "file": "part3",
+    "consensus_category": 3,
+    "consensus_name": "Catastrophic Forgetting",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 5,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "After building candidate directory lists from root metadata, the agent abruptly switched to counting files in /etc, completely forgetting the root directory counting task.",
+    "vote_summary": "Catastrophic Forgetting: 5"
+  },
+  {
+    "sample": "#216",
+    "file": "part3",
+    "consensus_category": 4,
+    "consensus_name": "False Assumption",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 5,
+      "5": 0,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "The agent incorrectly assumed no .txt files existed because the find command produced no console output (it was redirected to a file), then created all empty output files based on this wrong belief.",
+    "vote_summary": "False Assumption: 5"
+  },
+  {
+    "sample": "#217",
+    "file": "part3",
+    "consensus_category": 5,
+    "consensus_name": "Planning Error",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 5,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "The agent misinterpreted the step ordering and sorted timestamps instead of filtering hours 21-23 into peak_candidates.txt, then proceeded to build a summary report instead of the required artifacts.",
+    "vote_summary": "Planning Error: 5"
+  },
+  {
+    "sample": "#218",
+    "file": "part3",
+    "consensus_category": 3,
+    "consensus_name": "Catastrophic Forgetting",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 5,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "After generating a file listing for /home/student/files, the agent completely forgot the task and switched to counting /etc files, reporting that unrelated result.",
+    "vote_summary": "Catastrophic Forgetting: 5"
+  },
+  {
+    "sample": "#219",
+    "file": "part3",
+    "consensus_category": 5,
+    "consensus_name": "Planning Error",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 5,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "The agent deviated from the specified pipeline by computing per-student averages instead of performing normalization, subject-level processing, and producing the required artifacts.",
+    "vote_summary": "Planning Error: 5"
+  },
+  {
+    "sample": "#220",
+    "file": "part3",
+    "consensus_category": 5,
+    "consensus_name": "Planning Error",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 5,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "The plan omits a necessary lift step before lateral movement, causing the grasped cube to drag along the surface, a sub-plan decomposition error in the manipulation sequence.",
+    "vote_summary": "Planning Error: 5"
+  },
+  {
+    "sample": "#221",
+    "file": "part3",
+    "consensus_category": 4,
+    "consensus_name": "False Assumption",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 3,
+      "5": 2,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "3/5",
+    "reasoning": "The agent assumed the red cube's position by hard-coding coordinates without any perception or identification step, acting on an unverified belief about the object's location.",
+    "vote_summary": "False Assumption: 3, Planning Error: 2"
+  },
+  {
+    "sample": "#222",
+    "file": "part3",
+    "consensus_category": 5,
+    "consensus_name": "Planning Error",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 5,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "After generating the 2022 Bestsellers report, the agent navigated away to Customers instead of reading the report results, then looped between sections without completing any subtask.",
+    "vote_summary": "Planning Error: 5"
+  },
+  {
+    "sample": "#223",
+    "file": "part3",
+    "consensus_category": 5,
+    "consensus_name": "Planning Error",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 5,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "The agent repeatedly toggled the Period combobox without selecting an option or trying the From/To date fields, a failed interaction strategy leading to early stop.",
+    "vote_summary": "Planning Error: 5"
+  },
+  {
+    "sample": "#224",
+    "file": "part3",
+    "consensus_category": 5,
+    "consensus_name": "Planning Error",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 5,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "The agent used an unsupported 'scroll [direction=down]' action repeatedly despite already having the needed order information visible, causing parse failures and early stop.",
+    "vote_summary": "Planning Error: 5"
+  },
+  {
+    "sample": "#225",
+    "file": "part3",
+    "consensus_category": 5,
+    "consensus_name": "Planning Error",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 5,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "The agent repeatedly searched for order 302 with the same keyword method despite getting no results each time, failing to adapt strategy or move on to other tasks.",
+    "vote_summary": "Planning Error: 5"
+  },
+  {
+    "sample": "#226",
+    "file": "part3",
+    "consensus_category": 5,
+    "consensus_name": "Planning Error",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 5,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "The agent used sort -u on entire CSV lines instead of deduplicating by group name and GID separately, and skipped required GID integrity checks and final output steps.",
+    "vote_summary": "Planning Error: 5"
+  },
+  {
+    "sample": "#227",
+    "file": "part3",
+    "consensus_category": 3,
+    "consensus_name": "Catastrophic Forgetting",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 5,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "After progressing through npm version parsing steps, the agent completely forgot the npm detection task and switched to counting /etc files, reporting that unrelated result.",
+    "vote_summary": "Catastrophic Forgetting: 5"
+  },
+  {
+    "sample": "#228",
+    "file": "part3",
+    "consensus_category": 5,
+    "consensus_name": "Planning Error",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 5,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "After generating the 2022 report, the agent navigated to Customers instead of viewing the report results, a poor task sequencing decision that prevented extracting the bestseller.",
+    "vote_summary": "Planning Error: 5"
+  },
+  {
+    "sample": "#229",
+    "file": "part3",
+    "consensus_category": 3,
+    "consensus_name": "Catastrophic Forgetting",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 5,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "After creating ClassA/Project3 and updating the manifest, the agent abruptly switched to counting files in /etc, completely abandoning the directory creation task.",
+    "vote_summary": "Catastrophic Forgetting: 5"
+  },
+  {
+    "sample": "#230",
+    "file": "part3",
+    "consensus_category": 2,
+    "consensus_name": "Instruction",
+    "votes": {
+      "1": 0,
+      "2": 4,
+      "3": 0,
+      "4": 0,
+      "5": 1,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "4/5",
+    "reasoning": "The agent found the correct order and total but included a '$' sign in the answer ($65.32 vs 65.32), a minor formatting mismatch that may reflect ambiguity in expected output format.",
+    "vote_summary": "Instruction: 4, Planning Error: 1"
+  },
+  {
+    "sample": "#231",
+    "file": "part3",
+    "consensus_category": 3,
+    "consensus_name": "Catastrophic Forgetting",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 5,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "After preparing the precount manifest listing 15 visible root directories, the agent explicitly misidentified the next step as counting files in /etc, completely forgetting the root directory counting objective.",
+    "vote_summary": "Catastrophic Forgetting: 5"
+  },
+  {
+    "sample": "#232",
+    "file": "part3",
+    "consensus_category": 5,
+    "consensus_name": "Planning Error",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 5,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "The agent repeatedly used an invalid scroll action format ('scroll [direction=down]') on the invoice page, resulting in no parsed actions and early stop.",
+    "vote_summary": "Planning Error: 5"
+  },
+  {
+    "sample": "#233",
+    "file": "part3",
+    "consensus_category": 5,
+    "consensus_name": "Planning Error",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 5,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "The agent clicked the post title which opened the external image instead of using the comments/thread link, a wrong element selection that prevented opening the actual thread.",
+    "vote_summary": "Planning Error: 5"
+  },
+  {
+    "sample": "#234",
+    "file": "part3",
+    "consensus_category": 5,
+    "consensus_name": "Planning Error",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 5,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "The agent used the unsupported 'scroll [direction=down]' action format repeatedly, causing parse failures and early stop without extracting the required invoice information.",
+    "vote_summary": "Planning Error: 5"
+  },
+  {
+    "sample": "#235",
+    "file": "part3",
+    "consensus_category": 5,
+    "consensus_name": "Planning Error",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 5,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "After adding the product to the wishlist and seeing order totals, the agent misplanned by trying to add an order item to the wishlist, leading to unnecessary navigation without delivering the answer.",
+    "vote_summary": "Planning Error: 5"
+  },
+  {
+    "sample": "#236",
+    "file": "part3",
+    "consensus_category": 3,
+    "consensus_name": "Catastrophic Forgetting",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 5,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "After computing per-file line and word counts and assembling per_file_counts.csv, the agent abruptly switched to counting files in /etc, completely abandoning the summing task.",
+    "vote_summary": "Catastrophic Forgetting: 5"
+  },
+  {
+    "sample": "#237",
+    "file": "part3",
+    "consensus_category": 5,
+    "consensus_name": "Planning Error",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 5,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "The plan omits perception, release steps, and verification of cube identities, attempting sequential grasps at hard-coded positions without proper pick-and-place decomposition.",
+    "vote_summary": "Planning Error: 5"
+  },
+  {
+    "sample": "#238",
+    "file": "part3",
+    "consensus_category": 1,
+    "consensus_name": "Environment",
+    "votes": {
+      "1": 5,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "The environment began returning empty output for all standard commands (ls, cat, pwd), indicating a systemic OS execution failure that prevented the agent from completing the task.",
+    "vote_summary": "Environment: 5"
+  },
+  {
+    "sample": "#239",
+    "file": "part3",
+    "consensus_category": 3,
+    "consensus_name": "Catastrophic Forgetting",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 5,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "After creating the temp_workspace directory for the assignment, the agent abruptly switched to counting files in /etc, completely abandoning the multi-step file-processing task.",
+    "vote_summary": "Catastrophic Forgetting: 5"
+  },
+  {
+    "sample": "#240",
+    "file": "part3",
+    "consensus_category": 5,
+    "consensus_name": "Planning Error",
+    "votes": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 5,
+      "6": 0,
+      "7": 0
+    },
+    "agreement": "5/5",
+    "reasoning": "The agent repeatedly used an invalid scroll action format ('scroll [direction=down]') while interacting with the Period dropdown, causing parse failures and early termination.",
+    "vote_summary": "Planning Error: 5"
+  }
+]

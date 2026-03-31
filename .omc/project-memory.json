@@ -1,0 +1,101 @@
+{
+  "version": "1.0.0",
+  "lastScanned": 1774995646498,
+  "projectRoot": "/localscratch/haorui/github/LLM-as-a-Judge-Result",
+  "techStack": {
+    "languages": [],
+    "frameworks": [],
+    "packageManager": null,
+    "runtime": null
+  },
+  "build": {
+    "buildCommand": null,
+    "testCommand": null,
+    "lintCommand": null,
+    "devCommand": null,
+    "scripts": {}
+  },
+  "conventions": {
+    "namingStyle": null,
+    "importStyle": null,
+    "testPattern": null,
+    "fileOrganization": null
+  },
+  "structure": {
+    "isMonorepo": false,
+    "workspaces": [],
+    "mainDirectories": [],
+    "gitBranches": {
+      "defaultBranch": "main",
+      "branchingStrategy": null
+    }
+  },
+  "customNotes": [],
+  "directoryMap": {
+    "Haorui": {
+      "path": "Haorui",
+      "purpose": null,
+      "fileCount": 3,
+      "lastAccessed": 1774995646493,
+      "keyFiles": [
+        "annotation_400_part3.md",
+        "annotation_40_together.md"
+      ]
+    },
+    "Haoyue": {
+      "path": "Haoyue",
+      "purpose": null,
+      "fileCount": 3,
+      "lastAccessed": 1774995646494,
+      "keyFiles": [
+        "annotation_400_part1.md",
+        "annotation_40_together.md"
+      ]
+    },
+    "Shuibai": {
+      "path": "Shuibai",
+      "purpose": null,
+      "fileCount": 3,
+      "lastAccessed": 1774995646494,
+      "keyFiles": [
+        "annotation_400_part6.md",
+        "annotation_40_together.md"
+      ]
+    },
+    "Wenjie": {
+      "path": "Wenjie",
+      "purpose": null,
+      "fileCount": 3,
+      "lastAccessed": 1774995646496,
+      "keyFiles": [
+        "annotation_400_part5.md",
+        "annotation_40_together.md"
+      ]
+    },
+    "Xinyu": {
+      "path": "Xinyu",
+      "purpose": null,
+      "fileCount": 3,
+      "lastAccessed": 1774995646497,
+      "keyFiles": [
+        "annotation_400_part4.md",
+        "annotation_40_together.md"
+      ]
+    }
+  },
+  "hotPaths": [
+    {
+      "path": "Haorui/annotation_400_part3.md",
+      "accessCount": 65,
+      "lastAccessed": 1774996379606,
+      "type": "file"
+    },
+    {
+      "path": "Haorui/annotation_40_together.md",
+      "accessCount": 44,
+      "lastAccessed": 1774996378938,
+      "type": "file"
+    }
+  ],
+  "userDirectives": []
+}
