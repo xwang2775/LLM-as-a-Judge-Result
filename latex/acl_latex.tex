@@ -1,0 +1,3172 @@
+
+\documentclass[11pt]{article}
+
+% Change "review" to "final" to generate the final (sometimes called camera-ready) version.
+% Change to "preprint" to generate a non-anonymous version with page numbers.
+\usepackage[review]{acl}
+
+% Standard package includes
+\usepackage{times}
+\usepackage{latexsym}
+
+% For proper rendering and hyphenation of words containing Latin characters (including in bib files)
+\usepackage[T1]{fontenc}
+% For Vietnamese characters
+% \usepackage[T5]{fontenc}
+% See https://www.latex-project.org/help/documentation/encguide.pdf for other character sets
+
+% This assumes your files are encoded as UTF8
+\usepackage[utf8]{inputenc}
+
+% This is not strictly necessary, and may be commented out,
+% but it will improve the layout of the manuscript,
+% and will typically save some space.
+\usepackage{microtype}
+
+% This is also not strictly necessary, and may be commented out.
+% However, it will improve the aesthetics of text in
+% the typewriter font.
+\usepackage{inconsolata}
+
+%Including images in your LaTeX document requires adding
+%additional package(s)
+\usepackage{graphicx}
+
+\usepackage{microtype}
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{amsthm}
+\usepackage{tcolorbox}
+\usepackage{tcolorbox}
+\tcbuselibrary{breakable}     
+\usepackage{enumitem}        
+\usepackage{listings}        
+\usepackage{makecell}
+\usepackage{longtable}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows.meta, positioning}
+\renewcommand\cellgape{\Gape[0pt]}
+
+\usepackage{tikz}
+\usepackage{xcolor}
+
+\DeclareRobustCommand{\colorsquare}[2]{%
+    \begin{tikzpicture}[baseline=(char.base)]
+        \node[
+            draw=#1,
+            fill=#1,
+            rectangle,
+            rounded corners=2pt,
+            minimum height=10pt,
+            minimum width=10pt,
+            inner sep=0pt,
+            text=white
+        ] (char) {\textbf{#2}};
+    \end{tikzpicture}%
+}
+
+
+
+\definecolor{envcolor}{RGB}{156, 39, 176}    % Memory (purple)
+\definecolor{instcolor}{RGB}{255, 152, 0}    % Instruction (orange)
+\definecolor{forgetcolor}{RGB}{0, 106, 57}   % Planning (dark green)
+\definecolor{obscolor}{RGB}{76, 175, 80}     % Observation (green)
+\definecolor{plancolor}{RGB}{255, 193, 7}  % Forgetting (yellow)
+\definecolor{histcolor}{RGB}{244, 67, 54}    % History (red)
+\definecolor{memcolor}{RGB}{0, 150, 136}     % Environment (teal)
+
+\newcommand{\envbox}{\colorsquare{envcolor}{2}}
+\newcommand{\instbox}{\colorsquare{instcolor}{1}}
+\newcommand{\forgetbox}{\colorsquare{forgetcolor}{5}}
+\newcommand{\obsbox}{\colorsquare{obscolor}{3}}
+\newcommand{\planbox}{\colorsquare{plancolor}{4}}
+\newcommand{\histbox}{\colorsquare{histcolor}{7}}
+\newcommand{\membox}{\colorsquare{memcolor}{6}}
+
+\usepackage{lineno}
+
+\definecolor{darkblue}{rgb}{0, 0, 0.5}
+\hypersetup{colorlinks=true, citecolor=darkblue, linkcolor=darkblue, urlcolor=darkblue}
+
+
+
+% If the title and author information does not fit in the area allocated, uncomment the following
+%
+%\setlength\titlebox{<dim>}
+%
+% and set <dim> to something 5cm or larger.
+
+\title{The Long-Horizon Task Mirage? \\
+  Diagnosing Where and Why Agentic Systems Break}
+
+% Author information can be set in various styles:
+% For several authors from the same institution:
+% \author{Author 1 \and ... \and Author n \\
+%         Address line \\ ... \\ Address line}
+% if the names do not fit well on one line use
+%         Author 1 \\ {\bf Author 2} \\ ... \\ {\bf Author n} \\
+% For authors from different institutions:
+% \author{Author 1 \\ Address line \\  ... \\ Address line
+%         \And  ... \And
+%         Author n \\ Address line \\ ... \\ Address line}
+% To start a separate ``row'' of authors use \AND, as in
+% \author{Author 1 \\ Address line \\  ... \\ Address line
+%         \AND
+%         Author 2 \\ Address line \\ ... \\ Address line \And
+%         Author 3 \\ Address line \\ ... \\ Address line}
+
+\author{First Author \\
+  Affiliation / Address line 1 \\
+  Affiliation / Address line 2 \\
+  Affiliation / Address line 3 \\
+  \texttt{email@domain} \\\And
+  Second Author \\
+  Affiliation / Address line 1 \\
+  Affiliation / Address line 2 \\
+  Affiliation / Address line 3 \\
+  \texttt{email@domain} \\}
+
+%\author{
+%  \textbf{First Author\textsuperscript{1}},
+%  \textbf{Second Author\textsuperscript{1,2}},
+%  \textbf{Third T. Author\textsuperscript{1}},
+%  \textbf{Fourth Author\textsuperscript{1}},
+%\\
+%  \textbf{Fifth Author\textsuperscript{1,2}},
+%  \textbf{Sixth Author\textsuperscript{1}},
+%  \textbf{Seventh Author\textsuperscript{1}},
+%  \textbf{Eighth Author \textsuperscript{1,2,3,4}},
+%\\
+%  \textbf{Ninth Author\textsuperscript{1}},
+%  \textbf{Tenth Author\textsuperscript{1}},
+%  \textbf{Eleventh E. Author\textsuperscript{1,2,3,4,5}},
+%  \textbf{Twelfth Author\textsuperscript{1}},
+%\\
+%  \textbf{Thirteenth Author\textsuperscript{3}},
+%  \textbf{Fourteenth F. Author\textsuperscript{2,4}},
+%  \textbf{Fifteenth Author\textsuperscript{1}},
+%  \textbf{Sixteenth Author\textsuperscript{1}},
+%\\
+%  \textbf{Seventeenth S. Author\textsuperscript{4,5}},
+%  \textbf{Eighteenth Author\textsuperscript{3,4}},
+%  \textbf{Nineteenth N. Author\textsuperscript{2,5}},
+%  \textbf{Twentieth Author\textsuperscript{1}}
+%\\
+%\\
+%  \textsuperscript{1}Affiliation 1,
+%  \textsuperscript{2}Affiliation 2,
+%  \textsuperscript{3}Affiliation 3,
+%  \textsuperscript{4}Affiliation 4,
+%  \textsuperscript{5}Affiliation 5
+%\\
+%  \small{
+%    \textbf{Correspondence:} \href{mailto:email@domain}{email@domain}
+%  }
+%}
+
+\begin{document}
+\maketitle
+\begin{abstract}
+Despite rapid progress, LLM-based agents remain brittle on long-horizon tasks and their failure modes are still poorly understood, hindering principled diagnosis and cross-domain comparison.
+To address this gap, we introduce \texttt{HORIZON}, an initial cross-domain diagnostic benchmark for systematically constructing long-horizon tasks and analyzing the failure behaviors they elicit in LLM-based agents.
+Using \texttt{HORIZON}, we evaluate state-of-the-art (SOTA) agents from multiple model families (GPT-5 and Claude-4 variants), collecting 3100+ trajectories across four representative domains (web, database, operating system, and embodied) to study horizon-dependent degradation patterns.
+We further propose a trajectory-grounded LLM-as-a-Judge pipeline for scalable and reproducible failure attribution, and validate it against human annotation on trajectories with high agreement (inter-annotator $\kappa{=}0.61$; human–judge $\kappa{=}0.84$).
+Our findings indicate that performance does not gradually degrade but collapses sharply once horizons exceed a threshold, and that scaling base models alone is insufficient. Durable progress requires design-level advances in hierarchical planning, execution-time verification, and memory mechanisms.
+\texttt{HORIZON} provides a methodological foundation for systematic, cross-domain analysis of long-horizon agent failures and offers practical guidance for building more reliable agents.
+\end{abstract}
+
+\section{Introduction}
+
+
+% Short-horizon tasks in LLM & Problems in long-horizon and our arguement
+As large language models (LLMs) continue to advance \citep{deepseekai2025deepseekv3technicalreport, openai-gpt5, anthropic-claude4-sonnet, geminiteam2025geminifamilyhighlycapable, yang2025qwen3technicalreport}, their use has expanded beyond conversational interfaces to agentic systems that interact with tools and environments in pursuit of real-world objectives \citep{team2025kimi, xi2025rise}. When executing a complex task, an LLM-based agent must interpret the current state, select appropriate actions, and continually update its internal beliefs and plans in response to environmental feedback \citep{zhou2024archertraininglanguagemodel}.
+However, in long-horizon settings where success depends on extended and interdependent sequences of actions, agents often fail in systematic yet non-obvious ways (Table~\ref{tab:failure_tax}), with performance degrading sharply as the task horizon increases \citep{yang2025lohovla, chen2025reinforcement, xi2025agentgym}. For example, an embodied agent may succeed reliably on single-step manipulation (e.g., moving a colored cube), but fail completely once the task requires three sequential steps. This degradation is not merely additive: even a small per-step error rate compounds across dependent steps, driving agents from reliable short-task performance to near-systematic failure at longer horizons.
+
+Understanding these failures is of practical and scientific importance, as many high-impact deployments of LLM-based agents are inherently long-horizon. Tasks such as debugging multi-file software systems, executing operating-system workflows, conducting iterative data analysis, and performing embodied manipulation require maintaining goals, constraints, and intermediate states over dozens or even hundreds of effective actions.
+Despite this prevalence, research on long-horizon agents remains fragmented: benchmarks are domain-specific, horizon definitions are inconsistent, and evaluations emphasize aggregate success rates, offering limited insight into how and why failures arise as horizons grow \citep{liu2023agentbench, trivedi2024appworld, kapoor2025holistic, zhang2025mirage, chen2024can}. Consequently, findings are difficult to compare across domains and studies, and the field lacks a shared foundation for diagnosing long-horizon breakdowns.
+
+\input{fig_workflow}
+
+A central challenge in studying long-horizon agent failures is that long-horizon behavior is inherently domain-dependent. Different domains impose distinct horizon scales and give rise to qualitatively different failure mechanisms, rendering any single, universal definition insufficient. For example, embodied agents may exhibit abrupt performance breakdowns on tasks requiring only a small number of sequential actions, whereas web-based agents can remain robust at comparable step counts. Conversely, web tasks often involve longer dependency chains spanning multiple pages, forms, and verification steps. Such cross-domain discrepancies fundamentally complicate efforts to characterize a unified breaking point for long-horizon agents. We study two core research questions for long-horizon agent reliability: (1) \textit{RQ1} Where do agents break down as task horizons increase? and (2) \textit{RQ2} Why do these failures emerge?
+
+Addressing these questions requires a principled diagnostic framework that explains \emph{where} and \emph{why} agentic systems fail as horizons grow. Figure~\ref{fig:workflow} illustrates the overall \texttt{HORIZON} diagnostic pipeline.
+We introduce \texttt{HORIZON} (\textbf{H}olistic \textbf{O}bservations 
+for \textbf{R}easoning and fa\textbf{I}lure analy\textbf{Z}is in 
+l\textbf{O}ng-horizo\textbf{N} agents), an initial cross-domain diagnostic benchmark that constructs task families with systematically increasing step requirements and enables structured analysis of horizon-dependent degradation, guided by agent workflow~(Figure~\ref{fig:agent_failure_framework}) and informed by Failure Mode and Effects Analysis (FMEA) \citep{aiag2019fmea}.
+We then evaluate state-of-the-art agent models (GPT-5 and Claude-4 model families) on 3100+ trajectories across four representative domains (Web, OS, Embodied, and Database), providing a cross-domain view of where performance breaks down.
+% Finally, we analyze failed trajectories with a trajectory-grounded LLM-as-a-Judge pipeline (Figure~\ref{fig:workflow}) to identify why failures emerge and how failure composition shifts with horizon.
+% The judge pipeline is validated against human annotation on trajectories, achieving strong agreement (\(\kappa=0.84\)).
+Finally, we analyze failed trajectories with a trajectory-grounded LLM-as-a-Judge pipeline to identify why failures emerge and how failure composition shifts with horizon.
+% We validate the judge against expert labels on a pilot set of trajectories: long-horizon rollouts yield very long raw traces, so exhaustive manual review is impractical.
+% On this set, human--judge agreement is strong ($\kappa{=}0.84$). human-human is 0.61
+Since long-horizon rollouts yield very long raw traces, we validate the judge against expert labels on a pilot set of 40 trajectories.
+On this set, inter-annotator agreement is \(\kappa{=}0.61\) and human--judge agreement is \(\kappa{=}0.84\). 
+
+Our analysis shows two complementary findings. First, performance does not degrade gradually as task horizons grow; instead, agents exhibit a sharp drop in success once horizons exceed a model-specific threshold, indicating a discrete failure regime rather than a smooth decline. Second, the composition of failures shifts qualitatively across the horizon, where planning-related failures (Planning Error) and memory-related failures (Memory Limitation and Catastrophic Forgetting) come to dominate the error distribution in the longer horizon. Together, these findings suggest that scaling base models alone is insufficient for reliable long-horizon behavior, and durable progress instead requires design-level advances in hierarchical planning, execution-time verification, and memory mechanisms.
+
+
+% Our analysis shows that Performance doesn't gradually degrade — it hits a cliff. also a qualitative shift in the composition of failures. As task horizons grow, planning-related failures and memory-related failures, including catastrophic forgetting and context-window limitations, come to dominate the error distribution. suggesting that scaling base models alone is insufficient, and robust long-horizon performance requires method-level improvements in planning, memory, and execution-time control.
+
+\input{fig_agent}
+The contributions of this paper are as follows:
+\begin{itemize}[noitemsep]
+    \item We introduce \texttt{HORIZON}, an initial cross-domain diagnostic benchmark for systematically constructing long-horizon task families and analyzing horizon-dependent agent failure.
+    \item We conduct a large-scale empirical study of 3100+ trajectories spanning four agentic domains (web, database, operating system, embodied) and multiple state-of-the-art model families (GPT-5 and Claude-4 model families), revealing consistent cross-domain degradation patterns.
+    \item We develop a trajectory-grounded LLM-as-a-Judge pipeline for scalable, reproducible failure attribution, and validate it against human annotation (inter-annotator \(\kappa{=}0.61\); human–judge \(\kappa{=}0.84\)).
+    \item We identify two findings with direct design implications for future agentic AI systems, motivating method-design improvements beyond base-model scaling.
+    % (i) agent performance does not degrade gradually but collapses sharply once horizons exceed a model-specific threshold, and (ii) planning-related and memory-related failures come to dominate long-horizon settings—indicating that reliable long-horizon performance requires design-level advances in hierarchical planning, execution-time verification, and memory mechanisms rather than further base-model scaling.
+\end{itemize}
+
+
+\section{Related Work}
+
+Most benchmarks report success rates rather than treating horizon as a controlled variable or providing trajectory-level failure attribution. We briefly cover recent work on benchmarks and failure analysis for agentic AI systems. Further related work see Appendix~\ref{app:extended_rw}.
+
+% \subsection{Benchmarks and Evaluation of LLM-based Agents}
+% \label{subsec:rw_benchmarks}
+\textbf{Interactive benchmarks and agent evaluation.}
+Standard suites span web navigation (WebArena~\citep{zhou2023webarena}, Mind2Web~\citep{deng2023mind2web}), multimodal web tasks (Visual WebArena~\citep{koh2024visualwebarena}), software engineering (SWE-bench~\citep{jimenez2023swe}), app-style assistants (AppWorld~\citep{trivedi2024appworld}), databases (BIRD~\citep{li2023bird}, Spider~\citep{yu2018spider}), and embodied instruction following (ALFWorld~\citep{shridhar2020alfworld}). AgentBench~\citep{liu2023agentbench} and AgentGym~\citep{xi2023agentgym} aggregate many environments under one evaluation protocol.
+Newer work stressing harder or longer interaction (e.g., BrowseComp~\citep{wei2025browsecomp}, MIRAGE-Bench~\citep{zhang2025mirage}, holistic leaderboards~\citep{kapoor2025holistic}, AgentGym-RL~\citep{xi2025agentgym}) still foregrounds terminal success, while two concurrent benchmarks (Toolathlon~\citep{luo2025ultrahorizonbenchmarkingagentcapabilities} and UltraHorizon~\citep{luo2025ultrahorizonbenchmarkingagentcapabilities}) cover only limited domains. We instead vary intrinsic horizon \(H^*\) and analyze how the mix of failure types shifts as horizon grows across four heterogeneous, real-world-grounded domains.
+
+% \textbf{Training, Planning, and Optimization.}
+% \label{subsec:rw_training}
+% Prior work improves agents via RL~\citep{brohan2023rt,ouyang2022training}, hierarchical planning~\citep{liu2023llmp,sun2023adaplanner}, tool use and reflection~\citep{yao2023react,shinn2023reflexion}, deliberation-style prompting~\citep{wei2022chain,yao2023tree}, and dedicated planning or reliability studies~\citep{erdogan2025plan,chen2024can}. Those research targets better actions; we ask which failure modes dominate at longer horizons and what that implies for design (Section~\ref{sec:4}).
+
+% \textbf{Memory and Long-Context Reasoning.}
+% \label{subsec:rw_memory}
+% Long contexts do not by themselves ensure long-range reasoning~\citep{liu2023lost,press2022train,dao2022flashattention}. Retrieval, external memory, trajectory compression, and hybrid stacks~\citep{madaan2022memory,lewis2020retrieval,park2023generative,kang2025acon,zhou2025mem1} address scaling; embodied settings also use explicit state~\citep{wang2023voyager,ahn2022saycan}. We do not add a memory module; we report how memory-related failures appear in labeled trajectories when horizon extends.
+
+\textbf{Failure analysis and diagnostics.}
+Existing failure studies are typically either domain-specific (covering code~\citep{chen2023teaching}, web~\citep{koh2024visualwebarena}, and robotics~\citep{zeng2020tossingbot}) or remain coarse at the benchmark level~\citep{liu2023agentbench}. While some recent works have examined multi-agent failure modes~\citep{zhang2025agentcausestaskfailures, yu2025correctcondensederrorrecognition, cemri2025multiagentllmsystemsfail} or short-horizon settings~\citep{zhu2025llmagentsfaillearn}, we target long-horizon failures in both single-agent and multi-agent systems in this paper.
+
+\section{\texttt{HORIZON}} \label{sec:horizon}
+
+In this section, we introduce \texttt{HORIZON}, an initial cross-domain diagnostic benchmark for systematic analysis of long-horizon agent behavior. \texttt{HORIZON} combines agent-independent task-structure metrics with controlled task extension and structured failure attribution, enabling principled analysis of when and why agents fail as task horizons increase. 
+
+\begin{table*}[t]
+  \centering
+  \footnotesize
+  \renewcommand{\arraystretch}{1.15}
+  \setlength{\tabcolsep}{6pt}
+  \begin{tabular}{@{}l l p{10.0cm}@{}}
+    \toprule
+    \textbf{Risk Level} & \textbf{Category} & \textbf{Definition} \\
+    \midrule
+    \multirow{%
+      \begin{tabular}[t]{@{}l@{}}
+        \textbf{Process-level} \\
+        (PFMEA)
+      \end{tabular}}
+      & Environment Error
+      & The external world changes, degrades, or behaves stochastically in ways not modeled by the agent's plan, \emph{or} the agent cannot reliably perceive such a change, so its internal belief diverges from the actual state. \\
+      & Instruction Error
+      & The task specification is ambiguous, under-specified, or misaligned with environment capabilities, \emph{or} the agent grasps the high-level intent but fails to internalize critical constraints, modifiers, or exceptions. \\
+      & Planning Error
+      & The agent mis-decomposes the goal into incorrect, incomplete, or poorly ordered sub-steps (sub-plan), \emph{or} selects/executes an incorrect concrete action despite an appropriate high-level plan (action). \\
+      & History Error Accumulation
+      & No single step's error is sufficient on its own, but minor errors propagate and compound across steps, causing trajectory-level failure. \\
+    \midrule
+    \multirow{%
+      \begin{tabular}[t]{@{}l@{}}
+        \textbf{Design-level} \\
+        (DFMEA)
+      \end{tabular}}
+      & Memory Limitation
+      & Task-relevant information exceeds the agent's effective context capacity and is dropped from context, causing failure. \\
+      & Catastrophic Forgetting
+      & The agent fails to apply previously acquired knowledge, constraints, or decisions that remain in context. \\
+      & False Assumption
+      & The agent commits to an incorrect premise about the world or task state and proceeds on a false basis without verification. \\
+    \bottomrule
+  \end{tabular}
+  \caption{\textit{Formal definitions of the seven failure categories in our taxonomy.} Categories are organized by the two FMEA-inspired risk levels. Per-domain instantiations and representative examples are in Appendix~\ref{app:1}.}
+  \label{tab:taxonomy_def}
+\end{table*}
+
+\subsection{Defining Task Horizons} \label{subsec:horizon_definition}
+A fundamental challenge in studying long-horizon agent failures is separating task complexity from agent inefficiency. 
+For example, an agent executing 50 actions on a simple task while repeatedly failing on a sub-task is not solving a long-horizon problem, but repeatedly failing on a short-horizon task.
+To enable principled cross-domain analysis while respecting domain-specific characteristics, we propose a two-layer approach: \textit{theoretical metrics} that capture task structure independent of any agent, and \textit{technical implementations} that operationalize these metrics through systematic task extension.
+
+% \paragraph{theoratical defintion}
+\textbf{Theoretical Definition: Agent-Independent Task Characterization.}
+We define two complementary metrics that characterize the intrinsic long-horizon nature of tasks:
+
+\textit{Intrinsic Horizon ($H^*$)} measures the minimum number of effective actions required by an optimal policy to complete the task. This can be established through expert demonstrations, oracle solvers, or formal task specifications. For example, the web task ``find and purchase wireless headphones under \$200'' has $H^* = 8$ regardless of how many attempts any particular agent requires:
+%\begin{equation}
+%\begin{aligned}
+$H^* = |\{a_1: \text{search}, a_2: \text{filter price}, a_3: \text{sort rating},
+ \ldots, a_8:
+\text{checkout}\}|$.
+%\end{aligned}
+%\end{equation}
+
+\textit{Compositional Depth ($s$)} measures the number of high-level subtasks that make up the task, including sequential sub-goals, conditional branches, and parallel goals to be jointly maintained. $s$ reflects planning complexity beyond linear execution:
+$s = \max_{p \in \text{paths}} |\text{decision\_nodes}(p)|$.
+A task requiring ``if condition A holds, execute plan B, otherwise execute plan C, then merge results'' has $s=3$, while a purely sequential workflow has $s=1$.
+
+% \paragraph{techincal defintion}
+% steps as high level increase of task difficulty. two ways: breadth increase or depth increase.
+\textbf{Technical Implementation: Controlled Horizon Extension.}
+% To empirically study how agent performance degrades with increasing horizon, we systematically vary $H^*$ through controlled task extension. We introduce an explicit extension step parameter $s \in \mathbb{N}$ that quantifies the degree of extension applied to baseline tasks, and show that $H^*$ increases monotonically with $s$.
+To empirically study how agent performance degrades with increasing horizon, we systematically vary $H^*$ by increasing the compositional depth $s$ defined above through controlled task construction.
+% We introduce an explicit extension step parameter $s \in \mathbb{N}$ that quantifies how many times we have applied the extension procedure to a baseline task. Critically, $s$ is our operational construction variable, while $H^*$ remains the theoretical task property. 
+We design two extension methods to ensure $H^*(s)$ is monotonically increasing and positively correlated with $s$, though the exact mapping depends on domain characteristics.
+
+\textit{Depth Extension} incrementally adds intermediate steps between existing actions. Each extension operation ($s \rightarrow s+1$) inserts one or more necessary sub-tasks that an optimal policy cannot skip. For a baseline task with $s_{\text{base}} = 1$, depth extension to level $s$ produces:
+$H^*_{\text{depth}}(s) = H^*_{\text{base}} + \Delta(s), \text{ where } \Delta(s) \text{ is monotonically} \text{ increasing in } s$.
+The growth function $\Delta(s)$ depends on domain structure: in OS, each extension typically adds 1-2 permission checks; in Database, each extension may add 2-3 filtering operations. The key property is $\Delta(s_2) > \Delta(s_1)$ whenever $s_2 > s_1$, ensuring systematic horizon growth. This approach is particularly effective for domains where the initial environment state is fixed (OS, Database).
+
+\textit{Breadth Extension} combines $k$ independent baseline tasks into a single composite workflow. For baseline tasks $\{t_1, \ldots, t_k\}$ each at $s_i = 1$ with intrinsic horizons $\{H^*_1, \ldots, H^*_k\}$, the combined task has $s = k$ subtasks and:
+$H^*_{\text{breadth}}(s) = \sum_{i=1}^{s} H^*_i + \epsilon(s), \text{ where } \epsilon(s) \geq 0$.
+The coordination overhead $\epsilon(s)$ accounts for additional actions required to manage multiple goals, including task switching, inter-task verification, and state tracking across sub-tasks. For instance, combining two embodied manipulation tasks may require intermediate verification steps (``check if yellow cylinder was accidentally displaced while stacking cubes'') and context re-establishment (``verify red cube is still properly stacked before proceeding to sphere alignment'').
+This approach better captures real-world scenarios requiring parallel goal maintenance and is more suitable for domains with variable initial states (Web, Embodied).
+
+
+\subsection{Failure Attribution: 7-Category Taxonomy}
+\label{subsec:failure_taxonomy}
+
+We systematically diagnose why agents fail through structured failure attribution and derive a seven-category taxonomy that captures recurring failure modes across long-horizon tasks, providing actionable diagnostics for agent improvement.
+
+\textbf{Taxonomy Overview.}
+We acknowledge that long-horizon failures can partly stem from fundamental limitations of base LLMs, such as hallucination or weak instruction following. However, in developing \texttt{HORIZON}, we focus on failure patterns that emerge from long-horizon dynamics that can be addressed by improvements in agent design, independently of or complementary to advances in the base models themselves. Table~\ref{tab:taxonomy_def} lists the seven resulting failure categories with their formal definitions. At the trajectory level, the seven categories represent orthogonal dimensions of agent behavior rather than mutually exclusive classes, and a single failed trajectory may exhibit several categories across different steps. Representative examples across all four domains and complete per-domain definitions are provided in Appendix~\ref{app:1}. The decision procedure for attributing a given failure step to one of these categories is illustrated in appendix Figure~\ref{fig:decision_tree}.
+
+% At the trajectory level, the seven categories represent orthogonal dimensions of agent behavior rather than mutually exclusive classes, and a single failed trajectory may exhibit several categories across different steps. At the per-step level, annotators assign a single label via the decision tree, which organizes Q1--Q7 into four conceptual stages following a causal hierarchy from external inputs to internal behavior: (1) \textit{External Factors} (Q1--Q2; environment, instruction) $\rightarrow$ (2) \textit{Information Availability} (Q3--Q4; what the agent retains in its working context) $\rightarrow$ (3) \textit{Reasoning} (Q5--Q6; how the agent uses that information) $\rightarrow$ (4) \textit{Propagation} (Q7; cross-step accumulation). For each failure step in temporal order, annotators walk Q1--Q7 sequentially and assign the label of the first Yes'' branch. This top-down ordering resolves common category overlaps by giving upstream causes precedence over downstream symptoms. We additionally include an $^{\dagger}$\emph{Others} bucket as a safety valve for failures whose primary cause does not fall into any of the seven categories.
+
+% \begin{figure}[t]
+% \centering
+% \begin{tikzpicture}[
+%   node distance=0.22cm and 0.3cm,
+%   decision/.style={rectangle, draw, fill=white, rounded corners,
+%                    text width=3.8cm, align=left, font=\scriptsize,
+%                    minimum height=0.55cm, inner sep=2pt},
+%   leaf/.style={rectangle, draw, fill=orange!35, rounded corners,
+%                text width=1.9cm, align=center, font=\scriptsize\bfseries,
+%                minimum height=0.55cm, inner sep=2pt},
+%   others/.style={rectangle, draw, fill=gray!30, rounded corners,
+%                  text width=1.9cm, align=center, font=\scriptsize\bfseries,
+%                  minimum height=0.55cm, inner sep=2pt},
+%   arr/.style={-{Latex[length=1.5mm]}, semithick},
+%   ylab/.style={font=\tiny\bfseries, fill=white, inner sep=1pt}
+% ]
+
+% % ----- Group 1: External Factors -----
+% \node[decision] (q1)
+%   {\textbf{Q1.} External env stochasticity?};
+% \node[leaf, right=of q1] (env) {Environment};
+
+% \node[decision, below=of q1] (q2)
+%   {\textbf{Q2.} Instruction ambiguous / under-specified?};
+% \node[leaf, right=of q2] (ins) {Instruction Error};
+
+% % ----- Group 2: Information Availability -----
+% \node[decision, below=0.4cm of q2] (q3)
+%   {\textbf{Q3.} Relevant info in context but ignored?};
+% \node[leaf, right=of q3] (cf) {Catastrophic Forgetting};
+
+% \node[decision, below=of q3] (q4)
+%   {\textbf{Q4.} Relevant info dropped from context?};
+% \node[leaf, right=of q4] (ml) {Memory Limitation};
+
+% % ----- Group 3: Reasoning -----
+% \node[decision, below=0.4cm of q4] (q5)
+%   {\textbf{Q5.} Incorrect premise about world / state?};
+% \node[leaf, right=of q5] (fa) {False Assumption};
+
+% \node[decision, below=of q5] (q6)
+%   {\textbf{Q6.} Wrong plan or wrong action?};
+% \node[leaf, right=of q6] (pe) {Planning Error};
+
+% % ----- Group 4: Propagation -----
+% \node[decision, below=0.4cm of q6] (q7)
+%   {\textbf{Q7.} Compounded errors across steps?};
+% \node[leaf, right=of q7] (hea) {History Error Accum.};
+
+% \node[others, below=of q7] (oth) {Others$^{\dagger}$};
+
+% % ----- arrows -----
+% \draw[arr] (q1) -- node[ylab,above]{Y} (env);
+% \draw[arr] (q1) -- node[ylab,right]{N}  (q2);
+% \draw[arr] (q2) -- node[ylab,above]{Y} (ins);
+% \draw[arr] (q2) -- node[ylab,right]{N}  (q3);
+% \draw[arr] (q3) -- node[ylab,above]{Y} (cf);
+% \draw[arr] (q3) -- node[ylab,right]{N}  (q4);
+% \draw[arr] (q4) -- node[ylab,above]{Y} (ml);
+% \draw[arr] (q4) -- node[ylab,right]{N}  (q5);
+% \draw[arr] (q5) -- node[ylab,above]{Y} (fa);
+% \draw[arr] (q5) -- node[ylab,right]{N}  (q6);
+% \draw[arr] (q6) -- node[ylab,above]{Y} (pe);
+% \draw[arr] (q6) -- node[ylab,right]{N}  (q7);
+% \draw[arr] (q7) -- node[ylab,above]{Y} (hea);
+% \draw[arr] (q7) -- node[ylab,right]{N}  (oth);
+
+% \end{tikzpicture}
+% \caption{Decision tree for failure attribution. For each failure step,
+% walk Q1--Q7 in order; the first ``Yes'' determines the label. Questions
+% are grouped into four causal stages: External Factors (Q1--Q2),
+% Information Availability (Q3--Q4), Reasoning (Q5--Q6), and Propagation (Q7).
+% $^{\dagger}$\emph{Others} is a safety-valve for failures outside the seven categories. Full version with detailed question text is provided in Appendix~\ref{app:4}.}
+% \label{fig:decision_tree_short}
+% \end{figure}
+
+
+\input{fig_horizon}
+\textbf{Why It Works?}
+Our taxonomy is grounded in three validation pillars that demonstrate its reliability as a diagnostic framework:
+
+\textit{Construction: Theory and Literature Grounding.}
+We construct the seven-category taxonomy from a hierarchical risk-modeling perspective inspired by \textbf{Failure Mode and Effects Analysis} (FMEA), and ground it in a \textbf{structured literature review} spanning web, OS, embodied, database, and related agentic settings. 
+We conceptualize long-horizon failure as two interacting levels of risk, using an agent-oriented reading of PFMEA and DFMEA. \textit{Process-level risks (PFMEA)} arise during sequential rollout: environment interaction, execution-time failures to follow or interpret the task specification (instruction), flawed subplanning or action ordering (planning error), and compounding mistakes carried across prior steps (history error accumulation). \textit{Design-level risks (DFMEA)} reflect limitations of the engineered agent: memory and context mechanisms (memory limitation, catastrophic forgetting of constraints) and persistent mismatch between internal beliefs and the task or observations (false assumptions). 
+% We conceptualize long-horizon failure as two interacting levels of risk: process-level risks (PFMEA), which emerge during sequential execution (e.g., environment-interaction failures and instruction failures), and design-level risks (DFMEA), which originate from architectural limitations (e.g., instruction grounding, belief representation such as false assumptions, and memory mechanisms such as catastrophic forgetting and memory limitation). 
+We then extract failure descriptions from prior work and iteratively refine categories through open coding, consolidation, and boundary refinement.
+The final categories are retained based on cross-domain coverage, interpretability, and annotation consistency; full paper-to-category mappings and coding examples are provided in Appendix~\ref{app:lit_mapping}.
+
+\textit{Empirical Grounding in Agent Workflow.}
+The taxonomy is empirically grounded in the agent execution loop, where planning, action, environment interaction, observation, and state update jointly define trajectory evolution. Figure~\ref{fig:agent_failure_framework} illustrates how distinct failure types arise at different stages of this loop and how early errors can propagate and compound over time, providing a mechanism-level basis for structured failure attribution.
+
+\textit{Experimental Validation.}
+% We validate practical applicability through both human annotation and trajectory-grounded LLM-as-a-Judge analysis of failed rollouts (Section~\ref{sec:5}). 
+% Two expert annotators independently labeled a shared set of 40 failure trajectories, achieving substantial inter-annotator agreement (\(\kappa = 0.61\)), confirming that the taxonomy categories are consistently interpretable. 
+% In a pilot study, we further validate the trajectory-grounded LLM-as-a-Judge pipeline against one human annotator on 40 failure traces, achieving strong agreement (\(\kappa=0.84\)). The rationale for this sample size and a discussion of why H--J agreement exceeds the inter-human ($\kappa=0.61$) reported in Section~\ref{sec:4}  arise from finite-resource trade-offs and methodological framing rather than sample bias
+% The reasons for the sample size and a discussion of why H–J agreement exceeds inter-human agreement are detailed in Appendix~\ref{app:X}. 
+% fuure work could aslo validate \texttt{HORIZON} attributes what failed at each step, leaving complementary evaluation dimensions (recovery / self-correction, action efficiency, failure cascade depth, grounding / verification frequency). 
+We validate the practical applicability of \texttt{HORIZON} through both human annotation and trajectory-grounded LLM-as-a-Judge analysis of failed rollouts (Section~\ref{sec:5}).
+In a pilot study, two expert annotators independently labeled a shared set of 40 failure trajectories, reaching substantial inter-annotator agreement ($\kappa=0.61$) and confirming that the taxonomy categories are consistently interpretable.
+We further validated the LLM-as-a-Judge pipeline against one of the human annotators on the same 40 traces, obtaining strong agreement ($\kappa=0.84$).
+We acknowledge that 40 trajectories is a modest sample, and that human–judge agreement exceeds inter-human agreement. Both arise from a finite-resource trade-off and from the methodological framing of the judge—rather than from sample bias. A full discussion of sample-size choice, an agreement-vs.\ sample-size stability analysis, and the H--H vs.\ H--J gap is given in Appendix~\ref{app:4}.
+
+
+\section{Empirical Performance of SOTA Models} \label{sec:5}
+We characterize each agent's long-horizon capacity by its breaking region: the range of horizons over which task success transitions sharply from high to low, and failures shift from recoverable local errors to irreversible trajectory-level derailment. This region is not a universal constant. Different agents have markedly different long-horizon capacities, and even the same agent can break at very different horizons across domains, depending on factors such as environment dynamics, observability, and action semantics. 
+% Operationally, we identify the breaking region as the smallest interval of $s$ over which success rates drop from above $\tau_{\text{hi}}$ to below $\tau_{\text{lo}}$, with thresholds chosen per domain in Appendix~\ref{app:2}.
+
+% We characterize each agent's long-horizon capacity by its breaking region: the range of horizons over which task success transitions sharply from high to low, and failures shift from recoverable local errors to irreversible trajectory-level derailment. This region is not a universal constant. Different agents have markedly different long-horizon capacities, and even the same agent can break at very different horizons across domains, depending on factors such as environment dynamics, observability, and action semantics. We therefore operationalize the breaking point not as a single threshold but as a transition region on the performance curve in which success rates drop sharply and failure modes qualitatively change.
+
+
+\input{latex/llm_as_a_judge}
+\textbf{Experimental setup.}
+Using \texttt{HORIZON}, we evaluate agents powered by SOTA foundation models (GPT-5 and Claude-4 model families) on more than 700 tasks spanning four established sources: WebArena~\citep{zhou2023webarena}, AgentBench~\citep{liu2023agentbench}, MAC-SQL~\citep{wang2025macsqlmultiagentcollaborativeframework}, and Isaac Sim~\citep{kachaev2025mind}, yielding 3100+ trajectories in total. 
+Our objective is to characterize the qualitative trend of horizon-induced degradation in SOTA agents. 
+Under a fixed compute budget, we first adopt GPT-5-mini as the common reference across all four domains for cross-domain consistency, with an additional cross-model check confirming the same degradation pattern (\textbf{Experiment 1}). 
+Then, to validate the reliability of the evaluation pipeline, we benchmark our trajectory-grounded LLM-as-a-Judge (GPT-5) against human annotations on failure trajectories (\textbf{Experiment 2}). 
+
+To reduce confounding, we construct nested task sets across horizon levels: the set at level $(\mathbf{s}{+}1)$ contains all tasks from level $\mathbf{s}$ plus additional tasks requiring longer execution. 
+Thus, comparisons across adjacent levels are controlled by construction, and the primary varying factor is horizon length (and its induced long-range dependencies), rather than a change in task family or evaluation protocol. 
+To further isolate the horizon effect from base-task difficulty, we restrict the task pool to benchmark tasks on which the GPT-5-mini baseline achieves roughly 90\% success, and then horizon-extend these base tasks via \texttt{HORIZON} to construct deeper levels.
+This filtering choice does not drive the observed trend, nor does it bias the cross-model comparison: the same monotonic degradation holds on unfiltered task sets. Additional details of Experiment 1 are provided in Appendix~\ref{app:2}, its results in Appendix~\ref{app:3}, and the details and results of Experiment 2 in Appendix~\ref{app:4}.
+
+% Using our proposed \texttt{HORIZON}, we aim to support the validily of our diagnose suite for both two horizons and marks an inital step towards the furture research on the long-horzion problem for agentic system.
+
+%\subsection{Main Result}
+\textbf{Main Results.} \textbf{Horizontally}, as shown in Figure~\ref{fig:horizon}, agent performance exhibits three consistent cross-domain patterns as the horizon extension level $\mathbf{s}$ increases.
+First, performance degrades non-linearly with increasing $\mathbf{s}$. Across all domains, success rates remain relatively stable or decline gradually at small $\mathbf{s}$, rather than decreasing proportionally with each additional subtask.
+Second, all domains exhibit a sharp performance drop beyond small $\mathbf{s}$, where success transitions abruptly from partial robustness to near-systematic failure, instead of degrading smoothly across the entire range of $\mathbf{s}$.
+Third, the same extension level $\mathbf{s}$ induces markedly different task difficulty across domains: Web collapses at very small $\mathbf{s}$, OS and Database domains sustain moderate performance until later extension levels, and Embodied tasks degrade steeply even with minimal increases in $\mathbf{s}$. This variation highlights domain-specific breaking behavior in both the location and severity of performance collapse.
+Finally, in the Web, OS, and Database domains, performance gaps between models narrow substantially after entering the breaking region, as success rates converge toward low values, indicating diminished model differentiation once long-horizon failure dominates.
+
+% \textbf{Vertically, failed trajectories across all domains can be systematically attributed to our seven-category failure taxonomy. } In the experiments, human annotators are able to consistently apply these categories to long-horizon failures across all four domains, providing reliable and interpretable labels. This demonstrates that long-horizon breakdowns admit a comprehensive, structured, and cross-domain explanation under our taxonomy. Additional trajectories and LLM-as-a-Judge results are provided in Appendix~\ref{app:3} and Appendix~\ref{app:4}. 
+
+
+\textbf{Vertically}, as shown in Figure~\ref{fig:failure_distribution}, failed trajectories across all domains can be systematically attributed to our seven-category failure taxonomy. In our experiments, both LLM-as-a-Judge and human annotators consistently apply these categories to long-horizon failures across all four domains, yielding reliable and interpretable annotations, indicating that our taxonomy provides comprehensive coverage of observed trajectory failures.
+Moreover, the result also show that failures are far from uniformly
+distributed: three categories consistently dominate at long horizons,
+namely \textit{Planning Error}, \textit{Catastrophic Forgetting}, and
+\textit{Memory Limitation}, while the remaining categories account for
+a smaller share.
+Additional trajectories and LLM-as-a-Judge results are provided in
+Appendix~\ref{app:3} and Appendix~\ref{app:4}.
+
+
+\section{Actionable Steps Toward Responsible Long-Horizon Agent Development} \label{sec:4}
+
+Building on these results, we outline three actionable steps below that translate our diagnostic results into practices the community can adopt.
+
+\textbf{Unified Horizon Task Construction and Measurement Across Domains.}
+Current agent evaluations adopt heterogeneous task designs and horizon definitions, often reporting success rates under incompatible notions of task length or complexity. This fragmentation makes cross-domain comparison difficult and obscures where long-horizon failures truly arise. 
+We suggest that future work consider unified horizon-aware task construction and standardized horizon metrics, as piloted in \texttt{HORIZON}, when building and evaluating long-horizon benchmarks across domains.
+Two concrete advantages follow from this unification, both of which we demonstrate in our experiments. 
+First, it enables principled cross-domain comparison: when domain $A$ requires intrinsic horizon $H^* = 15$ to reach 60\% success while domain $B$ requires only $H^* = 8$, the comparison directly quantifies an agent's relative long-horizon capacity across domains, which incompatible task definitions cannot support. 
+Second, it enables targeted diagnosis: controlled horizon growth lets researchers localize the regime in which a particular model breaks down, rather than reporting only aggregate success rates. 
+Together, these properties support reproducibility and cumulative verification and comparison across benchmarks and model families.
+
+
+\textbf{Scalable Failure Attribution via LLM-as-a-Judge.}
+Beyond measuring when long-horizon agents fail, understanding why they fail is critical for targeted improvements. However, given the length and volume of long-horizon agent trajectories, exhaustive human attribution is impractical. Recent work has successfully applied LLM-as-a-Judge to related agent-evaluation settings~\citep{zheng2023judging, kapoor2025holistic}. Building on this paradigm, we propose systematic failure attribution using LLM-based judges grounded in our seven-category taxonomy (Table~\ref{tab:taxonomy_def}).
+LLM-as-a-Judge for failure attribution offers scalability (annotating thousands of trajectories is infeasible for humans), consistency (it reduces annotator variance on fine-grained categories), and actionability (structured taxonomy-aligned outputs map directly to mitigation strategies). 
+We suggest that future work adopt an LLM-as-a-Judge pipeline to enable large-scale diagnosis, with a human-validated subset calibrating reliability.
+
+\textbf{Implications for Future Agentic AI Systems.}
+Although some long-horizon failures can be attributed to imperfect base-model capabilities, our results suggest that the dominant failure mechanisms in long-horizon agents are unlikely to be resolved by model scaling alone. As shown in Figure~\ref{fig:failure_distribution}, planning-related failures, memory limitations, and catastrophic forgetting account for a substantial share of failed trajectories across domains.
+Planning failures are particularly damaging because they arise early, propagate through downstream actions, and turn recoverable local mistakes into irreversible trajectory-level derailments. As horizons grow, sub-planning decisions expand combinatorially, making globally coherent plan selection harder and early errors increasingly path-dependent. Because such errors are costly to roll back once committed, addressing them requires not only better upfront planning but also runtime mechanisms that can detect and repair plan deviations as they occur.
+Memory limitations and catastrophic forgetting become more pronounced for related reasons. As trajectory length and context load grow, finite memory budgets and attention constraints force agents into a trade-off between retaining long-range constraints and incorporating new observations, increasing the risk of losing critical earlier information.
+Together, these patterns point to three concrete design priorities for future agentic systems: \textit{(i)} hierarchical sub-planning to contain the combinatorial blow-up of long-horizon decisions; \textit{(ii)} execution-time plan verification and repair to catch early errors before they propagate irreversibly; and \textit{(iii)} memory mechanisms that preserve and re-surface long-range constraints under bounded context. These are architectural directions rather than scale-driven ones, and we view them as the more promising path toward reliable long-horizon agents.
+
+
+\section{Conclusion}
+Long-horizon reliability is increasingly the bottleneck for deploying LLM agents in real-world settings, yet the community lacks shared tools for diagnosing where and why agents break down as tasks lengthen. Our work contributes toward closing this gap through three artifacts: (1) \texttt{HORIZON}, a cross-domain benchmark built on a unified horizon definition and systematic extension procedures across four domains; (2) a seven-category failure taxonomy; and (3) a trajectory-grounded LLM-as-a-Judge attribution pipeline validated against human annotations. 
+
+Across 3100+ trajectories spanning multiple model families, our analysis shows that long-horizon breakdown is not merely a drop in task success, but a structural shift in failure composition as horizon grows. Planning-related errors and memory-related errors emerge as dominant bottlenecks across domains, suggesting that improving base-model capability alone is unlikely to fully address these failures. 
+These findings point toward a design-centered research agenda for future agentic systems, including hierarchical and constraint-aware planning, execution-time plan verification and repair, and stronger long-range memory mechanisms. 
+We envision \texttt{HORIZON} as a starting point for systematically diagnosing long-horizon failures, and hope it equips the community with a foundation for building principled, trustworthy agentic systems.
+
+% Long-horizon reliability is increasingly the bottleneck for deploying LLM agents in real-world settings, yet the community lacks shared tools for diagnosing where and why agents break down as tasks lengthen. 
+% Understanding long-horizon failure is a prerequisite for building reliable agentic AI systems. In this work, we introduced \texttt{HORIZON}, an initial cross-domain diagnostic benchmark for systematically constructing long-horizon tasks and analyzing failure trajectories. To support scalable and reproducible diagnosis, we further proposed a trajectory-grounded LLM-as-a-Judge pipeline and validated its reliability against human annotations. 
+
+% Across 3100+ trajectories and multiple model families, our results show that long-horizon breakdown is not merely a drop in task success, but a structural shift in failure composition as horizon grows. Our findings suggest that improving base-model capability alone is unlikely to fully address these failures. In particular, planning-related errors and memory-related errors emerge as dominant bottlenecks across domains. These failure modes point to a design-centered research agenda for future agentic AI systems: hierarchical and constraint-aware planning, execution-time plan verification and repair, and stronger long-range memory mechanisms.
+
+
+\clearpage
+\section*{Limitations}
+We view \texttt{HORIZON} as an initial diagnostic benchmark with limitations that point to natural extensions. Our seven-category taxonomy characterizes what goes wrong at each failed step but does not separately capture complementary behavioral dimensions such as recovery and self-correction, action efficiency, failure compositionality, and grounding/verification behavior. We treat these as orthogonal axes along which \texttt{HORIZON} can be extended in future work.
+
+\section*{Ethical Considerations}
+
+We do not foresee ethical concerns arising from this work: all tasks in \texttt{HORIZON} are synthetic or drawn from publicly released agent benchmarks and contain no personally identifying information, and all failure annotations were performed by the authors.
+
+
+
+% \textbf{Sample size for human validation.}
+% Our inter-annotator agreement ($\kappa{=}0.61$) and human--judge agreement ($\kappa{=}0.84$) are computed on a pilot set of 40 failure trajectories. While long-horizon rollouts produce very long raw traces that make exhaustive expert review impractical, 40 trajectories remain a modest sample, and the agreement-vs.\ sample-size stability analysis in Appendix~\ref{app:4} should be read as suggestive rather than conclusive. The fact that human--judge agreement exceeds inter-human agreement also reflects the methodological framing of the judge (Appendix~\ref{app:4}) rather than a guarantee that the judge is uniformly more reliable than trained annotators.
+
+% \textbf{Scope of the failure taxonomy.}
+% Our seven-category taxonomy characterizes \emph{what} goes wrong at each failed step, but does not capture several complementary dimensions of long-horizon behavior. In particular, it does not measure (i) \emph{recovery and self-correction}---whether an agent detects and repairs an earlier error rather than propagating it, which is a qualitatively different capability than avoiding the error in the first place; (ii) \emph{action efficiency}---failures that manifest as excessive step counts, redundant actions, or interaction-budget exhaustion (e.g., the History Error Accumulation traces in Appendix~\ref{app:3}), which a ratio such as actual-steps/$H^{*}$ would expose; (iii) \emph{failure compositionality}---the fact that our own trajectories show cascades (e.g., False Assumption $\rightarrow$ Planning Error $\rightarrow$ History Error Accumulation), which is not summarized by any single per-step label; and (iv) \emph{grounding and verification behavior}---how often the agent re-checks assumptions or re-observes the environment, which separates cautious agents from overconfident ones independently of any single category. We treat these as orthogonal evaluation dimensions that \texttt{HORIZON} can be extended with, and leave their integration to future work.
+
+
+
+% End of main text
+
+% \section*{Acknowledgments}
+
+% This document has been adapted
+% by Steven Bethard, Ryan Cotterell and Rui Yan
+% from the instructions for earlier ACL and NAACL proceedings, including those for
+% ACL 2019 by Douwe Kiela and Ivan Vuli\'{c},
+% NAACL 2019 by Stephanie Lukin and Alla Roskovskaya,
+% ACL 2018 by Shay Cohen, Kevin Gimpel, and Wei Lu,
+% NAACL 2018 by Margaret Mitchell and Stephanie Lukin,
+% Bib\TeX{} suggestions for (NA)ACL 2017/2018 from Jason Eisner,
+% ACL 2017 by Dan Gildea and Min-Yen Kan,
+% NAACL 2017 by Margaret Mitchell,
+% ACL 2012 by Maggie Li and Michael White,
+% ACL 2010 by Jing-Shin Chang and Philipp Koehn,
+% ACL 2008 by Johanna D. Moore, Simone Teufel, James Allan, and Sadaoki Furui,
+% ACL 2005 by Hwee Tou Ng and Kemal Oflazer,
+% ACL 2002 by Eugene Charniak and Dekang Lin,
+% and earlier ACL and EACL formats written by several people, including
+% John Chen, Henry S. Thompson and Donald Walker.
+% Additional elements were taken from the formatting instructions of the \emph{International Joint Conference on Artificial Intelligence} and the \emph{Conference on Computer Vision and Pattern Recognition}.
+
+% Bibliography entries for the entire Anthology, followed by custom entries
+%\bibliography{anthology,custom}
+% Custom bibliography entries only
+\bibliography{custom}
+
+
+\appendix
+
+
+\clearpage
+\section{Appendix: Extended Related Work} \label{app:extended_rw}
+
+Most agent benchmarks report success rates, but fewer treat horizon as a controlled independent variable or provide structured, trajectory-level failure attribution that can be compared across domains. We organize related work into interactive benchmarks, training and planning methods, memory and long-context effects, and failure analysis.
+
+% \subsection{Benchmarks and Evaluation of LLM-based Agents}
+% \label{subsec:rw_benchmarks}
+\subsection{Interactive benchmarks and agent evaluation}
+
+Standard suites span web navigation (WebArena~\citep{zhou2023webarena}, Mind2Web~\citep{deng2023mind2web}), multimodal web tasks (Visual WebArena~\citep{koh2024visualwebarena}), software engineering (SWE-bench~\citep{jimenez2023swe}), app-style assistants (AppWorld~\citep{trivedi2024appworld}), databases (BIRD~\citep{li2023bird}, Spider~\citep{yu2018spider}), and embodied instruction following (ALFWorld~\citep{shridhar2020alfworld}). AgentBench~\citep{liu2023agentbench} and AgentGym~\citep{xi2023agentgym} aggregate many environments under one evaluation protocol.
+
+Newer benchmarks stress harder browsing, longer interaction, or richer diagnostics, including BrowseComp~\citep{wei2025browsecomp}, MIRAGE-Bench~\citep{zhang2025mirage}, holistic leaderboards~\citep{kapoor2025holistic}, and multi-turn RL with AgentGym-RL~\citep{xi2025agentgym}. The emphasis in most of this work is still whether the task is solved at the end. We instead sweep intrinsic horizon \(H^*\) and ask how the \emph{mix} of failure types changes as the horizon grows.
+
+% Numerous benchmarks evaluate LLM agents across domains: WebArena~\citep{zhou2023webarena} and Mind2Web~\citep{deng2023mind2web} for web navigation, SWE-bench~\citep{jimenez2023swe} for software engineering, BIRD~\citep{li2023bird} and Spider~\citep{yu2018spider} for databases, ALFWorld~\citep{shridhar2020alfworld} for embodied tasks, and comprehensive suites like AgentBench~\citep{liu2023agentbench} and AgentGym~\citep{xi2023agentgym}. While these measure task completion rates, they do not systematically vary horizon length or provide fine-grained failure attribution. In this work, we (1) explicitly manipulating intrinsic horizon $H^*$ as an independent variable, (2) providing detailed failure taxonomy beyond binary success/failure, and (3) analyzing how failure modes evolve across horizons.
+
+\subsection{Training, Planning, and Optimization}
+\label{subsec:rw_training}
+
+Agents are trained with reinforcement learning~\citep{ouyang2022training}, hierarchical planning~\citep{liu2023llmp,sun2023adaplanner}, tool use and reflection~\citep{yao2023react,shinn2023reflexion}, and deliberation-style prompting~\citep{wei2022chain,yao2023tree}. Recent papers also study planning on its own, for example plan--act pipelines for web agents~\citep{erdogan2025plan} and reliability of long plans in constrained settings~\citep{chen2024can}. That work improves how agents act. We study which failure modes become dominant as horizons grow, and what that implies for design (Section~\ref{sec:4}).
+
+% Prior work improves agents through reinforcement learning~\citep{brohan2023rt,ouyang2022training}, hierarchical planning~\citep{liu2023llmp,sun2023adaplanner}, self-reflection~\citep{yao2023react,shinn2023reflexion}, and advanced prompting~\citep{wei2022chain,yao2023tree}. While effective for improving reasoning quality, our findings suggest these approaches cannot fully address architectural limitations like catastrophic forgetting at long horizons. Our work complements these by identifying which specific failure modes different interventions should target.
+
+\subsection{Memory and Long-Context Reasoning}
+\label{subsec:rw_memory}
+
+Long context windows do not by themselves fix long-range reasoning~\citep{liu2023lost}. Better hardware and attention implementations~\citep{press2022train,dao2022flashattention} sit alongside ``lost in the middle'' and similar issues. Retrieval and external memory~\citep{madaan2022memory,lewis2020retrieval,park2023generative}, compression for trajectories~\citep{kang2025acon}, and learned memory--reasoning stacks~\citep{zhou2025mem1} tackle scaling from the architecture side. Embodied setups also maintain explicit state~\citep{wang2023voyager,ahn2022saycan}. We do not introduce a new memory module; we report how memory-related failures show up in labeled trajectories when we extend the horizon.
+
+% Despite long context windows in recent models~\citep{press2022train,dao2022flashattention}, empirical studies show degraded utilization at scale~\citep{liu2023lost}. External memory systems~\citep{madaan2022memory,lewis2020retrieval,park2023generative} and explicit state tracking~\citep{wang2023voyager,ahn2022saycan} address limitations but focus on general knowledge rather than constraint preservation. Our constraint tracking principle differs by targeting task-specific constraints across horizons, with evidence that even frontier models fail beyond certain thresholds.
+
+% \subsection{Agent Failure Analysis}
+% \label{subsec:rw_failure_analysis}
+\subsection{Failure analysis and diagnostics}
+
+Existing failure studies largely focus on domain-specific issues, such as code-generation errors~\citep{chen2023teaching}, web interaction failures~\citep{koh2024visualwebarena}, and embodied stochasticity~\citep{zeng2020tossingbot}.
+Broader agent benchmarks can provide coarse failure categories: AgentBench~\citep{liu2023agentbench}, for example, reports high-level tags such as hallucination and planning errors, but does not study how failure patterns shift as task horizon increases.
+Recent taxonomy-oriented work on multi-agent LLM systems~\citep{cemri2025multiagentllmsystemsfail} offers complementary diagnostics, yet its target setting is multi-agent coordination rather than single-agent, horizon-conditioned failures across domains.
+We instead develop a cross-domain taxonomy grounded in FMEA and a structured literature review (Appendix~\ref{app:lit_mapping}), and validate trajectory-level labels with humans and a trajectory-grounded LLM-as-a-Judge pipeline (inter-annotator \(\kappa{=}0.61\), human--judge \(\kappa{=}0.84\); Appendix~\ref{app:4}). 
+% We instead develop a cross-domain taxonomy grounded in FMEA and a structured literature review (Appendix~\ref{app:lit_mapping}), and validate trajectory-level labels with humans and a trajectory-grounded LLM-as-a-Judge pipeline (inter-annotator \(\kappa{=}0.61\), human--judge \(\kappa{=}0.84\) on 40 expert-annotated trajectories; Appendix~\ref{app:4}).
+
+
+
+\onecolumn
+
+\section{Appendix: Literature-to-Taxonomy Mapping} \label{app:lit_mapping}
+
+We systematically reviewed long-horizon agent literature using a shared spreadsheet (\texttt{Literature Review\_Long-Horizon Reasoning in LLM agents.xlsx}). For each paper we recorded title, venue, domains, models, and free-text notes on reported failure mechanisms (the spreadsheet column Failure Modes). We then aligned recurring mechanisms to our seven-category taxonomy during iterative coding. Table~\ref{tab:lit_taxonomy_map} lists three representative prior works per category drawn from that review corpus and already present in our bibliography; these are illustrative anchors rather than an exhaustive list.
+
+\begin{table*}[h]
+\centering
+\small
+\caption{\textit{Representative prior work mapped to each failure category.} Entries are drawn from our literature spreadsheet and selected for cross-domain coverage; full paper lists and extracted notes remain in the supplementary spreadsheet.}
+\label{tab:lit_taxonomy_map}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}p{2.6cm}p{9.2cm}p{4.6cm}@{}}
+\toprule
+\textbf{Category} & \textbf{Representative prior works (3)} & \textbf{Typical mechanism (from review notes)} \\
+\midrule
+Environment &
+\citep{zhou2023webarena,chen2025robohorizon,koh2024visualwebarena} &
+Environment fidelity, transitions, or multimodal observation mismatch. \\
+Instruction &
+\citep{trivedi2024appworld,chen2024can,wang2025odysseybench} &
+Ambiguous goals, missing constraints, or mis-specified task requirements. \\
+Catastrophic Forgetting &
+\citep{sinha2025illusion,li2024larm,fengevoagent} &
+Loss of long-range constraints or competencies as trajectories lengthen. \\
+False Assumption &
+\citep{zhang2025mirage,yang2024agentoccam,wei2025browsecomp} &
+Hallucinated facts, unfounded shortcuts, or misaligned beliefs about state. \\
+Planning Error &
+\citep{erdogan2025plan,si2025goal,gonzalez2025robotouille} &
+Subgoal decomposition, ordering, or plan repair under dynamics. \\
+History Error Accumulation &
+\citep{wang2025ragen,liu2023agentbench,xi2025agentgym} &
+Multi-step error propagation, unstable rollouts, or interaction loops. \\
+Memory Limitation &
+\citep{kang2025acon,zhou2025mem1,anwar2025remembr} &
+Context limits, compression trade-offs, or long-horizon memory bottlenecks. \\
+\bottomrule
+\end{tabular}}
+\end{table*}
+
+% \noindent\textbf{Supplementary file.} The complete review table (all paper rows, links, and raw failure-mode notes) is distributed alongside this submission as \texttt{Literature Review\_Long-Horizon Reasoning in LLM agents.xlsx} (same content as used internally for coding). If anonymized submission prohibits filenames, we provide the same archive under the supplementary-material upload.
+
+
+\clearpage
+\twocolumn
+
+
+\section{Appendix: Failure Taxonomy Definitions} \label{app:1}
+
+\subsection{Environment Error}
+\begin{enumerate}
+\item \textbf{Environment
+Disturbance / Problem Itself}
+
+Environment failures arise when \textbf{the external world in which an agent operates changes,
+degrades, or behaves stochastically in ways that are not explicitly modeled by the agent’s
+plan or assumptions.} These disturbances include network or server instability, delayed or
+partial UI rendering, unexpected pop-ups or overlays, schema and data drift, protocol
+mismatches, and stochastic physical or simulator dynamics. Even when the agent’s
+reasoning and action selection are locally correct, such environment-level disruptions can
+invalidate trajectories by altering the state, interface, or action semantics mid-execution.
+
+In long-horizon tasks, agents interact with the environment over extended time spans,
+increasing the probability that the environment changes between planning, perception, and
+execution. Cached assumptions (e.g., UI state, database schema, metrics, or action protocols)
+become stale, and small disturbances compound across steps, leading to cascading failures
+rather than immediate errors. As a result, long-horizon agents are particularly vulnerable
+unless they incorporate robust environment re-validation, recovery policies (retry, refresh,
+backoff), and explicit mechanisms to detect and adapt to environmental drift and noise.
+
+\item \textbf{Unable to Detect Environment Change (limitations within the agent’s interaction mechanisms)}
+
+This failure occurs when an \textbf{agent cannot reliably perceive, verify, or internalize a change (or
+non-change) in the environment, so its internal belief state diverges from the actual state.} It
+often manifests as false transitions (believing a navigation or command succeeded when it
+did not) or missed transitions (failing to notice the UI/OS/physical state has changed), driven
+by interaction bottlenecks such as limited observability, imperfect state parsing, unsupported
+action primitives (e.g., drag), or inability to handle obstacles like CAPTCHAs, banners, and
+overlays. The result is that subsequent actions are executed against the wrong target state
+(e.g., typing into the wrong page, issuing follow-up shell commands after a failed command,
+or proceeding in manipulation despite a misaligned object placement).
+
+Long-horizon tasks amplify this failure because state tracking must remain consistent across
+many steps, and even a single undetected mismatch early on can cascade into repeated
+invalid actions and compounding errors. Over longer trajectories, environments also present
+more opportunities for partial loads, transient failures, UI changes, and evaluation-sensitive
+deviations (e.g., “almost correct” placements), increasing the chance that the agent’s
+interaction mechanism fails to register what actually happened. Without frequent re-
+observation and state re-validation, the agent’s plan becomes increasingly decoupled from
+reality, making recovery progressively harder.
+\end{enumerate}
+
+\subsubsection{Web}
+This failure occurs when a web agent operates under non-stationary or imperfectly perceived environments, including stochastic network conditions, dynamic or partially loaded pages, pop-ups/CAPTCHAs, or mismatches between the agent’s belief about the UI state and the actual rendered interface. In long-horizon web tasks, prolonged interaction increases the likelihood of such disturbances and belief–observation misalignment, causing agents to act on incomplete, outdated, or falsely assumed page states.
+
+\subsubsection{OS}
+This failure occurs when an OS agent operates under unexpected system-level conditions or misperceives command outcomes, such as permission denials, silent failures, or environment state changes that are not correctly reflected in the agent’s belief state. In long-horizon OS tasks, repeated command execution increases the likelihood that unobserved failures accumulate and desynchronize the agent’s internal state from the actual system state.
+
+\subsubsection{Embodied} This failure occurs when an embodied agent’s execution is disrupted by external stochasticity or physical/environmental noise that invalidates previously correct plans or actions, or when the agent fails to detect such changes in the physical state. In long-horizon embodied tasks, prolonged interaction increases exposure to randomness (e.g., slippage, drops, perturbations), making environment-induced misalignment increasingly likely.
+
+\subsubsection{Database}
+This failure occurs when a database agent operates under non-stationary system environments, such as schema drift, model version updates, telemetry format changes, or external processes modifying the database state without the agent’s awareness. In long-horizon DB workflows, delayed execution and cached assumptions make agents especially vulnerable to acting on stale schemas or corrupted metrics.
+
+
+\subsection{Instruction Error}
+\begin{enumerate}
+\item \textbf{Ill-defined
+Instruction}
+
+Ill-defined instruction failures occur when \textbf{the task specification is ambiguous, underspecified,
+internally inconsistent, or misaligned with the capabilities and constraints of the operating
+environment, making the intended goal state unclear or unreachable. }
+This includes
+unachievable goals (e.g., requesting non-existent fields or actions), out-of-scope follow-up
+queries where required information is missing, and implicit or vague constraints (“safe,”
+“active users,” “churn”) that are not formally defined. In such cases, agents may hallucinate
+missing details, adopt incorrect default interpretations, or violate negative or safety
+constraints while believing they are following the instruction.
+
+Long-horizon tasks decompose high-level goals into many interdependent sub-instructions,
+multiplying opportunities for ambiguity, drift, and constraint loss as execution unfolds. Early
+misunderstandings or failed sub-steps propagate forward, causing later actions to be built on
+invalid assumptions rather than triggering clarification or replanning. As trajectories grow
+longer, the gap between the user’s original intent and the agent’s evolving interpretation
+widens, making ill-defined instructions a dominant source of cascading, hard-to-detect failures.
+
+\item \textbf{Partially Understand
+Instruction}
+
+This failure occurs when \textbf{an agent grasps the high-level intent or primary action of an
+instruction but fails to fully internalize critical constraints, modifiers, exceptions, or conditional
+clauses.} As a result, the agent performs actions that are syntactically valid and seemingly
+reasonable, yet semantically incorrect with respect to the full instruction (e.g., ignoring
+“except,” “only if,” or key qualifiers like “mismatching”). The agent may also misread
+interaction feedback, prematurely concluding success despite visible error signals, warnings,
+or unmet conditions in the execution trace.
+
+In long-horizon tasks, instructions are often decomposed and re-represented across many
+steps, increasing the risk that fine-grained constraints are dropped, weakened, or forgotten
+over time. Partial understanding early in the trajectory can appear locally successful, masking
+the error until much later when accumulated effects surface and recovery becomes costly.
+Because long trajectories reward forward progress, agents may over-trust partial completion
+signals and continue execution without re-checking whether all instruction conditions were
+actually satisfied.
+\end{enumerate}
+
+\subsubsection{Web}
+This failure arises when a web agent is given ill-defined, unachievable, or out-of-scope instructions that are inconsistent with the actual web environment or lack sufficient information to determine a valid goal state. In long-horizon workflows, instructions are decomposed into many dependent sub-requests, increasing the chance that ambiguities or unreachable goals propagate forward and cause cascading failures.
+
+\subsubsection{OS}
+Instruction failures arise when an OS agent understands the general task but misses critical constraints, exceptions, or negative instructions embedded in the prompt. In long-horizon settings, such omissions often propagate across multiple shell operations, leading to globally incorrect system modifications.
+
+\subsubsection{Embodied} Instruction failures arise when an embodied agent captures only part of a task description but ignores critical modifiers or constraints, leading to correct actions applied to incorrect targets. Such partial understanding becomes more damaging in long-horizon tasks where early misinterpretations propagate across many physical steps.
+
+\subsubsection{Database}
+Instruction failures arise when a database agent misinterprets ambiguous, underspecified, or context-dependent natural-language requests, failing to align them with the correct business semantics or safety constraints. In long-horizon interactions, such misunderstandings propagate across planning and execution phases.
+
+
+\subsection{Catastrophic Forgetting}
+Catastrophic forgetting refers to the agent’s \textbf{failure to retain and consistently apply previously
+acquired knowledge, constraints, or decisions while continuing to operate or adapt over time.}
+This includes forgetting explicit user instructions (e.g., “never modify production” or “exclude
+the payments schema”), earlier clarifications, rejected hypotheses, or prerequisite skills
+needed for later subtasks. The failure can arise from limited context windows, inadequate
+memory retrieval, or interference between newly introduced information and earlier task-
+relevant state, causing the agent to revert to generic assumptions or unsafe defaults.
+
+Long-horizon tasks inherently exceed the agent’s short-term context capacity and require
+stable knowledge persistence across many turns, phases, or sessions. As execution
+progresses, early constraints and learned insights are more likely to scroll out of context or be
+overshadowed by recent interactions, leading to overwriting rather than accumulation of
+knowledge. This results in cascading errors, repeated mistakes, and breakdowns in
+dependency chains, where later steps silently violate earlier commitments or prerequisites that
+are no longer actively represented.
+\subsubsection{Web}
+Catastrophic forgetting occurs when a web agent loses or stops enforcing earlier task-critical constraints (e.g., “new only,” “no spoilers,” “use main branch”) as the interaction progresses, often because those constraints drift out of active context or are overwritten by later subgoals.
+
+\subsubsection{OS}
+Catastrophic forgetting occurs when an OS agent loses earlier task constraints, safety requirements, or intermediate conclusions over the course of a multi-step execution. As OS tasks grow longer, earlier safeguards can drift out of active context, leading to irreversible or unsafe actions.
+
+\subsubsection{Embodied} Catastrophic forgetting occurs when an embodied agent fails to retain prerequisite skills or learned environmental knowledge required for later stages of a long task. This is especially pronounced in hierarchical or curriculum-like tasks where later success depends on reliably transferring earlier competencies.
+
+\subsubsection{Database}
+Catastrophic forgetting occurs when a database agent loses earlier constraints, preferences, or hypotheses over extended multi-turn workflows, even though they remain relevant to later decisions. This leads to unsafe or inconsistent actions as long-horizon execution exceeds the agent’s effective retention capacity.
+
+
+\subsection{False Assumption}
+\begin{enumerate}
+\item \textbf{Universal
+Facts (Overgeneralized World
+Knowledge)}
+
+This failure occurs when an \textbf{agent relies on implicit assumptions, heuristics, or patterns learned from prior experience and treats them as universally true, without verifying whether they hold in the current task or environment.} Unlike environment failures—where the external world changes or behaves unpredictably—this error arises from the agent’s incorrect prior belief about how the environment should behave, leading it to generate actions or reasoning based on a false premise.
+These false assumptions can include hallucinated APIs or schema elements, default interpretations of goals, over-trusting probabilistic components as deterministic, or inferring causality from correlation. Even when local reasoning steps appear coherent, the agent’s trajectory is grounded in an incorrect premise, causing repeated ineffective actions or confidently wrong decisions.
+
+Long-horizon reasoning encourages agents to commit early to implicit assumptions and reuse them across many steps, making it less likely that those assumptions are revisited or challenged later. As trajectories grow longer, confirmation bias sets in: intermediate outputs are interpreted as validation rather than signals to re-check premises, allowing false assumptions to silently propagate and compound. Without explicit mechanisms for assumption verification or hypothesis revision, long-horizon agents increasingly drift from the true environment dynamics while remaining internally consistent.
+
+\item \textbf{Long-
+Horizon Complex Task Reasoning}
+
+This failure arises when an agent \textbf{implicitly assumes it can sustain correct multi-step logic, control flow, and state consistency across long and complex task sequences, but in practice loses coherence as execution unfolds. }It manifests as incorrect loop or conditional logic, premature termination, infinite repetition, or divergence mid-trajectory due to unverified assumptions about system state (e.g., file ownership, working directory, or intermediate progress). Although individual actions may be locally reasonable, the agent’s global reasoning chain breaks because earlier assumptions are neither validated nor revised.
+
+Long-horizon tasks require maintaining structured plans, intermediate invariants, and progress tracking over many dependent steps, which standard agents often approximate with shallow or implicit reasoning. As task length increases, small logical errors or unchecked state assumptions compound, causing the agent to drift off-goal or exhaust interaction budgets without recovery. Without explicit planning, loop verification, and state re-checking, agents increasingly rely on false assumptions of coherence, making complex long-horizon tasks a primary failure regime.
+
+\end{enumerate}
+\subsubsection{Web}
+This failure occurs when a web agent fills in missing information or applies generic priors as if they were universally valid, instead of grounding decisions in what is actually observable on the webpage (e.g., fabricating an email, assuming a policy is allowed, or treating ambiguity as resolved).
+\subsubsection{OS}
+This failure occurs when an OS agent assumes system properties or command semantics without verification, relying on generic priors instead of observed system state. Such assumptions can lead to incorrect branching decisions or invalid operations, even when commands are syntactically correct.
+
+\subsubsection{Embodied}
+This failure occurs when an embodied agent overgeneralizes from common training patterns, assuming that a visually similar scene implies a standard goal or action, regardless of the actual instruction. Such bias-driven assumptions override task-specific constraints and lead to systematically wrong behavior.
+
+\subsubsection{Database}
+This failure occurs when a database agent overgeneralizes schema patterns, operator semantics, or workload behavior, treating them as universally valid without verification. Such assumptions override actual database-specific details and lead to systematically incorrect reasoning.
+
+
+\subsection{Planning Error}
+\begin{enumerate}
+\item \textbf{Sub-plan.}
+Sub-plan planning errors occur when an \textbf{agent mis-decomposes a high-level goal into incorrect, incomplete, poorly ordered, or inefficient sub-steps, even though the overall objective is understood.} This includes choosing the wrong API or parameter format for a specific step, omitting prerequisite actions, violating constraints within a sub-plan, or adopting an inefficient strategy that exhausts time, memory, or interaction budgets. The failure is localized at the sub-plan level, but it breaks the global task by introducing deadlocks, irreversible actions, or cascading inefficiencies.
+
+Long-horizon tasks magnify sub-plan errors because later steps critically depend on the correctness and ordering of earlier ones, and recovery options shrink as execution progresses. A single flawed sub-plan (e.g., dropping backups too early, rebuilding indexes before diagnosis) can invalidate all downstream actions or make rollback difficult. As plans grow deeper and more branched, agents without explicit plan validation or cost-aware reasoning increasingly commit to locally plausible but globally harmful sub-plans, leading to systematic long-horizon failure.
+\item \textbf{Action.}
+Action-level planning errors occur when an \textbf{agent selects or executes an incorrect concrete action, despite having an appropriate high-level plan or sub-task in place.} These failures include execution crashes (e.g., syntax or type errors), semantically invalid actions that do not achieve the intended effect in the environment, or mismatches between planned intent and low-level action realization (e.g., incorrect API flags, shell commands, or motor control tokens). As a result, the action either fails outright or silently alters the environment in unintended ways.
+
+In long-horizon tasks, agents must execute many interdependent actions, making even small action-level errors costly because they propagate forward and constrain future options. Repeated low-level failures can exhaust interaction budgets, corrupt intermediate state, or trigger compounding side effects before the agent detects the problem. Without robust action validation, rollback, and feedback-aware correction, long-horizon execution amplifies these errors from isolated glitches into trajectory-ending failures.
+\end{enumerate}
+
+\subsubsection{Web}
+Planning errors occur when a web agent chooses an incorrect sequence of subgoals or misses key prerequisite steps, leading it to pursue the wrong navigation branch, ignore constraints, or stop prematurely even if the end goal is clear.
+\subsubsection{OS}
+Planning errors arise when an OS agent fails to decompose a high-level instruction into a correct and ordered sequence of shell operations, leading to missing steps, incorrect ordering, or inappropriate operator selection. These errors often surface before execution, but their effects compound over long execution chains.
+
+\subsubsection{Embodied}
+Planning errors arise when an embodied agent generates an incorrect sequence of sub-goals or fails to integrate multi-step logical requirements, even though individual actions may be physically executable. In long-horizon settings, weak decomposition or missing logical dependencies leads to deadlocks or goal divergence.
+
+\subsubsection{Database}
+Planning errors arise when a database agent constructs an incorrect or suboptimal sequence of logical or operational steps, even if each individual operation is valid in isolation. In long-horizon DB tasks, poor plan ordering or granularity can cause irreversible damage or severe inefficiency.
+
+\subsection{History Error Accumulation}
+History error accumulation refers to failures where \textbf{small mistakes, incorrect assumptions, or mis-specified intermediate artifacts introduced early in a trajectory persist in the agent’s working state and progressively distort downstream reasoning and actions}. The “history” can include intermediate tables, cached schemas, partial code edits, stored hypotheses, retrieved documents, or planning traces. Because later steps reuse these artifacts as if they were correct, the system can produce outputs that are internally consistent yet fundamentally wrong (e.g., subtle over-counting, reasoning over the wrong feature column, or refining a plan built on a misdiagnosis).
+
+Long-horizon workflows amplify this failure because they involve many dependent iterations, where each step inherits context and intermediate products from previous steps. Even a minor upstream error (a missing filter, wrong ID, biased retrieval) can silently propagate across multiple tools, agents, and refinements, making the final failure difficult to localize and correct. As trajectories lengthen and artifacts become more complex (e.g., long SQL scripts or multi-stage playbooks), agents increasingly apply “patchy” local edits instead of globally re-validating assumptions, allowing errors to compound into trajectory-level breakdowns.
+
+\textit{Annotation scope.} History Error Accumulation is reserved for the \emph{compounding pattern itself}, as a trajectory-level phenomenon. It does \emph{not} require any prior step to be labeled with another error type; it applies when no single step contains a label-worthy error sufficient to cause the failure on its own, yet the trajectory fails because individually-minor drifts compound across many steps. When a single labelable error at one step is the proximate cause of the failure, that step's category takes precedence and downstream consequences are not separately labeled as History Error Accumulation.
+
+\subsubsection{Web}
+History error accumulation occurs when a web agent fails to correctly interpret or update its interaction history, causing small mistakes or ineffective actions to be repeated and compounded over time rather than corrected. In long-horizon web tasks, such uncorrected repetitions (e.g., reusing stale element IDs, appending corrupted queries, or toggling controls) can exponentially degrade the agent’s state and exhaust the interaction budget.
+
+\subsubsection{OS}
+History error accumulation occurs when errors or misinterpretations in early command executions are not corrected, and the agent continues reasoning as if those steps succeeded. Over long OS interaction trajectories, such uncorrected assumptions compound and increasingly diverge from the true system state.
+
+\subsubsection{Embodied}
+History error accumulation occurs when an embodied agent fails to correct an early planning or execution error and continues acting based on that flawed history, compounding the failure over time. In long-horizon tasks, this often results in persistent loops or deadlocks instead of replanning.
+
+\subsubsection{Database}
+History error accumulation occurs when early logical or data-level mistakes are reused by downstream steps, causing subtle errors to compound across queries, plans, or optimizations. Because later stages treat earlier artifacts as ground truth, the system becomes increasingly confident yet increasingly wrong.
+
+
+\subsection{Memory Limitations}
+Memory limitation failures occur when an agent cannot retain, retrieve, or reason over all task-relevant information because \textbf{the interaction history, environment state, or intermediate artifacts exceed its effective memory capacity}. This includes exceeding the model’s context window, lossy summarization of prior steps, or selective retrieval that omits critical constraints, schema elements, or past observations. As a result, the agent may operate with an incomplete or distorted view of the task, leading to inconsistent joins, dropped filters, unsafe recommendations, or misinterpretation of system state.
+
+Long-horizon tasks inherently accumulate large amounts of state—schemas, logs, plans, hypotheses, and prior decisions—quickly overwhelming fixed-context or shallow memory mechanisms. As execution continues, earlier but still critical facts fall out of context or are compressed into coarse summaries, making subtle edge cases and historical dependencies invisible to later reasoning. Without robust external memory, selective retrieval, and consistency checks, long-horizon agents increasingly behave as if earlier constraints or observations never existed, causing systematic drift and brittle decision-making.
+\subsubsection{Web}
+Memory limitation failures arise when a web agent cannot retain and compare multi-item evidence across steps (due to context limits or lack of external scratchpad), causing it to drop earlier observations, constraints, or candidate details.
+\subsubsection{OS}
+Memory limitation failures arise when an OS agent cannot retain earlier command outputs, constraints, or environment details because the interaction history exceeds its effective context capacity. In long OS tasks, this leads to violations of earlier constraints or repeated mistakes due to missing historical information.
+
+\subsubsection{Embodied}
+Memory limitation failures arise when an embodied agent cannot maintain or retrieve sufficient state information over extended horizons, such as object locations, intermediate goals, or past outcomes. As task length increases, limited internal memory leads to inconsistent behavior and loss of progress tracking.
+
+\subsubsection{Database}
+Memory limitation failures arise when a database agent cannot keep large schemas, long interaction histories, or complex multi-modal plans fully in context, forcing lossy summarization or selective retrieval. Over long horizons, this results in dropped constraints, missing joins, or inconsistent reasoning across turns.
+
+
+% \subsection{Others}
+% \subsubsection{Web}
+% \subsubsection{OS}
+% \subsubsection{Embodied}
+% \subsubsection
+
+
+% \section{Illustrative Examples}
+% \label{subsec:illustrative_examples}
+
+% To make the taxonomy concrete, we present detailed examples showing how the same task exhibits different failure modes when extended from short to long horizon.
+
+% \paragraph{Example: Web navigation task.}
+% Consider the task: \emph{``Find noise-cancelling headphones under \$200 with at least 4-star ratings.''}
+
+% \textbf{Short-horizon variant ($H^* = 5$):}
+% \begin{enumerate}[itemsep=0pt, topsep=2pt, parsep=0pt]
+%     \item Search ``noise-cancelling headphones''
+%     \item Apply price filter: max \$200
+%     \item Sort by customer rating (descending)
+%     \item Verify top result meets constraints
+%     \item Select product
+% \end{enumerate}
+% \textbf{Observed success rate (GPT-4o):} 82\%
+
+% \textbf{Long-horizon variant ($H^* = 18$):}
+% \begin{enumerate}[itemsep=0pt, topsep=2pt, parsep=0pt]
+%     \item[1--3.] (same as short variant)
+%     \item[4--5.] Check if free shipping available (\textcolor{red}{$\triangle$ False Assumption:} assumes free shipping filter exists)
+%     \item[6--8.] Verify return policy $>$ 30 days (\textcolor{red}{$\triangle$ Memory Limitation:} forgets price constraint while navigating policy pages)
+%     \item[9--12.] Navigate to comparison page and add 3 alternatives (\textcolor{red}{$\triangle$ Planning Error:} invalid sequence—adds to cart before comparison)
+%     \item[13--15.] Read detailed reviews on separate pages (\textcolor{red}{$\triangle$ Catastrophic Forgetting:} loses ``under \$200'' constraint)
+%     \item[16--17.] Return to product page (\textcolor{red}{$\triangle$ Environment Disturbance:} price changed during navigation)
+%     \item[18.] Add to cart (\textcolor{red}{$\triangle$ History Error Accumulation:} proceeds despite multiple violated constraints)
+% \end{enumerate}
+% \textbf{Observed success rate (GPT-4o):} 14\%
+
+% This example demonstrates how multiple failure modes co-occur and compound in long-horizon settings. The agent begins with correct initial steps but progressively accumulates errors through false assumptions (step 4), memory failures (step 7), planning mistakes (step 10), catastrophic forgetting (step 14), missed environment changes (step 17), and ultimately compounds all these errors into an incorrect final action (step 18).
+
+% \paragraph{Example: Operating system task.}
+% Consider the task: \emph{``Change all .log files in /var/logs to read-only permissions.''}
+
+% \textbf{Short-horizon variant ($H^* = 3$):}
+% \begin{enumerate}[itemsep=0pt, topsep=2pt, parsep=0pt]
+%     \item Navigate to /var/logs
+%     \item Identify .log files
+%     \item Execute \texttt{chmod 444 *.log}
+% \end{enumerate}
+% \textbf{Observed success rate (GPT-4o):} 78\%
+
+% \textbf{Long-horizon variant ($H^* = 12$):}
+% \emph{``Change all .log files in /var/logs to read-only, except those owned by the system user, and verify no active processes are writing to these files before changing permissions.''}
+% \begin{enumerate}[itemsep=0pt, topsep=2pt, parsep=0pt]
+%     \item Navigate to /var/logs
+%     \item List .log files with ownership: \texttt{ls -l *.log}
+%     \item Identify system user (\textcolor{red}{$\triangle$ False Assumption:} assumes system user is ``root'' without checking)
+%     \item[4--5.] Check for active processes: \texttt{lsof | grep .log} (\textcolor{red}{$\triangle$ Planning Error:} incorrect command doesn't filter by directory)
+%     \item[6--8.] Filter non-system-owned files (\textcolor{red}{$\triangle$ Instruction Misalignment:} applies overly broad filter)
+%     \item[9--10.] Apply chmod selectively (\textcolor{red}{$\triangle$ Catastrophic Forgetting:} forgets to exclude system-owned files)
+%     \item[11--12.] Verify changes (\textcolor{red}{$\triangle$ History Error:} verification based on incorrect assumptions from step 3)
+% \end{enumerate}
+% \textbf{Observed success rate (GPT-4o):} 11\%
+
+% Here, the long-horizon variant introduces conditional logic and verification requirements that expose multiple failure modes. The agent makes unfounded assumptions about system users, constructs flawed verification plans, loses track of exception clauses, and ultimately compounds these errors through incorrect validation steps.
+
+% \paragraph{Key observations.}
+% These examples illustrate three patterns that recur across our empirical analysis:
+
+% \textbf{(1) Failure mode co-occurrence:} Long-horizon tasks rarely exhibit a single isolated failure. Instead, we observe \emph{cascades} where one failure type triggers others—a false assumption leads to planning errors, which cause history error accumulation.
+
+% \textbf{(2) Critical decision points:} Failures often occur at specific structural moments: when switching contexts (e.g., navigating between pages), when applying constraints introduced much earlier, or when recovering from environment changes. Identifying these critical points is key to understanding where interventions might help.
+
+% \textbf{(3) Degradation non-linearity:} Success does not decline smoothly with horizon length. Instead, we observe sharp performance cliffs where adding 3-5 steps causes success to drop from $\sim$70\% to $\sim$20\%, suggesting qualitative shifts in task difficulty rather than gradual degradation.
+
+% Having established operational definitions and a grounded failure taxonomy, we now turn to empirical validation through the HORIZON benchmark suite (\S\ref{sec:experiments}).
+
+\clearpage
+
+\onecolumn
+\subsection{Representative Failure Cases}
+\footnotesize
+\renewcommand{\arraystretch}{1.1}
+\setlength{\tabcolsep}{4pt}
+
+\begin{longtable}{@{} l p{3cm} p{3cm} p{3cm} p{3cm} @{}}
+\caption{\textit{Representative failure cases across domains and failure categories.} Each row corresponds to a failure category in our taxonomy, and each column shows a concrete example from a different domain---Web, OS, Embodied, and Database. \textbf{[L]} denotes failure categories that are predominantly long-horizon-specific (rare in short-horizon settings), while \textbf{[S]} denotes categories observed in both short- and long-horizon tasks but often amplified under longer horizons. Details on taxonomy development are provided in Section~\ref{subsec:failure_taxonomy}, and additional examples and explanations are provided in Appendix~\ref{app:1}.}
+\label{tab:failure_tax} \\
+
+\toprule
+\textbf{Category} & \textbf{Web} & \textbf{OS} & \textbf{Embodied} & \textbf{DB} \\
+\midrule
+\endfirsthead
+
+\multicolumn{5}{l}{\textit{Table~\ref{tab:failure_tax} (continued)}} \\
+\toprule
+\textbf{Category} & \textbf{Web} & \textbf{OS} & \textbf{Embodied} & \textbf{DB} \\
+\midrule
+\endhead
+
+\midrule
+\multicolumn{5}{r}{\textit{(continued on next page)}} \\
+\endfoot
+
+\bottomrule
+\endlastfoot
+
+
+\makecell[lt]{\textbf{Environment [S]} \\
+(Environment \\ Disturbance \\
+\& Unable to \\ Detect Environment \\ Change)}
+&   After a slow page load with a transient pop-up banner, the agent \textit{assumes the page navigation has completed} and believes it is on the profile page (``Mark Johnson''), while the UI is actually still on a different profile (``mike\_chen''), resulting in actions applied to an \textit{incorrect environment state}.
+&    A shell command fails due to \textit{permission denial}, but the agent \textit{fails to detect the error signal and believes the environment state has changed}, continuing to issue follow-up commands that depend on the nonexistent state change.
+&  In a simulator with \textit{stochastic dynamics}, a robot repeatedly drops a block due to random gripper failure, but the agent \textit{fails to re-observe the changed environment state}, causing repeated execution failures despite correct high-level reasoning.
+&  After a \textit{database schema change} renames columns or adds tables, the agent continues generating SQL based on an outdated schema snapshot because it \textit{fails to re-check the current schema}, producing invalid queries or silently incorrect results.
+\\
+\midrule
+
+\makecell[lt]{\textbf{Instruction [S]} \\
+(Ill-defined \\ Instruction \\
+\& Partially \\ Understand \\ Instruction)}
+&   An agent is asked to retrieve a specific product field that \textit{is not defined on the target website}, meaning the \textit{instruction requests a non-existent attribute}. Instead of detecting the mismatch and asking for clarification, the agent fabricates a plausible value and proceeds.
+&    The agent is instructed to change file permissions ``except those of mine,'' where the \textit{instruction contains an ambiguous ownership constraint}. The agent misinterprets it and applies a recursive \texttt{chmod} globally.
+&  Given the instruction ``put the block in the mismatching bowl,'' the agent grasps the block but \textit{fails to interpret the key constraint ``mismatching''} and places it into a matching-colored bowl.
+&  When asked to ``show churned users,'' the \textit{instruction leaves the definition of churn unspecified}. The agent therefore applies a naïve definition (no login in 30 days) instead of the organization's actual churn definition.
+\\
+\midrule
+
+\makecell[lt]{\textbf{False Assumption [S]}}
+&   When a contact form requires identity fields and the instruction says ``do not invent personal info,'' the agent still enters a made-up name and email because it \textit{assumes placeholder personal information is acceptable}.
+&    The agent \textit{assumes certain files are owned by the user} and excludes them from permission changes without checking ownership metadata.
+&  In a mismatching-bowl task, the agent \textit{assumes the goal is the common ``matching'' variant} and places a red block into a red bowl despite the instruction requiring a mismatching placement.
+&  A SQL-generation agent \textit{assumes every table contains a \texttt{created\_at} column} and repeatedly invents similar column names in \texttt{WHERE} clauses.
+\\
+\midrule
+
+\makecell[lt]{\textbf{Planning Error [S]} \\ (Sub-plan \\ \& Action)}
+&   While planning the next step to find the highest-upvoted answer, the agent \textit{fails to switch sorting from ``New'' to ``Top''}, then cites a recently seen low-upvote comment as the ``highest-upvoted'' evidence.
+&    When planning how to update permissions, the agent \textit{chooses an incorrect action plan and directly applies a blanket \texttt{chmod}} instead of first identifying eligible files.
+&  While decomposing the task into steps, the agent \textit{generates an incorrect sub-plan and attempts to stack blocks before clearing the base area}, producing an invalid task order.
+&  During database migration planning, the agent \textit{executes an incorrect action sequence and drops the backup before completing data transfer}, leaving no recovery path when the migration fails.
+\\
+\midrule
+
+\makecell[lt]{\textbf{Catastrophic} \\ \textbf{Forgetting [L]}}
+&   The agent initially applies the ``Condition: New'' filter but later adds a ``Renewed'' item to the cart after a long navigation sequence because the \textit{``new-only'' constraint is still present in the context but not attended to during later reasoning}.
+&    Early in a task, the agent is instructed not to modify sensitive system files, but later generates and executes a script that deletes \texttt{/root/.bashrc} even though the \textit{original safety instruction is still in the context but ignored during execution}.
+&  In Minecraft, an agent that has learned to craft wood and stone tools fails on advanced ``Iron+'' tasks because it \textit{does not reuse earlier knowledge that is still present in the context}, leading to failure in later crafting stages.
+&  After the user specifies ``never touch the payments schema,'' a later autonomous cleanup step proposes dropping an index on the payments tables because the \textit{constraint remains in the interaction history but is overlooked during later planning}.
+\\
+\midrule
+
+\makecell[lt]{\textbf{History Error} \\ \textbf{Accumulation [L]}}
+&   After an element click fails, the agent \textit{repeats the same failed action across multiple steps}, allowing a \textit{small initial mistake to accumulate into repeated ineffective actions}.
+&    After issuing an invalid command that fails silently, the agent \textit{treats the failed step as successful} and continues executing dependent commands, causing \textit{the early incorrect state to propagate through the workflow}.
+&  After selecting an incorrect initial sub-task, the agent \textit{continues executing downstream steps based on that incorrect earlier decision}, gradually \textit{amplifying the initial mistake}.
+&  An early intermediate table \textit{omits the filter \texttt{is\_deleted = false}}, and all downstream analytics reuse that table, causing \textit{the small upstream error to compound into systematically inflated results}.
+\\
+\midrule
+
+\makecell[lt]{\textbf{Memory} \\ \textbf{Limitation [L]}}
+&   While scrolling through a contributors list, the agent loses the earlier commit counts because \textit{the interaction history exceeds the context window}, forcing the system to \textit{drop earlier observations}.
+&    Earlier notices about file ownership are lost because \textit{earlier messages are truncated from the context window} during a long interaction session.
+&  In long-horizon Minecraft tasks, earlier navigation decisions are lost because \textit{the trajectory exceeds memory capacity and earlier steps are summarized, causing critical information to be dropped from context}.
+&  In a warehouse with hundreds of tables, the agent retains only part of the schema because \textit{memory retrieval returns an incomplete schema snapshot}.
+\\
+
+\end{longtable}
+
+
+\clearpage
+
+\input{fig_teaser}
+
+\twocolumn
+\section{Appendix: Experiment 1 (Cross-Domain Failure Analysis) Set-up} \label{app:2}
+
+
+% Using our proposed \texttt{HORIZON}, we aim to support the validily of our diagnose suite for both two horizons and marks an inital step towards the furture research on the long-horzion problem for agentic system.
+
+\subsection{Data, Environments, and Agents}
+Given the novelty of our horizon definition and diagnostic framework, no existing benchmark directly supports the proposed notion of intrinsic horizon and controlled extension. We therefore construct our evaluation data using the \texttt{HORIZON} workflow illustrated in Figure~\ref{fig:workflow}. Across all domains, baseline tasks are first verified to be solvable, ensuring that performance degradation arises from increased horizon rather than task ambiguity or agent misconfiguration.
+
+\begin{enumerate}[itemsep=0pt, topsep=2pt, parsep=0pt]
+\item \textit{Web Navigation}. We adopt WebArena~\citep{zhou2023webarena} as the base environment. From the benchmark task pool, we select tasks that achieve roughly 90\% success under a baseline run with GPT-5-mini, and apply our horizon extension procedures to construct task families with increasing intrinsic horizon.
+
+\item \textit{Operating Systems (OS)}. We build on OS tasks from AgentBench~\citep{liu2023agentbench}, again selecting tasks with perfect baseline performance under GPT-5-mini before applying depth-based horizon extension.
+% \item \textit{Databases (DB)}. We construct a database environment and agent from scratch to support controlled query decomposition and task composition. Details of the DB agent are illustrated in Figure~\ref{fig:dbagent}.
+
+\item \textit{Databases (DB)}. We build on MAC-SQL~\citep{wang2025macsqlmultiagentcollaborativeframework}, a multi-agent Text-to-SQL framework, to support controlled query decomposition and task composition.
+The agent follows a modular pipeline consisting of three components: a \textit{Selector}, a \textit{Decomposer}, and a \textit{Refiner}. Given a user query, the Selector first identifies relevant tables and schema elements. The Decomposer then breaks the query into sub-questions and generates intermediate SQL statements, which are composed into a final query. Finally, the Refiner executes the generated SQL, detects errors (e.g., execution or syntax errors), and iteratively revises the query to produce the final result. We apply depth-based horizon extension.
+
+\item \textit{Embodied.} To evaluate variable-horizon tasks in an embodied setting, we build a bimanual robot-arm simulation environment in IsaacSim~5.0~\citep{kachaev2025mind}. The environment contains two Franka Emika Panda robot arms, each equipped with a Tesollo DG-3F-B three-finger gripper, and is populated with three cubes (red, blue, green). The agent controls the arms through four parameterized primitive actions, summarized in Table~\ref{tab:embodied-actions}.
+For each task, the agent receives the available actions and object locations as part of the task context, and outputs a JSON plan over the four primitives. The plan is then executed in simulation, and task success is judged manually: a task is marked successful if and only if the target object configuration (e.g., "red cube stacked on blue cube") is achieved at the end of execution, with no objects dropped or displaced outside the workspace. We apply breadth-based horizon extension.
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{@{}lll@{}}
+\toprule
+\textbf{Action} & \textbf{Parameters} & \textbf{Effect} \\
+\midrule
+\texttt{home}         & ---                       & Reset both arms to default pose. \\
+\texttt{move\_to\_pose} & \texttt{arm}, \texttt{pose} & Move \texttt{arm} to target Cartesian pose. \\
+\texttt{grasp}        & \texttt{arm}              & Close gripper on \texttt{arm}. \\
+\texttt{release}      & \texttt{arm}              & Open gripper on \texttt{arm}. \\
+\bottomrule
+\end{tabular}
+\caption{Primitive actions exposed to the agent in the embodied environment.
+\texttt{arm} $\in$ \{\texttt{left}, \texttt{right}\}; \texttt{pose} specifies position and orientation.}
+\label{tab:embodied-actions}
+\end{table}
+
+
+% \item \textit{Embodied}. We developed a bimanual robot arm simulation environment in IsaacSim 5.0 \citep{kachaev2025mind}. This environment consisted of two Franka Emika Panda Robot Arms, each equipped with a Tesollo DG-3F-B three-finger gripper. To evaluate variable-horizon tasks in an embodied setting, we developed a bimanual robot arm simulation environment using IsaacSim~5.0. The environment consists of two Franka Emika Panda robot arms, each equipped with a Tesollo DG-3F-B three-finger gripper.
+
+% We define four primitive robot actions, each parameterized and directly controllable by the agent:
+% \begin{itemize}[leftmargin=*, itemsep=2pt]
+%     \item \texttt{home}: Move the entire robot system to its default configuration.
+%     \item \texttt{move\_to\_pose}: Move a specified gripper to a target Cartesian pose (position and orientation).
+%     \begin{itemize}[leftmargin=2em, itemsep=1pt]
+%         \item \textbf{Parameters:}
+%         \begin{description}[leftmargin=2em, style=nextline]
+%             \item[\texttt{arm}] The arm to move (\texttt{left} or \texttt{right}).
+%             \item[\texttt{pose}] The target position and orientation.
+%         \end{description}
+%     \end{itemize}
+%     \item \texttt{grasp}: Close the gripper.
+%     \begin{itemize}[leftmargin=2em, itemsep=1pt]
+%         \item \textbf{Parameters:}
+%         \begin{description}[leftmargin=2em, style=nextline]
+%             \item[\texttt{arm}] The gripper to close (\texttt{left} or \texttt{right}).
+%         \end{description}
+%     \end{itemize}
+%     \item \texttt{release}: Open the gripper.
+%     \begin{itemize}[leftmargin=2em, itemsep=1pt]
+%         \item \textbf{Parameters:}
+%         \begin{description}[leftmargin=2em, style=nextline]
+%             \item[\texttt{arm}] The gripper to open (\texttt{left} or \texttt{right}).
+%         \end{description}
+%     \end{itemize}
+% \end{itemize}
+
+% The simulation environment is populated with three objects: a red cube, a blue cube, and a green cube. The available actions and object locations are provided to the agent as part of the task context. For each task, the agent is prompted to generate a JSON-formatted plan composed solely of the predefined actions and their parameters. The generated plan is then executed in simulation, and task success is evaluated manually. 
+% We apply breath-based horizon extension.
+
+\end{enumerate}
+
+\subsection{Models} 
+To demonstrate feasibility on current frontier systems, we evaluate two state-of-the-art representative model families. 
+We use GPT-5-mini \citep{openai-gpt5-mini} and Claude-4-Sonnet \citep{anthropic-claude4-sonnet} across all four domains. We additionally evaluate the full GPT-5~\citep{openai-gpt5} on the embodied domain to confirm the same degradation pattern.
+% For Embodied tasks, the environment and agent stack remain in an early-stage prototype and require additional stabilization; we therefore report results using GPT-5 as our strongest available model in this setting. 
+
+\subsection{Evaluation}
+We evaluate agent performance as a function of the \texttt{HORIZON} extension level $s$, reporting success rates over task sets with identical $s$. In addition to outcome-level success, failed trajectories are analyzed using our seven-category failure taxonomy (Table~\ref{tab:taxonomy_def}) through a combination of expert human annotation and calibrated LLM-based judges. 
+
+To quantify variability, we report mean and standard deviation over three independent runs for each horizon setting. In the Embodied domain, both model families show clear horizon-dependent degradation, with higher variance at intermediate horizons. 
+For GPT-5 variants, success decreases from \(0.926 \pm 0.064\) at short horizon to \(0.407 \pm 0.170\), \(0.259 \pm 0.231\), and \(0.074 \pm 0.064\) as horizon increases. Claude-4-Sonnet shows a similar trend, dropping from \(0.963 \pm 0.064\) to \(0.259 \pm 0.064\), \(0.111 \pm 0.111\), and \(0.037 \pm 0.064\). 
+
+We also emphasize that the extension level $s$ measures compositional depth (the number of high-level subtasks composed within a task), not raw action count: each unit of $s$ expands into multiple low-level actions during execution, so the action-level intrinsic horizon $H^*(s)$ grows substantially faster than $s$. Concretely, per-trajectory action budgets in our evaluation reach up to 150 (Web), 50 (OS), 31 (Database), and 34 (Embodied) steps, comparable to or exceeding the effective horizons reported in recent long-horizon agent benchmarks.
+
+\subsection{Reproducibility and Responsible Use}
+\label{app:b_repro}
+
+The benchmarks we build on (WebArena, AgentBench, MAC-SQL, Isaac Sim) are released under permissive research licenses, and our use is consistent with their intended research purpose. \texttt{HORIZON} task families, annotated trajectories, and judge prompts will be released under CC BY-NC 4.0 for non-commercial research use. All tasks are synthetic or drawn from public agent benchmarks and contain no personally identifying information or offensive content.
+
+All experiments use the official APIs of GPT-5-mini, GPT-5, and Claude-4-Sonnet; parameter counts are not publicly disclosed by the providers. We use default decoding settings (temperature $=1.0$) unless otherwise noted. We do not perform hyperparameter search. Exact API versions, benchmark commits, and random seeds will be released with the code.
+
+Failure annotation was performed by two of the authors with prior research experience on LLM agents, using the decision tree in Figure~\ref{fig:decision_tree} and the per-domain definitions in Table~\ref{tab:taxonomy_def}. No external annotators were recruited and no monetary compensation was involved.
+
+\subsection{Additional Results}
+See Figure~\ref{fig:embodied_addition} and Figure~\ref{fig:os_addition}.
+
+\begin{figure*}
+    \centering
+    \includegraphics[width=0.35\linewidth]{latex/embodied_addition.pdf}
+    \caption{Embodied task sets with GPT-5.}
+    \label{fig:embodied_addition}
+\end{figure*}
+
+\begin{figure*}
+    \centering
+    \includegraphics[width=0.5\linewidth]{latex/os_addition.pdf}
+    \caption{Unfiltered task sets in the OS domains.}
+    \label{fig:os_addition}
+\end{figure*}
+
+
+\clearpage
+\onecolumn
+\section{Appendix: 5-domain $\times$ 7-type Failure Mini-Trajectories} \label{app:3}
+\definecolor{custompink}{HTML}{DD99BB} 
+\definecolor{customred}{HTML}{F66B2E} 
+\definecolor{customyellow}{HTML}{F3AE36} 
+\definecolor{customgreen}{HTML}{B9D5B1} 
+\definecolor{customblue}{HTML}{4D9DE0} 
+\definecolor{custompurple}{HTML}{AEADF0} 
+\definecolor{customwhite}{HTML}{fbf9f4}
+
+% \begin{tcolorbox}[breakable, colback=customwhite, colframe=custompurple,title=Algorithm Discovery,    fontupper=\fontfamily{pcr}\selectfont\scriptsize]
+
+% test
+
+% \end{tcolorbox}
+
+\subsection{Web}
+\begin{tcolorbox}[
+breakable,
+colback=customwhite,
+colframe=custompurple,
+title=Environment,
+fontupper=\fontfamily{pcr}\selectfont\scriptsize
+]
+
+% \textbf{Step 1 (FAILURE STEP)}
+\textbf{\textcolor{red}{Step 1 (FAILURE STEP)}}
+
+\textbf{Summary:}  
+The agent attempts to go to the homepage and issues a goto that resolves to localhost:4399.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+Page : Tab 0 (current): One Stop Market
+Agent: I need to analyze this objective which has three parts:
+1. What do customers say about brush from sephora
+2. Tell me the total cost of my latest cancelled order
+3. Tell me the total cost of my latest pending order
+
+I'm currently on the One Stop Market homepage, but I need to go to
+Sephora for the first part of the objective. Let me navigate to the
+homepage to find Sephora.
+
+In summary, the next action I will perform is
+goto [http://homepage.com]
+
+Action: goto [localhost:4399]
+\end{verbatim}
+
+\medskip
+\textbf{Step 2}
+
+\textbf{Summary:}  
+Seeing a Chrome error page, the agent retries navigating to the homepage but again executes goto localhost:4399.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+Page : Tab 0 (current):
+Agent: I can see that the previous action tried to navigate to
+localhost:4399 but resulted in a Chrome error page. This suggests
+the local server might not be running or the URL is incorrect.
+Let me try to navigate to the homepage to find available websites.
+
+In summary, the next action I will perform is
+goto [http://homepage.com]
+
+Action: goto [localhost:4399]
+\end{verbatim}
+
+\medskip
+\textbf{Step 3}
+
+\textbf{Summary:}  
+The agent notes the error again and repeats the same navigation action to localhost:4399.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+Page : Tab 0 (current):
+Agent: I can see that the current page is showing a Chrome error
+page, which means the URL I tried to navigate to (localhost:4399)
+is not accessible. Let me try to navigate to the homepage to see
+what websites are available.
+
+In summary, the next action I will perform is
+goto [http://homepage.com]
+
+Action: goto [localhost:4399]
+\end{verbatim}
+
+\end{tcolorbox}
+\clearpage
+
+\begin{tcolorbox}[
+breakable,
+colback=customwhite,
+colframe=custompurple,
+title=Instruction,
+fontupper=\fontfamily{pcr}\selectfont\scriptsize
+]
+
+\textbf{Step 1}
+
+\textbf{Summary:}  
+On the order page, the agent clicks the Cancel button.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+[Step 8]
+Page : Tab 0 (current): #000000307 / Orders / Operations / Sales / Magento Admin
+Agent: In summary, the next action I will perform is
+click [13783]
+
+Action: click [13783] where [13783] is button 'Cancel'
+\end{verbatim}
+
+\medskip
+\textbf{Step 2}
+
+\textbf{Summary:}  
+The agent confirms the cancellation by clicking OK.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+[Step 9]
+Page : Tab 0 (current): #000000307 / Orders / Operations / Sales / Magento Admin
+Agent: In summary, the next action I will perform is
+click [16102]
+
+Action: click [16102] where [16102] is button 'OK' focused: True
+\end{verbatim}
+
+\medskip
+\textbf{\textcolor{red}{Step 3 (FAILURE STEP)}}
+
+\textbf{Summary:}  
+The agent stops with a narrative message instead of the required single-word answer "Canceled".
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+[Step 10]
+Page : Tab 0 (current): #000000307 / Orders / Operations / Sales / Magento Admin
+Agent: In summary, the next action I will perform is
+stop [Order #000000307 is already canceled]
+
+Action: stop [Order #000000307 is already canceled]
+\end{verbatim}
+
+\end{tcolorbox}
+
+\clearpage
+
+\begin{tcolorbox}[
+breakable,
+colback=customwhite,
+colframe=custompurple,
+title=Catastrophic Forgetting,
+fontupper=\fontfamily{pcr}\selectfont\scriptsize
+]
+
+\textbf{Step 1}
+
+\textbf{Summary:}  
+The agent clicks the first product's "Add to Wish List" button from the laundry detergent results.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+[Step 3]
+Page : Tab 0 (current): Search results for: 'laundry detergent'
+Agent: Let me add the first laundry detergent (Tide PODS)
+to my wish list.
+
+Action: click [5136] where [5136] is button 'Add to Wish List'
+\end{verbatim}
+
+\medskip
+\textbf{Step 2}
+
+\textbf{Summary:}  
+On the Wish List page, the agent confirms the detergent was added and navigates to My Orders.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+[Step 4]
+Page : Tab 0 (current): My Wish List
+
+Agent: The detergent has been added to the wish list.
+Now I need to check my latest cancelled order.
+
+Action: click [7019] where [7019] is link 'My Orders'
+\end{verbatim}
+
+\medskip
+\textbf{\textcolor{red}{Step 3 (FAILURE STEP)}}
+
+\textbf{Summary:}  
+Despite reading the latest cancelled order and its total ($\$365.42$), the agent wrongly decides it still needs to add a detergent.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+[Step 5]
+Page : Tab 0 (current): My Orders
+
+Agent: The latest cancelled order is #000000170
+with a total of $365.42.
+
+Now I need to add a laundry detergent to my wish list.
+
+Action: click [9227] menuitem 'Home & Kitchen'
+\end{verbatim}
+
+\medskip
+\textbf{Step 4}
+
+\textbf{Summary:}  
+The agent navigates to Home \& Kitchen and starts searching again.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+[Step 6]
+Page : Tab 0 (current): Home & Kitchen
+
+Action: type [12303] [laundry detergent]
+\end{verbatim}
+
+\medskip
+\textbf{Step 5}
+
+\textbf{Summary:}  
+The agent scrolls the search results to find products.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+[Step 7]
+Page : Tab 0 (current): Search results for: 'laundry detergent'
+
+Action: scroll [down]
+\end{verbatim}
+
+\end{tcolorbox}
+
+\begin{tcolorbox}[
+breakable,
+colback=customwhite,
+colframe=custompurple,
+title=False Assumption,
+fontupper=\fontfamily{pcr}\selectfont\scriptsize
+]
+
+\textbf{Step 1}
+
+\textbf{Summary:}  
+On the Customer Reviews Report, the agent clicks "Show Reviews".
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+[Step 4]
+Page : Customer Reviews Report / Magento Admin
+
+Action: click [2068] link 'Show Reviews'
+\end{verbatim}
+
+\medskip
+\textbf{Step 2}
+
+\textbf{Summary:}  
+The agent observes one customer with one review but switches to the "By Products" report.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+[Step 5]
+Page : Customer Reviews Report
+
+Agent: Emma Lopez has 1 review.
+Let me check the "By Products" report.
+
+Action: click [1611] link 'By Products'
+\end{verbatim}
+
+\medskip
+\textbf{\textcolor{red}{Step 3 (FAILURE STEP)}}
+
+\textbf{Summary:}  
+The agent misinterprets "126 records found" as the total number of reviews.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+[Step 6]
+Page : Product Reviews Report
+
+Agent: The page shows "126 records found",
+which indicates the total number of reviews.
+
+Action: stop [126]
+\end{verbatim}
+
+\end{tcolorbox}
+
+\begin{tcolorbox}[
+breakable,
+colback=customwhite,
+colframe=custompurple,
+title=Planning Error,
+fontupper=\fontfamily{pcr}\selectfont\scriptsize
+]
+
+\textbf{Step 1}
+
+\textbf{Summary:}  
+From the Bestsellers report page, the agent opens the Customers section.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+Page : Bestsellers Report / Magento Admin
+
+Action: click [5882] link 'CUSTOMERS'
+\end{verbatim}
+
+\medskip
+\textbf{Step 2}
+
+\textbf{Summary:}  
+The agent opens the "All Customers" page.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+Page : Bestsellers Report
+
+Action: click [6286] link 'All Customers'
+\end{verbatim}
+
+\medskip
+\textbf{\textcolor{red}{Step 3 (FAILURE STEP)}}
+
+\textbf{Summary:}  
+Instead of displaying the customer grid, the agent attempts to export the customer list.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+Page : Customers / Magento Admin
+
+Agent: To show all customers, I will export the list.
+
+Action: click [8519] button 'Export'
+\end{verbatim}
+
+\medskip
+\textbf{Step 4}
+
+\textbf{Summary:}  
+The agent continues the export workflow.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+Page : Customers / Magento Admin
+
+Action: click [10946] button 'Export'
+\end{verbatim}
+
+\medskip
+\textbf{Step 5}
+
+\textbf{Summary:}  
+The agent switches focus back to Reports, indicating a lack of coherent plan.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+Page : Customers / Magento Admin
+
+Action: click [6998] link 'REPORTS'
+\end{verbatim}
+
+\end{tcolorbox}
+
+\begin{tcolorbox}[
+breakable,
+colback=customwhite,
+colframe=custompurple,
+title=History Error Accumulation,
+fontupper=\fontfamily{pcr}\selectfont\scriptsize
+]
+
+\textbf{Step 1}
+
+\textbf{Summary:}  
+On the My Orders page, the agent prematurely navigates to the Video Games category instead of inspecting the orders to find the latest cancelled order total.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+[Step 4]
+Page : My Orders
+
+Agent: I will open the Video Games category first.
+
+Action: click [8961]  # Video Games
+\end{verbatim}
+
+\medskip
+\textbf{Step 2}
+
+\textbf{Summary:}  
+After returning to the My Orders page later in the trajectory, the agent repeats the same navigation mistake and again leaves the page without checking the order information.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+[Step 10]
+Page : My Orders
+
+Agent: I will open the Video Games category first.
+
+Action: click [24391]  # Video Games
+\end{verbatim}
+
+\medskip
+\textbf{Step 3}
+
+\textbf{Summary:}  
+The agent correctly identifies the cancelled order total ($\$365.42$) but still navigates away instead of reporting the answer, allowing the earlier mistake to persist.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+[Step 32]
+Page : My Orders
+
+Agent: The latest cancelled order visible here is
+order 000000170 dated 5/17/23 with total $365.42.
+I will report it after navigating to Video Games.
+
+Action: click [82213]  # Video Games
+\end{verbatim}
+
+\medskip
+\textbf{\textcolor{red}{Step 4 (FAILURE STEP)}}
+
+\textbf{Summary:}  
+Because the agent repeatedly leaves the relevant page instead of reporting the answer, the trajectory eventually reaches the maximum step limit and terminates without completing the task.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+[Step 61]
+Page : Video Games
+
+Agent:
+
+Action: stop [Early stop: Reach max steps 60]
+\end{verbatim}
+
+\end{tcolorbox}
+
+
+\begin{tcolorbox}[
+breakable,
+colback=customwhite,
+colframe=custompurple,
+title=History Error Accumulation,
+fontupper=\fontfamily{pcr}\selectfont\scriptsize
+]
+
+\textbf{Step 1}
+
+\textbf{Summary:}  
+The agent counts case-insensitive occurrences of the word “error” in all log files and writes the results into \texttt{logs/file\_error\_counts.txt}.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+[Step 1]
+
+Agent: Count case-insensitive "error" occurrences in
+each log file and write "filename: count" to
+logs/file_error_counts.txt.
+
+Action: bash
+awk 'BEGIN{IGNORECASE=1} {n=gsub(/error/,"&");
+counts[FILENAME]+=n}
+END{for (f in counts) print f": "counts[f]}' \
+logs/log_*.txt > logs/file_error_counts.txt
+\end{verbatim}
+
+\medskip
+\textbf{Step 2}
+
+\textbf{Summary:}  
+The agent checks the number of lines in the generated file and observes 8 entries instead of the expected 7.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+[Step 2]
+
+Agent: Check that logs/file_error_counts.txt contains
+seven lines.
+
+Action: bash
+wc -l logs/file_error_counts.txt
+\end{verbatim}
+
+\medskip
+\textbf{Step 3}
+
+\textbf{Summary:}  
+To diagnose the discrepancy, the agent inspects the contents of the output file.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+[Step 3]
+
+Agent: Inspect the file contents to understand why
+there are 8 lines instead of 7.
+
+Action: bash
+cat logs/file_error_counts.txt
+\end{verbatim}
+
+\medskip
+\textbf{\textcolor{red}{Step 4 (FAILURE STEP)}}
+
+\textbf{Summary:}  
+Instead of continuing the debugging process, the agent abruptly executes an unrelated command to count files in \texttt{/etc}, indicating that the earlier reasoning steps have gradually drifted away from the original task objective.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+[Step 4]
+
+Agent: Count the number of regular files directly
+in /etc.
+
+Action: bash
+find /etc -maxdepth 1 -type f | wc -l
+\end{verbatim}
+
+\end{tcolorbox}
+
+\subsection{OS}
+\begin{tcolorbox}[
+breakable,
+colback=customwhite,
+colframe=customyellow,
+title=Environment,
+fontupper=\fontfamily{pcr}\selectfont\scriptsize
+]
+
+\textbf{Step 1}
+
+\textbf{Summary:}  
+Make the wrapper script executable using chmod.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+chmod +x date-format
+(OS response: empty)
+\end{verbatim}
+
+\medskip
+\textbf{Step 2}
+
+\textbf{Summary:}  
+Create README.md using a heredoc containing usage instructions.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+cat > README.md << 'EOF'
+# Date Format Tool
+...
+EOF
+\end{verbatim}
+
+\medskip
+\textbf{\textcolor{red}{Step 3 (FAILURE STEP)}}
+
+\textbf{Summary:}  
+Attempt to list directory contents but receive no output.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+ls -la
+(OS response: empty)
+\end{verbatim}
+
+\medskip
+\textbf{Step 4}
+
+\textbf{Summary:}  
+Try to print the working directory but again receive empty output.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+pwd
+(OS response: empty)
+\end{verbatim}
+
+\medskip
+\textbf{Step 5}
+
+\textbf{Summary:}  
+Run a simple echo command which also returns no output.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+echo "test"
+(OS response: empty)
+\end{verbatim}
+
+\end{tcolorbox}
+
+\begin{tcolorbox}[
+breakable,
+colback=customwhite,
+colframe=customyellow,
+title=Instruction,
+fontupper=\fontfamily{pcr}\selectfont\scriptsize
+]
+
+\textbf{Step 1}
+
+\textbf{Summary:}  
+Count lines in verification.log to check for discrepancies.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+wc -l verification.log
+\end{verbatim}
+
+\medskip
+\textbf{Step 2}
+
+\textbf{Summary:}  
+Generate \verb|final_prep.txt| reporting file and directory counts.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+awk 'NR==1{f=$0} NR==2{d=$0}
+END{printf "Verified file count: %s\nVerified directory count: %s\n",f,d}'
+etc_counts.txt > final_prep.txt
+\end{verbatim}
+
+\medskip
+\textbf{\textcolor{red}{Step 3 (FAILURE STEP)}}
+
+\textbf{Summary:}  
+Incorrectly answers using only the file count rather than the required total.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+answer(There are 58 files in /etc.)
+\end{verbatim}
+
+\end{tcolorbox}
+
+\clearpage
+
+\begin{tcolorbox}[
+breakable,
+colback=customwhite,
+colframe=customyellow,
+title=Catastrophic Forgetting,
+fontupper=\fontfamily{pcr}\selectfont\scriptsize
+]
+
+\textbf{Step 9}
+
+\textbf{Summary:}  
+Attempt a multiline awk script but quoting fails.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+awk ' ... ' temp_file_list.txt > txt_sizes.csv
+(OS response echoes script)
+\end{verbatim}
+
+\medskip
+\textbf{Step 10}
+
+\textbf{Summary:}  
+Retry using a one-line awk command.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+awk ' ... ' temp_file_list.txt > txt_sizes.csv
+(OS response: empty)
+\end{verbatim}
+
+\medskip
+\textbf{\textcolor{red}{Step 11 (FAILURE STEP)}}
+
+\textbf{Summary:}  
+Abruptly switches to counting files under /etc, abandoning the original task.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+find /etc -type f | wc -l
+-> 162
+\end{verbatim}
+
+\medskip
+\textbf{Step 12}
+
+\textbf{Summary:}  
+Reports the /etc file count as the final answer.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+answer(There are 162 regular files in /etc.)
+\end{verbatim}
+
+\end{tcolorbox}
+
+
+\begin{tcolorbox}[
+breakable,
+colback=customwhite,
+colframe=customyellow,
+title=False Assumption,
+fontupper=\fontfamily{pcr}\selectfont\scriptsize
+]
+
+\textbf{Step 1}
+
+\textbf{Summary:}  
+List regular files into \verb|file_list.txt|.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+find . -maxdepth 1 -type f -printf '%P\n' > file_list.txt
+(OS response: empty)
+\end{verbatim}
+
+\medskip
+\textbf{Step 2}
+
+\textbf{Summary:}  
+Create the matches directory.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+mkdir -p matches
+(OS response: empty)
+\end{verbatim}
+
+\medskip
+\textbf{\textcolor{red}{Step 3 (FAILURE STEP)}}
+
+\textbf{Summary:}  
+Incorrectly concludes that no files exist due to empty console output.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+answer(0)
+\end{verbatim}
+
+\end{tcolorbox}
+
+
+\begin{tcolorbox}[
+breakable,
+colback=customwhite,
+colframe=customyellow,
+title=Planning Error,
+fontupper=\fontfamily{pcr}\selectfont\scriptsize
+]
+
+\textbf{Step 1}
+
+\textbf{Summary:}  
+Compute the sum of integers from \verb|validated_integers.txt|.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+awk '{s+=$0} END{print s+0}' validated_integers.txt
+-> 0
+\end{verbatim}
+
+\medskip
+\textbf{Step 2}
+
+\textbf{Summary:}  
+Inspect \verb|validated\_integers.txt| contents.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+cat -n validated_integers.txt
+\end{verbatim}
+
+\medskip
+\textbf{\textcolor{red}{Step 3 (FAILURE STEP)}}
+
+\textbf{Summary:}  
+Runs an unrelated command counting files under /etc.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+find /etc -maxdepth 1 -type f | wc -l
+-> 54
+\end{verbatim}
+
+\medskip
+\textbf{Step 4}
+
+\textbf{Summary:}  
+Reports the unrelated result as the final answer.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+answer(54)
+\end{verbatim}
+
+\end{tcolorbox}
+
+% \begin{tcolorbox}[
+% breakable,
+% colback=customwhite,
+% colframe=customyellow,
+% title=History Error Accumulation,
+% fontupper=\fontfamily{pcr}\selectfont\scriptsize
+% ]
+
+% N/A
+
+% \end{tcolorbox}
+
+\clearpage
+
+
+\begin{tcolorbox}[
+breakable,
+colback=customwhite,
+colframe=customyellow,
+title=Memory Limitation,
+fontupper=\fontfamily{pcr}\selectfont\scriptsize
+]
+
+\textbf{Step 1}
+
+\textbf{Summary:}  
+On the My Orders page, the agent reads the latest cancelled order and correctly identifies the total cost as \$365.42.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+[Step 1]
+Page : My Orders
+
+Agent: The latest cancelled order is order 000000170
+dated 5/17/23 with total $365.42.
+
+Action: click [45873]  # Video Games
+\end{verbatim}
+
+\medskip
+\textbf{Step 2}
+
+\textbf{Summary:}  
+After navigating to the Video Games page, the agent behaves as if it does not know the cancelled order total and decides to open the account page to retrieve it again.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+[Step 2]
+Page : Video Games
+
+Agent: To find the latest cancelled order, I need to open
+the account page where the order history is located.
+
+Action: click [48620]  # My Account
+\end{verbatim}
+
+\medskip
+\textbf{Step 3}
+
+\textbf{Summary:}  
+The agent opens the order history again to search for the cancelled order, even though the total was already observed earlier.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+[Step 3]
+Page : My Account
+
+Agent: I should first open the order history to find the
+latest cancelled order.
+
+Action: click [51825]  # My Orders
+\end{verbatim}
+
+\medskip
+\textbf{\textcolor{red}{Step 4 (FAILURE STEP)}}
+
+\textbf{Summary:}  
+Instead of using the already known value (\$365.42), the agent continues navigating away from the orders page and repeatedly attempts to retrieve the same information, indicating that the earlier observation is no longer retained in its working memory.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+[Step 4]
+Page : My Orders
+
+Agent: I will browse the Video Games category and then
+report the total of the latest cancelled order.
+
+Action: click [53661]  # Video Games
+\end{verbatim}
+
+\end{tcolorbox}
+
+
+\subsection{Embodied}
+% \begin{tcolorbox}[
+% breakable,
+% colback=customwhite,
+% colframe=customgreen,
+% title=Environment,
+% fontupper=\fontfamily{pcr}\selectfont\scriptsize
+% ]
+
+% N/A
+
+% \end{tcolorbox}
+
+\begin{tcolorbox}[
+breakable,
+colback=customwhite,
+colframe=customgreen,
+title=Instruction,
+fontupper=\fontfamily{pcr}\selectfont\scriptsize
+]
+
+\textbf{Step 1}
+
+\textbf{Summary:}  
+Initialize by homing the arm.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+home({})
+\end{verbatim}
+
+\medskip
+\textbf{\textcolor{red}{Step 2 (FAILURE STEP)}}
+
+\textbf{Summary:}  
+Moves to a fixed pose assuming the target is the red cube without verifying the object color.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+move_to_pose({'arm': 'right',
+'pose': [0.2, 0.06, 1.0, 0, -0.818, 0.574, 0]})
+\end{verbatim}
+
+\medskip
+\textbf{Step 3}
+
+\textbf{Summary:}  
+Attempts to grasp at the assumed target location.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+envelop_grasp({'arm': 'right'})
+\end{verbatim}
+
+\medskip
+\textbf{Step 4}
+
+\textbf{Summary:}  
+Lifts the object after the grasp without confirming object identity.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+move_to_pose({'arm': 'right',
+'pose': [0.2, 0.06, 1.1, 0, -0.818, 0.574, 0]})
+\end{verbatim}
+
+\end{tcolorbox}
+
+% \begin{tcolorbox}[
+% breakable,
+% colback=customwhite,
+% colframe=customgreen,
+% title=Catastrophic Forgetting,
+% fontupper=\fontfamily{pcr}\selectfont\scriptsize
+% ]
+
+% N/A
+
+% \end{tcolorbox}
+
+\begin{tcolorbox}[
+breakable,
+colback=customwhite,
+colframe=customgreen,
+title=False Assumption,
+fontupper=\fontfamily{pcr}\selectfont\scriptsize
+]
+
+\textbf{Step 1}
+
+\textbf{Summary:}  
+Return the arm to the home position.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+home({})
+\end{verbatim}
+
+\medskip
+\textbf{\textcolor{red}{Step 2 (FAILURE STEP)}}
+
+\textbf{Summary:}  
+Moves to a hardcoded pose assuming it corresponds to the blue cube without verifying the object.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+move_to_pose({'arm': 'right',
+'pose': [0.3, 0.26, 1.0, 0, -0.818, 0.574, 0]})
+\end{verbatim}
+
+\medskip
+\textbf{Step 3}
+
+\textbf{Summary:}  
+Attempts to grasp whatever object is at the assumed cube location.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+envelop_grasp({'arm': 'right'})
+\end{verbatim}
+
+\medskip
+\textbf{Step 4}
+
+\textbf{Summary:}  
+Lifts the grasped object after the unverified pick.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+move_to_pose({'arm': 'right',
+'pose': [0.3, 0.26, 1.1, 0, -0.818, 0.574, 0]})
+\end{verbatim}
+
+\end{tcolorbox}
+
+\clearpage
+
+\begin{tcolorbox}[
+breakable,
+colback=customwhite,
+colframe=customgreen,
+title=Planning Error,
+fontupper=\fontfamily{pcr}\selectfont\scriptsize
+]
+
+\textbf{Step 1}
+
+\textbf{Summary:}  
+Moves the right arm toward the first cube location.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+move_to_pose({'arm': 'right',
+'pose': [0.2, 0.06, 1.0, 0, -0.818, 0.574, 0]})
+\end{verbatim}
+
+\medskip
+\textbf{Step 2}
+
+\textbf{Summary:}  
+Grasps the first cube with the right arm.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+envelop_grasp({'arm': 'right'})
+\end{verbatim}
+
+\medskip
+\textbf{\textcolor{red}{Step 3 (FAILURE STEP)}}
+
+\textbf{Summary:}  
+Attempts to move to the second cube while still holding the first cube.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+move_to_pose({'arm': 'right',
+'pose': [0.1, 0.16, 1.0, 0, -0.818, 0.574, 0]})
+\end{verbatim}
+
+\medskip
+\textbf{Step 4}
+
+\textbf{Summary:}  
+Attempts a second grasp while the gripper is already occupied.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+envelop_grasp({'arm': 'right'})
+\end{verbatim}
+
+\medskip
+\textbf{Step 5}
+
+\textbf{Summary:}  
+Moves toward another cube again without releasing or placing the previous one.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+move_to_pose({'arm': 'right',
+'pose': [0.3, 0.26, 1.0, 0, -0.818, 0.574, 0]})
+\end{verbatim}
+
+\end{tcolorbox}
+
+% \begin{tcolorbox}[
+% breakable,
+% colback=customwhite,
+% colframe=customgreen,
+% title=History Error Accumulation,
+% fontupper=\fontfamily{pcr}\selectfont\scriptsize
+% ]
+
+% N/A
+
+% \end{tcolorbox}
+
+% \begin{tcolorbox}[
+% breakable,
+% colback=customwhite,
+% colframe=customgreen,
+% title=Memory Limitation,
+% fontupper=\fontfamily{pcr}\selectfont\scriptsize
+% ]
+
+% N/A
+
+% \end{tcolorbox}
+
+
+\subsection{Database}
+% \begin{tcolorbox}[
+% breakable,
+% colback=customwhite,
+% colframe=customred,
+% title=Environment,
+% fontupper=\fontfamily{pcr}\selectfont\scriptsize
+% ]
+
+% N/A
+
+% \end{tcolorbox}
+
+\begin{tcolorbox}[
+breakable,
+colback=customwhite,
+colframe=customred,
+title=Instruction,
+fontupper=\fontfamily{pcr}\selectfont\scriptsize
+]
+
+\textbf{Step 1}
+
+\textbf{Summary:}  
+The question requests account numbers of the oldest female clients with the lowest average salary.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+Question:
+Name the account numbers of female clients who are oldest
+and have lowest average salary?
+\end{verbatim}
+
+\medskip
+\textbf{Step 2}
+
+\textbf{Summary:}  
+The evidence clarifies schema meanings for gender and salary.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+Evidence:
+Female refers to 'F' in the gender;
+A11 contains information about average salary.
+\end{verbatim}
+
+\medskip
+\textbf{\textcolor{red}{Step 3 (FAILURE STEP)}}
+
+\textbf{Summary:}  
+The agent SQL filters only the global minimum salary district and then selects the oldest female within that subset.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+Agent SQL:
+SELECT A.account_id
+FROM client C
+JOIN disp D ON C.client_id = D.client_id
+JOIN account A ON D.account_id = A.account_id
+JOIN district R ON C.district_id = R.district_id
+WHERE C.gender = 'F'
+AND R.A11 = (SELECT MIN(A11) FROM district)
+AND C.birth_date =
+(
+ SELECT MIN(C2.birth_date)
+ FROM client C2
+ JOIN district R2 ON C2.district_id = R2.district_id
+ WHERE C2.gender = 'F'
+ AND R2.A11 = (SELECT MIN(A11) FROM district)
+);
+\end{verbatim}
+
+\medskip
+\textbf{Step 4}
+
+\textbf{Summary:}  
+% Gold SQL orders by birth_date (oldest first) then salary and limits to one result.
+Gold SQL orders by \texttt{birth\_date} (oldest first) then salary and limits to one result.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+Gold SQL:
+SELECT T3.account_id
+FROM client T1
+JOIN district T2 ON T1.district_id = T2.district_id
+JOIN account T3 ON T2.district_id = T3.district_id
+JOIN disp T4 ON T1.client_id = T4.client_id
+AND T4.account_id = T3.account_id
+WHERE T1.gender = 'F'
+ORDER BY T1.birth_date ASC, T2.A11 ASC
+LIMIT 1;
+\end{verbatim}
+
+\medskip
+\textbf{Step 5}
+
+\textbf{Summary:}  
+The system marks the agent's answer as incorrect.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+Correct : False
+\end{verbatim}
+
+\end{tcolorbox}
+
+% \begin{tcolorbox}[
+% breakable,
+% colback=customwhite,
+% colframe=customred,
+% title=Catastrophic Forgetting,
+% fontupper=\fontfamily{pcr}\selectfont\scriptsize
+% ]
+
+% N/A
+
+% \end{tcolorbox}
+
+\clearpage
+
+\begin{tcolorbox}[
+breakable,
+colback=customwhite,
+colframe=customred,
+title=False Assumption,
+fontupper=\fontfamily{pcr}\selectfont\scriptsize
+]
+
+\textbf{Step 1}
+
+\textbf{Summary:}  
+User asks for statistics about female clients in qualifying districts with salary and loan constraints.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+Question:
+What are the overall statistics for female clients in districts
+where the average salary is between 6,000 and 10,000,
+ranking in the top 3 for salary within their region,
+having at least 5 female clients, and with active loan accounts?
+\end{verbatim}
+
+\medskip
+\textbf{Step 2}
+
+\textbf{Summary:}  
+Evidence clarifies schema meanings for salary, gender, and loan status.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+Evidence:
+Average salary refers to A11
+Female refers to gender = 'F'
+Loan status:
+'A' = active
+'B' = completed
+'C' = defaulted
+\end{verbatim}
+
+\medskip
+\textbf{\textcolor{red}{Step 3 (FAILURE STEP)}}
+
+\textbf{Summary:}  
+% The agent constructs SQL that incorrectly joins account on district_id and computes unrelated birth-date statistics.
+The agent constructs SQL that incorrectly joins account on \texttt{district\_id} and computes unrelated birth-date statistics.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+Agent SQL:
+SELECT COUNT(*) AS female_count,
+MIN(birth_date) AS oldest_birth_date,
+MAX(birth_date) AS youngest_birth_date
+FROM client
+WHERE gender = 'F'
+AND district_id IN ( ... )
+\end{verbatim}
+
+\medskip
+\textbf{Step 4}
+
+\textbf{Summary:}  
+Gold SQL correctly computes district-level statistics using CTEs and joins.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+Gold SQL:
+WITH DistrictStats AS (...)
+SELECT COUNT(DISTINCT ds.district_id),
+SUM(ds.female_clients),
+AVG(ds.avg_salary),
+...
+FROM DistrictStats ds
+JOIN AccountActivity aa
+ON ds.district_id = aa.district_id;
+\end{verbatim}
+
+\medskip
+\textbf{Step 5}
+
+\textbf{Summary:}  
+The system indicates the answer is incorrect.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+Correct : False
+\end{verbatim}
+
+\end{tcolorbox}
+
+\begin{tcolorbox}[
+breakable,
+colback=customwhite,
+colframe=customred,
+title=Planning Error,
+fontupper=\fontfamily{pcr}\selectfont\scriptsize
+]
+
+\textbf{Step 1}
+
+\textbf{Summary:}  
+User asks for multiple statistics about high schools in Amador County.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+Question:
+What are the key statistics for high schools in Amador County,
+including enrollment, charter breakdown, SAT metrics,
+largest school, and high-poverty counts?
+\end{verbatim}
+
+\medskip
+\textbf{Step 2}
+
+\textbf{Summary:}  
+Definitions clarify high school grades, poverty threshold, and charter flag.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+Evidence:
+High schools: Low Grade = '9' AND High Grade = '12'
+High poverty: Percent Eligible FRPM > 0.75
+Charter schools: Charter School = 1
+\end{verbatim}
+
+\medskip
+\textbf{\textcolor{red}{Step 3 (FAILURE STEP)}}
+
+\textbf{Summary:}  
+Agent produces only a single query counting high-poverty schools.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+Agent SQL:
+SELECT COUNT(*)
+FROM frpm
+WHERE County Name = 'Amador'
+AND Low Grade = '9'
+AND High Grade = '12'
+AND Percent Eligible FRPM > 0.75;
+\end{verbatim}
+
+\medskip
+\textbf{Step 4}
+
+\textbf{Summary:}  
+Gold SQL computes all required metrics using multiple CTEs.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+Gold SQL:
+WITH SchoolInfo AS (...),
+SATData AS (...)
+SELECT COUNT(...), AVG(...), ...
+FROM SchoolInfo;
+\end{verbatim}
+
+\medskip
+\textbf{Step 5}
+
+\textbf{Summary:}  
+Notes indicate the model failed to decompose the multi-part request.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+Notes:
+Model failed to decompose the request and produced
+only a single simple query.
+\end{verbatim}
+
+\end{tcolorbox}
+
+\begin{tcolorbox}[
+breakable,
+colback=customwhite,
+colframe=customred,
+title=Planning Error,
+fontupper=\fontfamily{pcr}\selectfont\scriptsize
+]
+
+\textbf{Step 1}
+
+\textbf{Summary:}  
+User asks for multiple statistics about high schools in Amador County.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+Question:
+What are the key statistics for high schools in Amador County,
+including enrollment, charter breakdown, SAT metrics,
+largest school, and high-poverty counts?
+\end{verbatim}
+
+\medskip
+\textbf{Step 2}
+
+\textbf{Summary:}  
+Definitions clarify high school grades, poverty threshold, and charter flag.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+Evidence:
+High schools: Low Grade = '9' AND High Grade = '12'
+High poverty: Percent Eligible FRPM > 0.75
+Charter schools: Charter School = 1
+\end{verbatim}
+
+\medskip
+\textbf{\textcolor{red}{Step 3 (FAILURE STEP)}}
+
+\textbf{Summary:}  
+Agent produces only a single query counting high-poverty schools.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+Agent SQL:
+SELECT COUNT(*)
+FROM frpm
+WHERE County Name = 'Amador'
+AND Low Grade = '9'
+AND High Grade = '12'
+AND Percent Eligible FRPM > 0.75;
+\end{verbatim}
+
+\medskip
+\textbf{Step 4}
+
+\textbf{Summary:}  
+Gold SQL computes all required metrics using multiple CTEs.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+Gold SQL:
+WITH SchoolInfo AS (...),
+SATData AS (...)
+SELECT COUNT(...), AVG(...), ...
+FROM SchoolInfo;
+\end{verbatim}
+
+\medskip
+\textbf{Step 5}
+
+\textbf{Summary:}  
+Notes indicate the model failed to decompose the multi-part request.
+
+\textbf{Raw Trace:}
+\begin{verbatim}
+Notes:
+Model failed to decompose the request and produced
+only a single simple query.
+\end{verbatim}
+
+\end{tcolorbox}
+
+% \begin{tcolorbox}[
+% breakable,
+% colback=customwhite,
+% colframe=customred,
+% title=History Error Accumulation,
+% fontupper=\fontfamily{pcr}\selectfont\scriptsize
+% ]
+
+% N/A
+
+% \end{tcolorbox}
+
+% \begin{tcolorbox}[
+% breakable,
+% colback=customwhite,
+% colframe=customred,
+% title=Memory Limitation,
+% fontupper=\fontfamily{pcr}\selectfont\scriptsize
+% ]
+
+% N/A
+
+% \end{tcolorbox}
+
+\newtcolorbox{TraceLog}[3]{
+  colback=gray!5,       
+  colframe=gray!60,     
+  fonttitle=\bfseries,  
+  title={#1 $\mid$ #2 \hfill Refs:~\citep{#3}}, 
+  sharp corners,        
+  boxrule=0.5pt,       
+  left=2pt, right=2pt, top=2pt, bottom=2pt, 
+  breakable,            
+  before upper={\lstset{
+    basicstyle=\ttfamily\scriptsize, 
+    breaklines=true,                 
+    columns=fullflexible,
+    keepspaces=true,
+    frame=none,                      
+    aboveskip=0pt, belowskip=0pt
+  }}
+}
+
+
+% \newtcolorbox{TraceLog}[3]{
+%   colback=gray!5,       
+%   colframe=gray!60,     
+%   fonttitle=\bfseries,  
+%   title={#1 $\mid$ #2 \hfill Refs:~\citep{#3}}, 
+%   sharp corners,        
+%   boxrule=0.5pt,       
+%   left=2pt, right=2pt, top=2pt, bottom=2pt, 
+%   breakable,            
+%   before upper={\lstset{
+%     basicstyle=\ttfamily\scriptsize, 
+%     breaklines=true,                 
+%     columns=fullflexible,
+%     keepspaces=true,
+%     frame=none,                      
+%     aboveskip=0pt, belowskip=0pt
+%   }}
+% }
+
+
+\twocolumn
+\subsection{How We Construct and Label Failure Mini-Trajectories}
+
+\paragraph{Source and search procedure.}
+Our examples are WebArena-style failure turning points expressed in the canonical web-agent interaction schema (goal + observation/accessibility-tree snippet + action), and organized by WebArena's five domains (Shopping, Shopping Admin/CMS, GitLab, Reddit, Map). We first seeded candidate failure patterns by reviewing public analyses of web-agent traces that report recurring breakdown modes such as ineffective UI interactions (no state change loops), input accumulation due to non-overwriting typing semantics, and hallucinated form fields.
+We then \emph{instantiated} each seeded pattern into a domain-specific micro-scenario by (i) choosing a domain-consistent subgoal (e.g., sorting, filtering, form submission, route planning), (ii) writing a minimal observation snippet that contains the critical UI affordances and state signals needed to trigger the failure, and (iii) emitting a 2--4 step action sequence that reaches the failure point (the first irreversible divergence or loop onset). This yields a compact catalog of representative turning points while preserving the execution semantics and action space assumed by common WebArena baselines.
+
+\paragraph{What counts as long-horizon.}
+We define a task as \emph{long-horizon} if correct completion requires either (a) \textbf{multi-step dependency} where earlier constraints must be retained and enforced after intervening navigation/interaction, or (b) \textbf{multi-subgoal composition} (e.g., discover $\rightarrow$ verify $\rightarrow$ write/submit) that cannot be solved by a single local decision. Operationally, our appendix marks a failure as long-horizon when the erroneous action depends on (i) an earlier constraint or intermediate result that is no longer in the immediate observation window, or (ii) a missing prerequisite subgoal that should have been executed earlier (e.g., sorting before selecting the ``top'' comment).
+
+\paragraph{Failure type assignment.}
+We label each mini-trajectory with one of seven failure types using a lightweight decision rule that prioritizes \emph{proximal cause} at the turning point: (1) \textbf{Environment disturbance} when the UI/state changes render the agent's action ineffective or stale (e.g., modal overlays, session expiry, non-responsive dropdowns); (2) \textbf{Instruction misunderstanding} when the action violates an explicit user constraint (``do not purchase'', ``walking not driving''); (3) \textbf{Catastrophic forgetting} when an early constraint is dropped after intervening steps; (4) \textbf{False assumptions} when missing information is fabricated (e.g., user identity fields, absent emails); (5) \textbf{Planning errors} when prerequisite subgoals are skipped or ordered incorrectly; (6) \textbf{History error accumulation} when small state-tracking errors compound (e.g., append-typing, toggle oscillation); and (7) \textbf{Memory limitations} when the agent cannot retain or aggregate required multi-item evidence across steps. These categories are consistent with diagnostic perspectives that seek to attribute failures to specific breakdown loci in interactive web settings.
+
+\paragraph{Why we only show 2 - 4 steps.}
+Although the underlying tasks are long-horizon, the \emph{failure turning point} is typically localized: a brief window where the agent first enters an unrecoverable branch (constraint violation) or an absorbing loop (no-state-change / oscillation), which makes a 2 - 4 step slice an adequate witness of the long-horizon breakdown.
+\begin{lstlisting}[
+  basicstyle=\ttfamily\footnotesize,
+  frame=single,
+  breaklines=true,
+  breakatwhitespace=true,
+  postbreak=\mbox{\textcolor{gray}{$\hookrightarrow$}\space}
+]
+if (action has no effect OR UI state changed/stale element/overlay/session): ENV_DIST
+else if (action violates explicit constraint OR wrong modality/target): INSTR_MIS
+else if (fabricates missing fields OR claims unseen facts): FALSE_ASSUME
+else if (drops earlier constraint / missing prerequisite / compounding drift): FORGET/PLAN/HIST/MEM by nearest cause
+\end{lstlisting}
+
+
+
+\clearpage
+\section{Appendix: Experiment 2 (LLM-as-a-Judge)} \label{app:4}
+
+\subsection{Attribution Procedure}
+At the per-step level, annotators assign a single label via the decision tree, which organizes Q1--Q7 into four conceptual stages following a causal hierarchy from external inputs to internal behavior: (1) \textit{External Factors} (Q1--Q2; environment, instruction) $\rightarrow$ (2) \textit{Information Availability} (Q3--Q4; what the agent retains in its working context) $\rightarrow$ (3) \textit{Reasoning} (Q5--Q6; how the agent uses that information) $\rightarrow$ (4) \textit{Propagation} (Q7; cross-step accumulation). For each failure step in temporal order, annotators walk Q1--Q7 sequentially and assign the label of the first ``Yes'' branch. This top-down ordering resolves common category overlaps by giving upstream causes precedence over downstream symptoms. We additionally include an $^{\dagger}$\emph{Others} bucket as a safety valve for failures whose primary cause does not fall into any of the seven categories.
+
+\begin{figure*}[t]
+\centering
+\begin{tikzpicture}[
+  node distance=0.55cm and 1.4cm,
+  decision/.style={rectangle, draw, fill=white, rounded corners,
+                   text width=5.4cm, align=center, font=\footnotesize,
+                   minimum height=1cm, inner sep=4pt},
+  leaf/.style={rectangle, draw, fill=orange!35, rounded corners,
+               text width=2.9cm, align=center, font=\footnotesize\bfseries,
+               minimum height=1cm},
+  others/.style={rectangle, draw, fill=gray!30, rounded corners,
+                 text width=2.9cm, align=center, font=\footnotesize\bfseries,
+                 minimum height=1cm},
+  intro/.style={rectangle, draw, dashed, fill=gray!10, rounded corners,
+                text width=11cm, align=center, font=\footnotesize\itshape,
+                minimum height=0.85cm},
+  glabel/.style={font=\scriptsize\bfseries, rotate=90, anchor=south,
+                 text=black!70},
+  arr/.style={-{Latex[length=2mm]}, thick},
+  ylab/.style={font=\scriptsize\bfseries, fill=white, inner sep=1pt}
+]
+
+% ----- intro -----
+\node[intro] (intro) {For each failure step in temporal order, walk Q1--Q7.
+The first ``Yes'' determines the label.};
+
+% ----- Group 1: External Factors -----
+\node[decision, below=of intro] (q1)
+  {\textbf{Q1.} Is the error caused by environment stochasticity or
+   external state change that the agent could not reasonably anticipate
+   or detect?};
+\node[leaf, right=of q1] (env) {Environment};
+
+\node[decision, below=of q1] (q2)
+  {\textbf{Q2.} Is the error caused by an instruction that is
+   ambiguous, under-specified, or missing key details required to
+   resolve the task?};
+\node[leaf, right=of q2] (ins) {Instruction\\Error};
+
+% ----- Group 2: Information Availability -----
+\node[decision, below=0.9cm of q2] (q3)
+  {\textbf{Q3.} Is the error caused by relevant information still in the
+   context window but not attended to?};
+\node[leaf, right=of q3] (cf) {Catastrophic\\Forgetting};
+
+\node[decision, below=of q3] (q4)
+  {\textbf{Q4.} Is the error caused by relevant information being
+   dropped from the context window?};
+\node[leaf, right=of q4] (ml) {Memory\\Limitation};
+
+% ----- Group 3: Reasoning -----
+\node[decision, below=0.9cm of q4] (q5)
+  {\textbf{Q5.} Given a clear instruction, environment, and complete
+   context information, is the error caused by the agent assuming an
+   incorrect premise about the world or task state?};
+\node[leaf, right=of q5] (fa) {False\\Assumption};
+
+\node[decision, below=of q5] (q6)
+  {\textbf{Q6.} Given correct premises, is the error caused by a
+   wrong plan or a wrong action?};
+\node[leaf, right=of q6] (pe) {Planning\\Error};
+
+
+% ----- Group 4: Propagation -----
+\node[decision, below=0.9cm of q6] (q7)
+  {\textbf{Q7.} Is the failure caused not by any single labelable error, but by
+   the accumulation of earlier errors compounding
+   over the trajectory?};
+\node[leaf, right=of q7] (hea) {History Error\\Accumulation};
+
+\node[others, below=of q7] (oth) {Others$^{\dagger}$};
+
+
+% ----- arrows -----
+\draw[arr] (intro) -- (q1);
+\draw[arr] (q1) -- node[ylab,above]{Yes} (env);
+\draw[arr] (q1) -- node[ylab,right]{No}  (q2);
+\draw[arr] (q2) -- node[ylab,above]{Yes} (ins);
+\draw[arr] (q2) -- node[ylab,right]{No}  (q3);
+\draw[arr] (q3) -- node[ylab,above]{Yes} (cf);
+\draw[arr] (q3) -- node[ylab,right]{No}  (q4);
+\draw[arr] (q4) -- node[ylab,above]{Yes} (ml);
+\draw[arr] (q4) -- node[ylab,right]{No}  (q5);
+\draw[arr] (q5) -- node[ylab,above]{Yes} (fa);
+\draw[arr] (q5) -- node[ylab,right]{No}  (q6);
+\draw[arr] (q6) -- node[ylab,above]{Yes} (pe);
+\draw[arr] (q6) -- node[ylab,right]{No}  (q7);
+\draw[arr] (q7) -- node[ylab,above]{Yes} (hea);
+\draw[arr] (q7) -- node[ylab,right]{No}  (oth);
+
+\end{tikzpicture}
+\caption{Decision tree for failure attribution. The seven categories are
+organized into four conceptual stages following a causal hierarchy from
+external inputs to internal behavior: \textbf{External Factors} (Q1--Q2;
+environment, instruction)~$\rightarrow$~\textbf{Information Availability}
+(Q3--Q4; what the agent retains in its working context)~$\rightarrow$~%
+\textbf{Reasoning} (Q5--Q6; how the agent uses that information)~%
+$\rightarrow$~\textbf{Propagation} (Q7; cross-step accumulation).
+For each failure step in temporal order, annotators walk Q1--Q7 sequentially;
+the first ``Yes'' branch determines the label. This top-down ordering
+resolves common category overlaps by giving upstream causes precedence over
+downstream symptoms---e.g., a wrong inference is attributed to memory loss
+(Q3/Q4) rather than False Assumption (Q5) when the relevant information is no
+longer attended to or has been dropped from context. $^{\dagger}$\emph{Others}
+is both a safety-valve bucket for failures outside the seven categories and
+an explicit marker of taxonomy scope: we attribute \emph{what} failed at each
+step, orthogonal to complementary evaluation dimensions
+(recovery / self-correction, action efficiency, failure cascade depth,
+grounding / verification frequency) which we leave to future work.}
+\label{fig:decision_tree}
+\end{figure*}
+
+
+\subsection{Why human validation is restricted to 40 trajectories per study}
+Human annotation at full scale is infeasible due to three compounding factors.
+
+\textbf{Trajectory length and density.} A single Web trajectory has a median length of $\sim$6300 words ($\approx$25 pages) of interleaved DOM observations and agent actions; OS trajectories average $\sim$1800 words of shell I/O whose interpretation requires reconstructing the system state at each step. At an optimistic 5 minutes per trajectory, annotating the full 3100+ trajectory pool would require hundreds of person-hours per annotator.
+
+\textbf{Taxonomy complexity.} Each trajectory must be mapped to one of 7 top-level categories with 11 subcategories, each defined by a multi-sentence specification plus long-horizon rationale. The annotator must both localize the failure step and match its semantics against fine-grained definitions---a labeling decision that itself takes several minutes of re-reading.
+
+\textbf{Domain expertise.} Database annotations require reading SQL with CTEs and multi-table joins to distinguish schema hallucination from ambiguous instruction; embodied annotations require evaluating primitive-action plans against simulator affordances. No single annotator is fluent across all four domains, so per-domain experts are needed, further multiplying recruitment cost.
+
+We therefore restrict each validation study to a stratified 40-trajectory sample, balancing across domains and failure categories to preserve representativeness.
+
+\subsection{On the gap between human--judge ($\kappa=0.84$) and human--human ($\kappa=0.61$) agreement}
+The two ($\kappa$) values measure different quantities and should not be interpreted as bounding each other. Both are reported at the same 7-category granularity to ensure comparability.
+
+\textbf{Different sources of variance.} H--H ($\kappa=0.61$) captures inter-human interpretive variance: two independent experts navigating edge cases of a 7-way long-horizon failure taxonomy with their own interpretive priors. Under standard interpretation of ($\kappa$), 0.61 corresponds to substantial agreement and is consistent with values reported for comparably fine-grained agent-trajectory taxonomies. H--J ($\kappa=0.84$) instead measures whether the judge faithfully implements the structured rubric against a rubric-calibrated annotator. The judge applies the rubric uniformly, whereas two humans introduce independent interpretive noise; consequently the judge can align with a single rubric-trained annotator more closely than two humans align with each other.
+
+\textbf{Interpretive ceiling.} The intuition that ($\kappa_{H\text{--}J}$ $\le$ $\kappa_{H\text{--}H}$) holds only when humans constitute the gold standard. In our setup the gold standard is the written taxonomy rubric; humans approach but do not perfectly realize it. A rubric-consistent judge can therefore exceed inter-human agreement without implying that the judge is "more accurate" than humans---only that it is more rubric-consistent than two humans are with each other.
+
+\textbf{Different samples and annotators.} H--H agreement is computed between two expert annotators on a 40-trajectory sample drawn to stress-test taxonomy interpretability. H--J agreement is computed between the LLM-as-a-Judge and a third co-author who labeled a separate 40-trajectory sample independently of the first two annotators. The two studies share neither the sample nor the annotators, so the two ($\kappa$) values quantify variance in two distinct comparisons rather than a single shared ceiling.
+
+\subsection{Results}
+We apply the trajectory-grounded LLM-as-a-Judge pipeline to the full set of 3100+ trajectories spanning all four domains and both model families.
+Figures~\ref{fig:appendix_by_domain}, \ref{fig:appendix_by_model}, and \ref{fig:appendix_by_domain_model} report the resulting failure-mode distributions broken down by domain, by model, and by domain $\times$ model, respectively.
+
+Two qualitative patterns are worth highlighting.
+First, failures are far from uniformly distributed across the seven categories: \textit{Planning Error}, \textit{Memory Limitation}, and \textit{Catastrophic Forgetting} together account for the majority of attributed failures in every domain, while the remaining categories take up a noticeably smaller share.
+Second, the two model families exhibit qualitatively different failure profiles: GPT failures are dominated by Planning Error and Memory Limitation, whereas Claude shows a relatively larger share of Environment and Instruction failures, with Planning Error still the single most common category.
+
+
+% ── 1. By domain ──────────────────────────────────────────────────
+\begin{figure*}[h]
+  \centering
+  \includegraphics[width=\textwidth]{appendix_by_domain.pdf}
+  \caption{Failure mode distribution across the four task domains}
+  \label{fig:appendix_by_domain}
+\end{figure*}
+
+% ── 2. By model ───────────────────────────────────────────────────
+\begin{figure*}[!tb]
+  \centering
+  \includegraphics[width=\textwidth]{appendix_by_model.pdf}
+  \caption{Failure mode distribution for GPT-5-mini vs.\ Claude-4-Sonnet
+  aggregated across all domains.}
+  \label{fig:appendix_by_model}
+\end{figure*}
+
+% ── 3. Domain × Model ─────────────────────────────────────────────
+\begin{figure*}[!tb]
+  \centering
+  \includegraphics[width=\textwidth]{appendix_by_domain_model.pdf}
+  \caption{Failure mode distribution broken down by domain and model.}
+  \label{fig:appendix_by_domain_model}
+\end{figure*}
+
+\subsection{Scope and Complementary Dimensions}
+\texttt{HORIZON} characterizes what fails at each step and is therefore complementary to---not a replacement for---evaluation dimensions that target other facets of long-horizon competence: recovery and self-correction (e.g., correction latency or recovery rate after a detected error), action efficiency (e.g., actual steps relative to the optimal horizon $H^{*}$), failure cascade depth (the length of compound failure chains such as False Assumption~$\rightarrow$~Planning Error~$\rightarrow$~History Error Accumulation), and grounding / verification frequency (how often an agent re-checks its assumptions or re-observes the environment). We view these as natural extensions of the present taxonomy and leave their integration to future work.
+
+
+\clearpage
+
+\onecolumn
+\subsection{Prompt}
+\label{subsec:judge_prompt}
+We attribute failures using a single combined system prompt that asks the LLM judge to (i) walk the Q1--Q7 decision tree of Figure~\ref{fig:decision_tree} and assign one of the seven categories (Stage~1), and (ii) extract a contextual \emph{failure slice} grounded in the raw trajectory (Stage~2). The full prompt is reproduced verbatim below. The placeholder \texttt{\{FAILURE\_TYPES\_TEXT\}} is filled at runtime with the per-category definitions in Appendix~\ref{app:1}; unicode separators and arrows in the original have been transliterated to ASCII for typesetting.
+
+\begin{tcolorbox}[
+  breakable,
+  colback=gray!8,
+  colframe=gray!55,
+  title=\textbf{Judge System Prompt (combined Stage~1 + Stage~2)},
+  fonttitle=\bfseries\small,
+  left=4pt,right=4pt,top=3pt,bottom=3pt,
+]
+\footnotesize
+\begin{verbatim}
+You are an expert evaluator for long-horizon LLM agents.
+Your task has two parts -- complete BOTH in a single response.
+
+===============================
+STAGE 1 -- Failure Classification (Q1-Q7 Decision Tree)
+===============================
+
+If the trajectory is SUCCESSFUL, use "failure_type": "Success" and stop.
+
+Otherwise: walk through the FAILURE STEPS in temporal order. For the
+EARLIEST critical failure step, apply the questions Q1-Q7 below IN ORDER.
+The FIRST question answered "Yes" determines the label. Do not skip or
+reorder questions. If none are "Yes", label as "Others".
+
+DETAILED DEFINITIONS (for reference when judging each question):
+{FAILURE_TYPES_TEXT}
+
+DECISION TREE -- ask each question in order, stop at first "Yes":
+
+  Q1. Was the failure caused by an environment disturbance NOT caused by
+      the agent's own action? (e.g., flaky tool/API, missing file the
+      agent did not delete, perception noise, page changed without agent
+      action)
+        -> Yes => "Environment"
+
+  Q2. Is the instruction itself ambiguous, under-specified, or missing
+      key semantics such that even a perfect agent could not infer the
+      correct goal?
+        -> Yes => "Instruction"
+
+  Q3. Does the agent hold a WRONG PREMISE about the world or task state
+      at this step (a factual belief that is false, e.g., assuming a
+      column exists, assuming an object is in a location, hallucinating
+      a tool result)?
+        -> Yes => "False Assumption"
+
+  Q4. Given a CORRECT premise, did the agent derive a wrong plan /
+      action choice (logic, ordering, missing sub-goal, invalid action
+      selection)?
+        -> Yes => "Planning Error"
+
+  Q5. Is the relevant information STILL PRESENT in the agent's context
+      window at this step, but the agent failed to attend to it (it was
+      not truncated, the agent just ignored or contradicted recently-
+      visible info)?
+        -> Yes => "Catastrophic Forgetting"
+
+  Q6. Was the relevant information DROPPED from the context window due
+      to token-budget limits (truncation, summarization, or long-horizon
+      length), so the agent could not see it at this step?
+        -> Yes => "Memory Limitation"
+
+  Q7. Does this step introduce NO NEW error of its own -- it only
+      propagates an error that was already attributed to an earlier
+      step?
+        -> Yes => "History Error Accumulation"
+
+  None of the above => "Others"
+
+Rules:
+- failure_type must be EXACTLY one of: the 7 categories above,
+  "Success", or "Others".
+- Focus on ROOT CAUSE at the earliest critical failure step -- do not
+  relabel the trajectory by symptoms of later steps.
+- Do NOT have a prior toward any single category. Q1-Q7 must be
+  considered independently and in order; only assign Memory Limitation
+  when Q6 is clearly true AND Q1-Q5 are clearly not.
+- Distinguishing Q5 vs Q6: if the dropped/forgotten information was
+  visible within roughly the last few steps of context (still inside
+  the window), it is Q5 (Catastrophic Forgetting); only if it was
+  clearly outside the active window due to length/truncation is it Q6
+  (Memory Limitation).
+- For embodied/robot plans: evaluate whether the primitive action
+  sequence correctly achieves the task; Q3 covers wrong world-state
+  premises, Q4 covers wrong plan derivation given correct premises.
+
+CONTEXT FOR Q5 / Q6:
+You are reading the FULL recorded trajectory. The agent itself operated
+under a LIMITED context window -- earlier steps may have been truncated
+or summarized away. When deciding between Q5 and Q6, judge whether the
+missing info plausibly fits in a typical context window at the failure
+step, not whether YOU can see it in the full record.
+
+===============================
+STAGE 2 -- Extract Failure Context Slice
+===============================
+
+1. Identify the SPECIFIC STEP where the critical failure first occurs.
+
+2. DEFAULT -- Extract a window of up to 5 steps:
+   - 2 steps BEFORE the failure step (if available)
+   - The failure step itself
+   - 2 steps AFTER the failure step (if available)
+   If fewer than 2 steps exist before/after, include as many as
+   available.
+
+   SPECIAL RULES for certain failure types -- extract MORE steps to
+   capture the full pattern:
+
+   If failure_type == "Memory Limitation":
+   - This failure spans the ENTIRE trajectory -- you MUST include at
+     least 3 steps:
+     (A) ESTABLISHMENT step: the EARLIEST step where the key information
+         was first stated (e.g., the step that mentions the specific
+         value, constraint, or observation that is later lost)
+     (B) DIVERGENCE step: a step where there is evidence the context was
+         truncated or summarized (e.g., the agent re-asks for something,
+         contradicts itself, or a summary omits details)
+     (C) FAILURE step: the step where the agent acts incorrectly due to
+         missing memory
+   - Label them clearly: "establishment step", "divergence step",
+     "failure step"
+   - Add additional surrounding context steps if needed (up to 8 steps
+     total)
+   - failure_step_number should point to the FAILURE step (C)
+
+   If failure_type == "History Error Accumulation":
+   - You MUST show the CHAIN of errors, not just the final step:
+     (A) ORIGIN step: the first mistake or incorrect action that seeds
+         the error
+     (B) ACCUMULATION steps: 2-3 intermediate steps showing the error
+         compounding
+     (C) FAILURE step: the final step where the accumulated errors cause
+         task failure
+   - Label them: "origin step", "accumulation step N", "failure step"
+   - Include up to 8 steps total to capture the full progression
+   - failure_step_number should point to the ORIGIN step (A)
+
+3. For EACH step output BOTH:
+   (a) A ONE-SENTENCE SUMMARY -- concise abstraction
+   (b) The ORIGINAL RAW TEXT -- exact verbatim copy from the trajectory
+
+Rules:
+- The "raw" field MUST be EXACT verbatim text -- do NOT paraphrase.
+- Handle each step INDEPENDENTLY -- do not combine steps.
+- For SUCCESS: set failure_step_number to null and steps to [].
+- CRITICAL: For "Memory Limitation" and "History Error Accumulation",
+  steps MUST NOT be empty. If you cannot find specific steps, still
+  include the most relevant steps from the trajectory.
+
+===============================
+OUTPUT FORMAT -- strict JSON, nothing else:
+===============================
+{
+  "failure_type": "<one of the 7 categories above, 'Others', or
+                    'Success'>",
+  "reason": "<one-sentence explanation grounded in the trajectory;
+              cite which Q (Q1..Q7) was the first Yes>",
+  "failure_step_number": <integer, 1-indexed position in full
+                          trajectory, or null>,
+  "steps": [
+    {"label": "step 1",
+     "summary": "<one sentence>", "raw": "<exact text>"},
+    {"label": "step 2",
+     "summary": "<one sentence>", "raw": "<exact text>"},
+    {"label": "step 3 (FAILURE STEP)",
+     "summary": "<one sentence>", "raw": "<exact text>"},
+    {"label": "step 4",
+     "summary": "<one sentence>", "raw": "<exact text>"},
+    {"label": "step 5",
+     "summary": "<one sentence>", "raw": "<exact text>"}
+  ]
+}
+
+Output ONLY valid JSON with exactly these four keys.
+\end{verbatim}
+\end{tcolorbox}
+
+\twocolumn
+\section{Appendix: More Discussion}
+% \jessica{more points, each short, 4-5} \\
+
+% \haoyue{More points to summarize and discuss, for example:\\
+% (i) Long-horizon tasks are not well-defined in prior literature, with inconsistent notions of horizon length, task structure, and difficulty.\\
+% (ii) Generalization in LLM-based agents is both critically important and fundamentally challenging, especially in dynamic, tool-using, and multi-step environments.\\
+% (iii) Long-horizon failure versus short-horizon success can be viewed as a form of generalization under distribution shift, where agents encounter compounding state, action, and goal shifts as the horizon increases. Long-horizon breakdowns therefore reflect not just planning errors, but systematic generalization limits.
+% }
+
+This work aims to advance nuanced discussions of systematic long-horizon analysis and to provide methodological guidance for scalable, reproducible, and cross-domain research on long-horizon agentic AI. 
+Below, we discuss the implications of findings in Section~\ref{sec:5} and outline directions for future research. 
+
+\textbf{Empirical Support for \texttt{HORIZON}.}
+First, we observe a consistent pattern of performance collapse beyond early horizon extension levels across all four domains, providing mechanistic evidence that increasing $s$ indeed pushes agents into regimes dominated by long-horizon reasoning failure. This sharp transition indicates that our horizontal horizon construction meaningfully orders tasks by long-horizon difficulty. 
+In parallel, qualitative analysis of failed trajectories shows that failures can be systematically categorized using the seven-category taxonomy defined in \texttt{HORIZON} (Table~\ref{tab:failure_tax}), providing phenomenological structure to observed breakdowns. Notably, all annotated failures observed across domains in our experiments fall within this taxonomy, despite substantial differences in task modality and environment dynamics. This suggests that \texttt{HORIZON} provides a valid and generalizable framework for studying long-horizon tasks across domains.
+
+
+% first, Performance Collapse Beyond Early Steps all four domain, showing it work.
+% second, also the failures by human anootraot all fall into the failure taxnomy \ref{tab:taxonomy} defined by \texttt{horizon}. so it is resaonble to infer that our \texttt{horizon} works for all long-hozriozn tasks.
+
+\textbf{Long-Horizon Tasks Lack a Canonical Definition.}
+A central challenge highlighted by our study is that long-horizon tasks remain poorly defined in prior literature. Existing benchmarks operationalize ``horizon'' using incompatible proxies, such as interaction length, number of tool calls, reasoning steps, or episode duration, often without explicit justification. As a result, what constitutes a long-horizon task in one domain may be trivial, incomparable, or ill-defined in another. Our findings reinforce that horizon cannot be normalized by step count alone and must instead be grounded in task structure. This motivates the need for principled, task-centric definitions, as adopted in \texttt{HORIZON}, to enable meaningful cross-domain comparison.
+
+\textbf{Long-Horizon Failure Reflects Fundamental Generalization Limits.}
+Long-horizon failures should not be viewed merely as extensions of short-horizon planning errors. Instead, they reflect a distinct form of generalization under distribution shift, where agents must operate under compounding changes in state, action consequences, and goal dependencies. As horizons increase, agents encounter states and decision contexts that diverge increasingly from those seen earlier in the trajectory. We suggest that breakdowns in long-horizon settings arise not only from insufficient planning depth, but from systematic limits in maintaining and updating beliefs over extended interactions. This reframes long-horizon reasoning as a core generalization challenge rather than a purely algorithmic planning problem.
+
+\textbf{Why Scaling Alone Is Unlikely to Solve Long-Horizon Failures.}
+Although frontier models outperform smaller systems at moderate horizons, our results show that performance gaps often collapse once agents enter the long-horizon failure regime. This convergence suggests diminishing returns from additional model capacity alone. Importantly, different failure types demand qualitatively different interventions: environment disturbances require monitoring and recovery mechanisms, catastrophic forgetting calls for improved memory and constraint tracking, while planning errors may benefit from better sub-goal decomposition. Therefore, one-size-fits-all solution, such as increasing model size or training on longer traces, is unlikely to address the root causes of long-horizon failure. Systematic diagnosis is a prerequisite for targeted improvement.
+
+\textbf{Breaking Points as Transition Regions, Not Thresholds.}
+Our empirical findings support viewing breaking points as transition regions rather than precise thresholds. Across domains, performance collapse occurs abruptly but at different horizons, and often spans a narrow range of extension levels rather than a single step. This reconciles the intuitive appeal of breaking points with our theoretical argument against universal definitions. Operationally, it suggests that evaluation should focus on identifying regions where failure dynamics qualitatively change, rather than attempting to pinpoint exact breaking steps. Such region-based analysis is more robust to domain variation and model heterogeneity.
+
+\textbf{Implications for Benchmark Design and Agent Evaluation.}
+Taken together, our results call for a shift in how long-horizon agents are evaluated. Reporting single-point accuracy obscures where and how failures emerge as horizons grow. Horizon-aware evaluation—reporting performance curves, failure transitions, and attributed failure types—provides a richer and more actionable picture of agent behavior. By decoupling horizon measurement from failure attribution, \texttt{HORIZON} offers a flexible framework for studying long-horizon reasoning without assuming a universal breaking point. We hope this perspective encourages the community to design benchmarks and diagnostics that better reflect the realities of long-horizon agent deployment.
+
+
+
+\end{document}
